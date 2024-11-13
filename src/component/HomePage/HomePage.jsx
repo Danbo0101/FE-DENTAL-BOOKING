@@ -3,12 +3,16 @@ import teethImg from "../../assets/images/teeth-1.png";
 import HomePage1 from "../../assets/images/Homepage-1.png";
 import HomePage2 from "../../assets/images/Homepage-2.png";
 import HomePage3 from "../../assets/images/Homepage-3.png";
+import HomePage4 from "../../assets/images/Homepage-4.png";
+import video from "../../assets/images/video.mp4";
+
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
+import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 
 const HomePage = (props) => {
   return (
     <div>
-      <div className="flex px-48 mx-10 mt-10 ">
+      <div className="flex justify-center items-center px-48 mx-10 mt-10 ">
         <div className="w-3/5 flex flex-col gap-4">
           <div className="font-serif text-6xl font-medium">
             Sức khỏe răng miệng của bạn lịch hẹn chỉ cách một chạm!
@@ -64,10 +68,10 @@ const HomePage = (props) => {
           <img className="w-96" src={HomePage1} />
         </div>
       </div>
-      <div className="flex px-24 mx-10 mt-5">
-        <div className="flex justify-center items-center w-full gap-12 px-12 rounded-md bg-sky-200">
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300">
+      <div className="flex justify-center items-center px-24 mx-10 mt-5">
+        <div className="flex justify-center items-center w-full gap-12 px-12 rounded-md bg-sky-200 drop-shadow-md">
+          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
               <img src={teethImg} className="w-8 h-8" />
             </div>
             <div className="font-serif font-semibold text-xl mt-4">
@@ -78,8 +82,8 @@ const HomePage = (props) => {
               thời tư vấn về cách chăm sóc răng miệng
             </div>
           </div>
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300">
+          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
               <img src={teethImg} className="w-8 h-8" />
             </div>
             <div className="font-serif font-semibold text-xl mt-4">
@@ -90,8 +94,8 @@ const HomePage = (props) => {
               trẻ em và phụ huynh về cách chăm sóc răng miệng
             </div>
           </div>
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300">
+          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
               <img src={teethImg} className="w-8 h-8" />
             </div>
             <div className="font-serif font-semibold text-xl mt-4">
@@ -104,7 +108,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex gap-5 items-center px-48 py-10 mx-10 mt-5">
+      <div className="flex gap-5 items-center justify-center px-48 py-10 mx-10 mt-5">
         <div className="w-3/5 ">
           <div className="w-4/5 font-serif font-semibold text-4xl">
             Nha Khoa Tổng Quát: Chăm Sóc Răng Miệng Toàn Diện Cho Mọi Lứa Tuổi
@@ -142,14 +146,164 @@ const HomePage = (props) => {
           <img src={HomePage2} className="w-96 rounded-xl" />
         </div>
       </div>
-      <div className="flex px-24 mx-10 mt-5">
-        <div className="flex justify-center items-center w-full gap-12 px-12 rounded-md bg-sky-200">
-          <div className="relative w-48 h-48">
-            <div className="absolute w-96 h-80 bg-blue-500 top-0 right-0"></div>
-            <div className="absolute w-96 h-80 bg-blue-500 top-8 right-8">
-              <img src={HomePage3} className=" w-96 h-80" />
+      <div className="flex px-40 mx-10 mt-5">
+        <div className="flex justify-center items-center w-full gap-12 px-2 rounded-md bg-sky-200">
+          <div className="w-1/2 h-full mt-20 ml-20">
+            <div className="relative w-48 h-48 left-72">
+              <div className="absolute w-96 h-80 bg-gradient-to-r from-blue-100 to-cyan-300 top-0 right-0 rounded-xl"></div>
+              <div className="absolute w-96 h-80 top-6 right-6">
+                <img src={HomePage3} className=" w-96 h-80 rounded-xl" />
+              </div>
             </div>
           </div>
+          <div className="flex flex-col mt-10">
+            <div className="w-3/4 font-serif font-semibold text-4xl">
+              Nha Khoa Trẻ Em: Khởi Đầu Cho Nụ Cười Khỏe Đẹp Từ Tuổi Thơ
+            </div>
+            <div className="w-3/5 font-light text-base mt-6">
+              Nha khoa trẻ em tập trung vào việc chăm sóc và bảo vệ sức khỏe
+              răng miệng cho trẻ ngay từ những năm tháng đầu đời.
+            </div>
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="flex items-center gap-1 text-sm font-light">
+                <GppGoodOutlinedIcon
+                  sx={{
+                    color: "#008CFF",
+                    width: "30px",
+                  }}
+                />
+                Kiểm tra định kỳ
+              </div>
+              <div className="flex items-center gap-1 text-sm font-light">
+                <GppGoodOutlinedIcon
+                  sx={{
+                    color: "#008CFF",
+                    width: "30px",
+                  }}
+                />
+                Phòng ngừa sâu răng
+              </div>
+              <div className="flex items-center gap-1 text-sm font-light">
+                <GppGoodOutlinedIcon
+                  sx={{
+                    color: "#008CFF",
+                    width: "30px",
+                  }}
+                />
+                Điều chỉnh răng miệng
+              </div>
+              <div className="flex items-center gap-1 text-sm font-light">
+                <GppGoodOutlinedIcon
+                  sx={{
+                    color: "#008CFF",
+                    width: "30px",
+                  }}
+                />
+                Đội ngũ bác sĩ thân thiện, giàu kinh nghiệm 
+              </div>
+            </div>
+            <div className="mb-10">
+              <Button
+                variant="outlined"
+                href="#outlined-buttons"
+                sx={{
+                  color: "white",
+                  backgroundColor: "#4C99FF",
+                  padding: "10px 25px",
+                  fontSize: "14px",
+                  fontFamily: "Roboto Slab, serif",
+                  fontWeight: "600",
+                  borderRadius: "10px",
+                  marginTop: "30px",
+                  "&:hover": {
+                    color: "black",
+                  },
+                }}
+              >
+                Chi tiết các dịch vụ
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-5 items-center justify-center px-48 py-10 mx-10 mt-10">
+        <div className="w-4/5 mt-20 mx-20 ">
+          <div className="w-full font-serif font-semibold text-4xl">
+            Nha Khoa Thẩm Mỹ: Tự Tin Với Nụ Cười Hoàn Hảo
+          </div>
+          <div className="w-4/5 font-light text-base mt-6">
+            Nha khoa thẩm mỹ mang đến những giải pháp tối ưu để cải thiện thẩm
+            mỹ răng miệng, giúp bạn sở hữu nụ cười rạng rỡ và tự tin. Với công
+            nghệ hiện đại và tay nghề của các chuyên gia, bạn có thể yên tâm
+            nâng tầm nụ cười và phong cách riêng của mình.
+          </div>
+          <div>
+            <Button
+              variant="outlined"
+              href="#outlined-buttons"
+              sx={{
+                color: "white",
+                backgroundColor: "#4C99FF",
+                padding: "10px 25px",
+                fontSize: "14px",
+                fontFamily: "Roboto Slab, serif",
+                fontWeight: "600",
+                borderRadius: "10px",
+                marginTop: "30px",
+                "&:hover": {
+                  color: "black",
+                },
+              }}
+            >
+              Chi tiết các dịch vụ
+            </Button>
+          </div>
+        </div>
+        <div className="w-2/3 h-full ml-20">
+          <div className="relative w-48 h-48 left-36 bottom-20">
+            <div className="absolute w-96 h-80 bg-gradient-to-r from-blue-100 to-cyan-200 top-0 right-0 rounded-xl"></div>
+            <div className="absolute w-96 h-80 top-6 right-6">
+              <img src={HomePage4} className=" w-96 h-80 rounded-xl" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center items-center flex-col px-48 mx-10 mt-32 ">
+        <div className="w-1/2 flex text-center font-serif font-medium text-4xl">
+          Chúng tôi đang chào đón bệnh nhân mới và rất mong được gặp bạn.
+        </div>
+        <div className="w-2/5 text-center mt-2 font-light ">
+          Chúng tôi chỉ sử dụng những vật liệu chất lượng tốt nhất trên thị
+          trường để cung cấp những sản phẩm tốt nhất cho bệnh nhân.
+        </div>
+        <video
+          width="1000"
+          height="500"
+          controls
+          className="mt-20 rounded-lg drop-shadow-lg"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+        <div>
+          <Button
+            variant="outlined"
+            href="#outlined-buttons"
+            sx={{
+              color: "white",
+              backgroundColor: "#4C99FF",
+              padding: "10px 25px",
+              fontSize: "10px",
+              fontFamily: "Roboto Slab, serif",
+              fontWeight: "600",
+              borderRadius: "10px",
+              marginTop: "30px",
+              "&:hover": {
+                color: "black",
+              },
+            }}
+          >
+            Xem thêm các chuyên khoa
+          </Button>
         </div>
       </div>
     </div>
