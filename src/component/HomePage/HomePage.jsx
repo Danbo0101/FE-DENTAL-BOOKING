@@ -8,6 +8,8 @@ import video from "../../assets/images/video.mp4";
 
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
+import ImageSlide from "./ImageSlide";
+import DoctorSlide from "./DoctorSlide";
 
 const HomePage = (props) => {
   return (
@@ -146,21 +148,21 @@ const HomePage = (props) => {
           <img src={HomePage2} className="w-96 rounded-xl" />
         </div>
       </div>
-      <div className="flex px-40 mx-10 mt-5">
-        <div className="flex justify-center items-center w-full gap-12 px-2 rounded-md bg-sky-200">
-          <div className="w-1/2 h-full mt-20 ml-20">
-            <div className="relative w-48 h-48 left-72">
+      <div className="flex px-24 mx-10 mt-5">
+        <div className="flex justify-center items-center w-full gap-12 rounded-md bg-sky-200 drop-shadow-md">
+          <div className="w-2/3 h-full mt-20 ml-20">
+            <div className="relative w-48 h-48 left-44">
               <div className="absolute w-96 h-80 bg-gradient-to-r from-blue-100 to-cyan-300 top-0 right-0 rounded-xl"></div>
               <div className="absolute w-96 h-80 top-6 right-6">
                 <img src={HomePage3} className=" w-96 h-80 rounded-xl" />
               </div>
             </div>
           </div>
-          <div className="flex flex-col mt-10">
-            <div className="w-3/4 font-serif font-semibold text-4xl">
+          <div className="flex flex-col mt-10 pr-14">
+            <div className="w-full font-serif font-semibold text-4xl">
               Nha Khoa Trẻ Em: Khởi Đầu Cho Nụ Cười Khỏe Đẹp Từ Tuổi Thơ
             </div>
-            <div className="w-3/5 font-light text-base mt-6">
+            <div className="w-4/5 font-light text-base mt-6">
               Nha khoa trẻ em tập trung vào việc chăm sóc và bảo vệ sức khỏe
               răng miệng cho trẻ ngay từ những năm tháng đầu đời.
             </div>
@@ -199,7 +201,7 @@ const HomePage = (props) => {
                     width: "30px",
                   }}
                 />
-                Đội ngũ bác sĩ thân thiện, giàu kinh nghiệm 
+                Đội ngũ bác sĩ thân thiện, giàu kinh nghiệm
               </div>
             </div>
             <div className="mb-10">
@@ -227,7 +229,7 @@ const HomePage = (props) => {
         </div>
       </div>
       <div className="flex gap-5 items-center justify-center px-48 py-10 mx-10 mt-10">
-        <div className="w-4/5 mt-20 mx-20 ">
+        <div className="w-4/5 mt-10 ">
           <div className="w-full font-serif font-semibold text-4xl">
             Nha Khoa Thẩm Mỹ: Tự Tin Với Nụ Cười Hoàn Hảo
           </div>
@@ -260,7 +262,7 @@ const HomePage = (props) => {
           </div>
         </div>
         <div className="w-2/3 h-full ml-20">
-          <div className="relative w-48 h-48 left-36 bottom-20">
+          <div className="relative w-48 h-48 left-48 bottom-14">
             <div className="absolute w-96 h-80 bg-gradient-to-r from-blue-100 to-cyan-200 top-0 right-0 rounded-xl"></div>
             <div className="absolute w-96 h-80 top-6 right-6">
               <img src={HomePage4} className=" w-96 h-80 rounded-xl" />
@@ -268,44 +270,41 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center flex-col px-48 mx-10 mt-32 ">
-        <div className="w-1/2 flex text-center font-serif font-medium text-4xl">
+      <div className="flex justify-center items-center px-24 mx-10 mt-5">
+        <div className="flex justify-center items-center flex-col w-full px-12 py-16 rounded-md bg-sky-200 drop-shadow-md">
+          <div className="text-center font-serif font-semibold text-4xl">
+            Gặp gỡ các chuyên gia của chúng tôi
+          </div>
+          <div className="w-3/5 text-center mt-2 font-light ">
+            Chúng tôi chỉ sử dụng những vật liệu chất lượng tốt nhất trên thị trường để cung cấp những sản phẩm tốt nhất cho bệnh nhân.
+          </div>
+          <div className="w-11/12 mt-10">
+            <DoctorSlide />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center items-center flex-col px-48 mx-10 mt-28 ">
+        <div className="text-center font-serif font-medium text-4xl">
           Chúng tôi đang chào đón bệnh nhân mới và rất mong được gặp bạn.
         </div>
-        <div className="w-2/5 text-center mt-2 font-light ">
+        <div className="w-4/5 text-center mt-2 font-light ">
           Chúng tôi chỉ sử dụng những vật liệu chất lượng tốt nhất trên thị
           trường để cung cấp những sản phẩm tốt nhất cho bệnh nhân.
         </div>
         <video
           width="1000"
           height="500"
-          controls
-          className="mt-20 rounded-lg drop-shadow-lg"
+          // controls
+          autoPlay
+          muted
+          loop
+          className="mt-16 rounded-lg drop-shadow-lg"
         >
           <source src={video} type="video/mp4" />
         </video>
-        <div>
-          <Button
-            variant="outlined"
-            href="#outlined-buttons"
-            sx={{
-              color: "white",
-              backgroundColor: "#4C99FF",
-              padding: "10px 25px",
-              fontSize: "10px",
-              fontFamily: "Roboto Slab, serif",
-              fontWeight: "600",
-              borderRadius: "10px",
-              marginTop: "30px",
-              "&:hover": {
-                color: "black",
-              },
-            }}
-          >
-            Xem thêm các chuyên khoa
-          </Button>
-        </div>
+
       </div>
+
     </div>
   );
 };

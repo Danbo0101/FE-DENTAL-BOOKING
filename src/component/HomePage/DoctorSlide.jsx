@@ -1,8 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import img1 from "../../assets/images/doctor1.png";
+import img2 from "../../assets/images/doctor2.png";
+import img3 from "../../assets/images/doctor3.png";
+import img4 from "../../assets/images/doctor4.png";
+
 
 const DoctorSlide = (props) => {
-  const { listDoctor } = props;
+  // const { listDoctor } = props;
+
+  const listDoctor = [
+    {
+      image: img1,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img2,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img3,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img4,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img4,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img4,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+    {
+      image: img4,
+      name: 'Nguyễn Văn A',
+      specialty: 'Nha khoa tổng quát',
+    },
+
+  ]
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -22,13 +66,13 @@ const DoctorSlide = (props) => {
     setCurrentIndex(newIndex);
   };
 
-  const bufferToDataURL = (buffer) => {
-    const blob = new Blob([new Uint8Array(buffer.data)], {
-      type: "image/jpeg",
-    });
-    const url = URL.createObjectURL(blob);
-    return url;
-  };
+  // const bufferToDataURL = (buffer) => {
+  //   const blob = new Blob([new Uint8Array(buffer.data)], {
+  //     type: "image/jpeg",
+  //   });
+  //   const url = URL.createObjectURL(blob);
+  //   return url;
+  // };
 
   const handleNavigate = (id) => {
     // navigate(`/doctor-info/${id}`)
@@ -54,11 +98,11 @@ const DoctorSlide = (props) => {
             >
               <div
                 className="flex flex-col items-center cursor-pointer"
-                // onClick={() => handleNavigate(doctor.id)}
+              // onClick={() => handleNavigate(doctor.id)}
               >
                 <div className="w-40 h-40 mb-4">
                   <img
-                    src={bufferToDataURL(doctor.image)}
+                    src={doctor.image}
                     className="rounded-full h-full w-full object-cover"
                     alt={doctor.name}
                   />
