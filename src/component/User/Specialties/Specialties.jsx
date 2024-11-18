@@ -1,13 +1,11 @@
 import AliceCarousel from "react-alice-carousel";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import "react-alice-carousel/lib/alice-carousel.css";
 import imgtest from "../../../assets/images/teeth-1.png";
 import imgdoctortest from "../../../assets/images/doctor1.png";
 import { useState } from "react";
 import SpecialtiesDoctor from "./SpecialtiesDoctor";
 import SpecialtiesService from "./SpecialtiesService";
-
-
 
 const ListSpecialties = (props) => {
   const responsive = {
@@ -17,7 +15,10 @@ const ListSpecialties = (props) => {
   };
 
   const specialty = [
-    <div className="item h-96 w-96 flex justify-center items-center cursor-pointer" data-value="1">
+    <div
+      className="item h-96 w-96 flex justify-center items-center cursor-pointer"
+      data-value="1"
+    >
       <div className="flex w-4/5 h-60 flex-col justify-center items-center px-8 rounded-2xl bg-white hover:bg-sky-200 drop-shadow-md">
         <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
           <img src={imgtest} className="w-8 h-8" />
@@ -26,12 +27,15 @@ const ListSpecialties = (props) => {
           Nha khoa trẻ em
         </div>
         <div className="text-center font-extralight text-sm mt-2">
-          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-          trẻ em và phụ huynh về cách chăm sóc răng miệng
+          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục trẻ
+          em và phụ huynh về cách chăm sóc răng miệng
         </div>
       </div>
     </div>,
-    <div className="item h-96 w-96 flex justify-center items-center cursor-pointer" data-value="1">
+    <div
+      className="item h-96 w-96 flex justify-center items-center cursor-pointer"
+      data-value="1"
+    >
       <div className="flex w-4/5 h-60 flex-col justify-center items-center px-8 rounded-2xl bg-white hover:bg-sky-200 drop-shadow-md">
         <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
           <img src={imgtest} className="w-8 h-8" />
@@ -40,12 +44,15 @@ const ListSpecialties = (props) => {
           Nha khoa trẻ em
         </div>
         <div className="text-center font-extralight text-sm mt-2">
-          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-          trẻ em và phụ huynh về cách chăm sóc răng miệng
+          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục trẻ
+          em và phụ huynh về cách chăm sóc răng miệng
         </div>
       </div>
     </div>,
-    <div className="item h-96 w-96 flex justify-center items-center cursor-pointer" data-value="1">
+    <div
+      className="item h-96 w-96 flex justify-center items-center cursor-pointer"
+      data-value="1"
+    >
       <div className="flex w-4/5 h-60 flex-col justify-center items-center px-8 rounded-2xl bg-white hover:bg-sky-200 drop-shadow-md">
         <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
           <img src={imgtest} className="w-8 h-8" />
@@ -54,12 +61,15 @@ const ListSpecialties = (props) => {
           Nha khoa trẻ em
         </div>
         <div className="text-center font-extralight text-sm mt-2">
-          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-          trẻ em và phụ huynh về cách chăm sóc răng miệng
+          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục trẻ
+          em và phụ huynh về cách chăm sóc răng miệng
         </div>
       </div>
     </div>,
-    <div className="item h-96 w-96 flex justify-center items-center cursor-pointer" data-value="1">
+    <div
+      className="item h-96 w-96 flex justify-center items-center cursor-pointer"
+      data-value="1"
+    >
       <div className="flex w-4/5 h-60 flex-col justify-center items-center px-8 rounded-2xl bg-white hover:bg-sky-200 drop-shadow-md">
         <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
           <img src={imgtest} className="w-8 h-8" />
@@ -68,12 +78,15 @@ const ListSpecialties = (props) => {
           Nha khoa trẻ em
         </div>
         <div className="text-center font-extralight text-sm mt-2">
-          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-          trẻ em và phụ huynh về cách chăm sóc răng miệng
+          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục trẻ
+          em và phụ huynh về cách chăm sóc răng miệng
         </div>
       </div>
     </div>,
-    <div className="item h-96 w-96 flex justify-center items-center cursor-pointer" data-value="1">
+    <div
+      className="item h-96 w-96 flex justify-center items-center cursor-pointer"
+      data-value="1"
+    >
       <div className="flex w-4/5 h-60 flex-col justify-center items-center px-8 rounded-2xl bg-white hover:bg-sky-200 drop-shadow-md">
         <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
           <img src={imgtest} className="w-8 h-8" />
@@ -82,8 +95,8 @@ const ListSpecialties = (props) => {
           Nha khoa trẻ em
         </div>
         <div className="text-center font-extralight text-sm mt-2">
-          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-          trẻ em và phụ huynh về cách chăm sóc răng miệng
+          Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục trẻ
+          em và phụ huynh về cách chăm sóc răng miệng
         </div>
       </div>
     </div>,
@@ -94,111 +107,111 @@ const ListSpecialties = (props) => {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
+      schedule: "Mon - Sun",
     },
     {
       image: imgdoctortest,
       name: "Dr. Hùng Phúc",
       specialty: "Chuyên khoa răng miệng",
-      schedule: "Mon - Sun"
-    }
-  ]
+      schedule: "Mon - Sun",
+    },
+  ];
 
   const listService = [
     {
@@ -251,7 +264,7 @@ const ListSpecialties = (props) => {
       name: "Khám răng tuyến tinh",
       price: "100.000 VNĐ - 200.00 VNĐ",
     },
-  ]
+  ];
 
   const [isActive, setIsActive] = useState(true);
 
@@ -297,7 +310,8 @@ const ListSpecialties = (props) => {
           }}
           onClick={(e) => !isActive && setIsActive(true)}
         >
-          Bác Sĩ</Button>
+          Bác Sĩ
+        </Button>
         <Button
           variant="outlined"
           href="#outlined-buttons"
@@ -318,19 +332,15 @@ const ListSpecialties = (props) => {
           }}
           onClick={(e) => isActive && setIsActive(false)}
         >
-          Dịch vụ</Button>
+          Dịch vụ
+        </Button>
       </div>
-      {isActive ?
-        <SpecialtiesDoctor
-          listDoctor={listDoctor}
-        />
-        :
-        <SpecialtiesService
-          listService={listService}
-        />
-      }
-
-    </div >
+      {isActive ? (
+        <SpecialtiesDoctor listDoctor={listDoctor} />
+      ) : (
+        <SpecialtiesService listService={listService} />
+      )}
+    </div>
   );
 };
 
