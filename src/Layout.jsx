@@ -7,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './component/HomePage/HomePage';
 import ListDoctor from './component/User/Doctor/Doctor';
 import ListSpecialties from './component/User/Specialties/Specialties';
-import ListClinics from './component/User/Clinic/Clinic';
-import ClinicInfo from './component/User/Clinic/ClinicInfo';
 import DoctorSpecialties from './component/User/Doctor/DoctorSpecialties';
 import DoctorInfo from './component/User/Doctor/DoctorInfo';
 import BookingForm from './component/User/Booking/Booking';
@@ -17,7 +15,6 @@ import Login from './component/Auth/Login'
 import Register from './component/Auth/Register';
 import Admin from './component/Admin/Admin';
 import Dashboard from './component/Admin/Dashboard';
-import Clinic from './component/Admin/Clinic/Clinic';
 import Doctor from './component/Admin/Doctor/Doctor';
 import Specialties from './component/Admin/Specialties/Specialties';
 import ScheduleDoctor from './component/Admin/Doctor/ScheduleDoctor';
@@ -28,6 +25,7 @@ import ProfileAdmin from './component/Admin/Profile';
 import ChangePassword from './component/Admin/ChangePassword';
 import HomeDoctor from './component/Doctor/Doctor';
 import Appointment from './component/Doctor/Appointment';
+import ListService from './component/User/Service/Service';
 
 
 
@@ -58,8 +56,8 @@ const Layout = () => {
                     <Route path='doctors' element={<ListDoctor />} />
                     <Route path='doctor-info/:id' element={<DoctorInfo />} />
                     <Route path='specialties' element={<ListSpecialties />} />
-                    <Route path='clinics' element={<ListClinics />} />
-                    <Route path='clinic-info/:id' element={<ClinicInfo />} />
+                    <Route path='services' element={<ListService />} />
+                    {/* <Route path='clinic-info/:id' element={<ClinicInfo />} /> */}
                     <Route path='doctors-specialties/:id' element={<DoctorSpecialties />} />
                     <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
                         <Route path="booking-form/:scheduleId" element={<BookingForm />} />
@@ -75,7 +73,7 @@ const Layout = () => {
                         <Route index element={<Dashboard />} />
                         <Route path="profile-admin" element={<ProfileAdmin />} />
                         <Route path="change-password" element={<ChangePassword />} />
-                        <Route path="clinic" element={<Clinic />} />
+                        {/* <Route path="clinic" element={<Clinic />} /> */}
                         <Route path="doctor" element={<Doctor />} />
                         <Route path="specialties" element={<Specialties />} />
                         <Route path="schedule-doctor" element={<ScheduleDoctor />} />
