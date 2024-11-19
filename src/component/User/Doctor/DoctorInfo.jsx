@@ -1,138 +1,208 @@
 import imgtest from "../../../assets/images/doctor1.png";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { useState } from "react";
+import dayjs from 'dayjs';
 import * as React from "react";
+import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DateTime from "./DateTime";
+import InformationForm from "./InformationForm";
 
 const DoctorInfo = (props) => {
   const steps = ["Chọn thời gian", "Điền thông tin", "Hoàn thành"];
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
 
-  const totalSteps = () => {
-    return steps.length;
-  };
+  const [listTime, setListTime] = useState([
+    {
+      id: 1,
+      time: "7:00 AM",
+      status: "active",
+    },
+    {
+      id: 2,
+      time: "8:00 AM",
+      status: "inactive",
+    },
+    {
+      id: 3,
+      time: "9:00 AM",
+      status: "inactive",
+    },
+    {
+      id: 4,
+      time: "10:00 AM",
+      status: "active",
+    },
+    {
+      id: 5,
+      time: "11:00 AM",
+      status: "active",
+    },
+    {
+      id: 6,
+      time: "13:00 PM",
+      status: "active",
+    },
+    {
+      id: 7,
+      time: "14:00 PM",
+      status: "active",
+    },
+    {
+      id: 8,
+      time: "15:00 PM",
+      status: "active",
+    },
+    {
+      id: 9,
+      time: "16:00 PM",
+      status: "active",
+    },
+    {
+      id: 10,
+      time: "17:00 PM",
+      status: "active",
+    },
+  ])
 
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedTime, setSelectedTime] = useState('');
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
+  console.log(selectedTime, selectedDate)
 
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
 
   const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
+    let newSkipped = skipped;
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStep = (step) => () => {
-    setActiveStep(step);
-  };
-
-  const handleComplete = () => {
-    setCompleted({
-      ...completed,
-      [activeStep]: true,
-    });
-    handleNext();
-  };
-
   const handleReset = () => {
     setActiveStep(0);
-    setCompleted({});
   };
+
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex items-center justify-center gap-8 mt-20">
-        <img src={imgtest} className="w-24 h-24 rounded-full" />
+        <img src={imgtest} className="w-32 h-32 rounded-full" />
         <div className="flex flex-col gap-3 ">
           <div className="text-3xl font-serif font-semibold">
             Bác sĩ : tên bác sĩ
           </div>
-          <div className="text-base font-light">
+          <div className="flex items-center gap-2 text-sm font-light">
+            <LocalPharmacyIcon />
             Chuyên khoa : tên chuyên khoa
           </div>
+          {activeStep === 1 ?
+            <div className="flex items-center gap-2 text-sm font-light">
+              <CalendarMonthIcon />
+              {dayjs(selectedDate).format("DD/MM/YYYY")} - {selectedTime}
+            </div>
+            :
+            <></>
+          }
+
         </div>
       </div>
       <div className="text-2xl font-serif font-semibold my-16">
         Dịch vụ .....
       </div>
-      <Box sx={{ width: "100%" }}>
-        <Stepper nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
-                {label}
-              </StepButton>
-            </Step>
-          ))}
+      <Box sx={{
+        width: '100%',
+        paddingX: "150px"
+      }}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
         </Stepper>
-        <div>
-          {allStepsCompleted() ? (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Reset</Button>
-              </Box>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                Step {activeStep + 1}
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        {activeStep === steps.length ? (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              All steps completed - you&apos;re finished
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button onClick={handleReset}>Reset</Button>
+            </Box>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              {activeStep === 0 ? (
+                <div>
+                  <DateTime
+                    listTime={listTime}
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    setSelectedTime={setSelectedTime}
+                  />
+                </div>
+              ) : activeStep === 1 ? (
+                <div>
+                  <InformationForm />
+                </div>
+              ) : activeStep === 2 ? (
+                <div>
+                  success
+                </div>
+              ) : null}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              {activeStep === 0
+                ?
+                <></>
+                :
                 <Button
                   color="inherit"
                   disabled={activeStep === 0}
                   onClick={handleBack}
-                  sx={{ mr: 1 }}
+                  sx={{
+                    borderRadius: "5px",
+                    padding: "10px 20px",
+                    backgroundColor: "white",
+                    color: "black",
+                    fontFamily: "serif",
+                    fontWeight: "bold",
+                  }}
                 >
-                  Back
+                  Quay lại
                 </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleNext} sx={{ mr: 1 }}>
-                  Next
-                </Button>
-                {activeStep !== steps.length &&
-                  (completed[activeStep] ? (
-                    <Typography
-                      variant="caption"
-                      sx={{ display: "inline-block" }}
-                    >
-                      Step {activeStep + 1} already completed
-                    </Typography>
-                  ) : (
-                    <Button onClick={handleComplete}>
-                      {completedSteps() === totalSteps() - 1
-                        ? "Finish"
-                        : "Complete Step"}
-                    </Button>
-                  ))}
-              </Box>
-            </React.Fragment>
-          )}
-        </div>
+              }
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button
+                onClick={handleNext}
+                sx={{
+                  borderRadius: "5px",
+                  padding: "10px 20px",
+                  backgroundColor: "white",
+                  color: "black",
+                  fontFamily: "serif",
+                  fontWeight: "bold",
+                }}
+              >
+                {activeStep === steps.length - 1 ? 'Đặt Lịch' : 'Tiếp Theo'}
+              </Button>
+            </Box>
+          </React.Fragment>
+        )}
       </Box>
     </div>
   );
