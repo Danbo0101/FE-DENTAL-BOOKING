@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from 'dayjs';
 import * as React from "react";
 import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
@@ -74,7 +74,30 @@ const DoctorInfo = (props) => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedTime, setSelectedTime] = useState('');
 
-  console.log(selectedTime, selectedDate)
+  const [name, setName] = useState("");
+  const [cccd, setCCCD] = useState("");
+  const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
+  const account = {
+    name: "John Doe",
+    cccd: "1234567890",
+    gender: "male",
+    phone: "0987654321",
+    email: "john.doe@example.com",
+  };
+
+
+  useEffect(() => {
+    setName(account.name);
+    setCCCD(account.cccd);
+    setGender(account.gender);
+    setPhone(account.phone);
+    setEmail(account.email);
+  }, [activeStep])
+
+  // console.log(selectedTime, selectedDate)
 
 
   const handleNext = () => {
@@ -157,7 +180,18 @@ const DoctorInfo = (props) => {
                 </div>
               ) : activeStep === 1 ? (
                 <div>
-                  <InformationForm />
+                  <InformationForm
+                    name={name}
+                    setName={setName}
+                    phone={phone}
+                    setPhone={setPhone}
+                    cccd={cccd}
+                    setCCCD={setCCCD}
+                    email={email}
+                    setEmail={setEmail}
+                    gender={gender}
+                    setGender={setGender}
+                  />
                 </div>
               ) : activeStep === 2 ? (
                 <div>
