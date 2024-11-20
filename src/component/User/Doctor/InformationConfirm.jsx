@@ -1,12 +1,16 @@
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 
-const InformationForm = (props) => {
+const InformationConfirm = (props) => {
   const { name, cccd, gender, phone, email } = props;
 
   return (
-    <div className="px-10 py-16 flex flex-col gap-7 w-3/4 rounded-xl bg-slate-100 drop-shadow">
-      <div className=" flex justify-between">
+    <div className="px-10 py-16 flex flex-col gap-7 w-3/4 rounded-xl bg-zinc-100 drop-shadow">
+      <div className="font-semibold">
+        <input type="radio" name="appointment_type" checked className="mr-2" />
+        Gía đặt khám dịch vụ : 100.000 VNĐ
+      </div>
+      <div className="flex justify-between">
         <TextField
           label="Họ và Tên"
           variant="outlined"
@@ -15,7 +19,7 @@ const InformationForm = (props) => {
             width: "400px",
             borderRadius: "10px",
           }}
-          onChange={(e) => props.setName(e.target.value)}
+          disabled
         />
         <TextField
           label="CCCD"
@@ -25,7 +29,7 @@ const InformationForm = (props) => {
             width: "400px",
             borderRadius: "10px",
           }}
-          onChange={(e) => props.setCCCD(e.target.value)}
+          disabled
         />
       </div>
       {gender === "male" ? (
@@ -36,7 +40,7 @@ const InformationForm = (props) => {
             id="male"
             className="mr-2"
             checked
-            onChange={(e) => props.setGender("male")}
+            disabled
           />
           Nam
           <input
@@ -44,8 +48,7 @@ const InformationForm = (props) => {
             name="gender"
             id="female"
             className="mr-2 ml-4"
-            onChange={(e) => props.setGender("female")}
-            // disabled
+            disabled
           />
           Nữ
         </div>
@@ -56,8 +59,7 @@ const InformationForm = (props) => {
             name="gender"
             id="male"
             className="mr-2"
-            onChange={(e) => props.setGender("male")}
-            // disabled
+            disabled
           />
           Nam
           <input
@@ -66,13 +68,12 @@ const InformationForm = (props) => {
             id="female"
             className="mr-2 ml-4"
             checked
-            onChange={(e) => props.setGender("female")}
-            // disabled
+            disabled
           />
           Nữ
         </div>
       )}
-      <div className=" flex justify-between">
+      <div className="flex justify-between">
         <TextField
           label="Số điện thoại"
           variant="outlined"
@@ -81,7 +82,7 @@ const InformationForm = (props) => {
             width: "400px",
             borderRadius: "10px",
           }}
-          onChange={(e) => props.setPhone(e.target.value)}
+          disabled
         />
         <TextField
           label="Email"
@@ -91,11 +92,43 @@ const InformationForm = (props) => {
             width: "400px",
             borderRadius: "10px",
           }}
-          onChange={(e) => props.setEmail(e.target.value)}
+          disabled
         />
+      </div>
+      <div>
+        <div className="">
+          <input
+            type="radio"
+            name="payment_method"
+            value="offline"
+            checked
+            className="mr-2"
+          />
+          <label>Thanh toán tại bệnh viện</label>
+        </div>
+      </div>
+      <div className="">
+        <div className="flex justify-between py-2">
+          <span>Giá khám</span>
+          <span>100.000 VNĐ</span>
+        </div>
+        <div className="flex justify-between py-2">
+          <span>Phí đặt lịch</span>
+          <span>0 VNĐ</span>
+        </div>
+        <div className="flex justify-between py-2 font-bold">
+          <span>Tổng cộng</span>
+          <span>100.000 VNĐ</span>
+        </div>
+      </div>
+      <div className="mb-4 bg-blue-100 p-4 rounded-lg">
+        <p className="text-gray-700 font-semibold">LƯU Ý</p>
+        <ul className="list-disc pl-5 mt-2">
+          <li>Vui lòng kiểm tra lại thông tin trước khi ấn "Đặt lịch"</li>
+        </ul>
       </div>
     </div>
   );
 };
 
-export default InformationForm;
+export default InformationConfirm;
