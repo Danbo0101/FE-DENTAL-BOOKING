@@ -7,9 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HomePage from "./component/HomePage/HomePage";
 import ListDoctor from "./component/User/Doctor/Doctor";
 import ListSpecialties from "./component/User/Specialties/Specialties";
-import DoctorSpecialties from "./component/User/Doctor/DoctorSpecialties";
 import DoctorInfo from "./component/User/Doctor/DoctorInfo";
-import BookingForm from "./component/User/Booking/Booking";
 import BookingSuccess from "./component/User/Booking/BookingSuccess";
 import Login from "./component/Auth/Login";
 import Register from "./component/Auth/Register";
@@ -17,7 +15,6 @@ import Admin from "./component/Admin/Admin";
 import Dashboard from "./component/Admin/Dashboard";
 import Doctor from "./component/Admin/Doctor/Doctor";
 import Specialties from "./component/Admin/Specialties/Specialties";
-import ScheduleDoctor from "./component/Admin/Doctor/ScheduleDoctor";
 import PrivateRoute from "./routes/PrivateRoute";
 import { useSelector } from "react-redux";
 import ForgotPassword from "./component/Auth/ForgotPassword";
@@ -25,7 +22,6 @@ import ProfileAdmin from "./component/Admin/Profile";
 import ChangePassword from "./component/Admin/ChangePassword";
 import HomeDoctor from "./component/Doctor/Doctor";
 import Appointment from "./component/Doctor/Appointment";
-import ListService from "./component/User/Service/Service";
 
 const NotFound = () => {
   return (
@@ -44,25 +40,14 @@ const Layout = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
+          <Route path="specialties" element={<ListSpecialties />} />
           <Route path="doctors" element={<ListDoctor />} />
           <Route path="doctor-info/:id" element={<DoctorInfo />} />
-          <Route path="specialties" element={<ListSpecialties />} />
-          <Route path="services" element={<ListService />} />
-          {/* <Route path='clinic-info/:id' element={<ClinicInfo />} /> */}
-          <Route
-            path="doctors-specialties/:id"
-            element={<DoctorSpecialties />}
-          />
-          {/* <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}> */}
-          <Route path="booking-form/:scheduleId" element={<BookingForm />} />
-          <Route path="booking-success" element={<BookingSuccess />} />
-          {/* </Route> */}
-        </Route>
-        <Route element={<PrivateRoute allowedRoles={[3]} />}>
-          <Route path="booking-form" element={<BookingForm />} />
           <Route path="booking-success" element={<BookingSuccess />} />
         </Route>
-        <Route path="admin" element={<PrivateRoute allowedRoles={[1]} />}>
+        <Route path="admin"
+        // element={<PrivateRoute allowedRoles={[1]} />}
+        >
           <Route element={<Admin />}>
             <Route index element={<Dashboard />} />
             <Route path="profile-admin" element={<ProfileAdmin />} />
@@ -70,7 +55,7 @@ const Layout = () => {
             {/* <Route path="clinic" element={<Clinic />} /> */}
             <Route path="doctor" element={<Doctor />} />
             <Route path="specialties" element={<Specialties />} />
-            <Route path="schedule-doctor" element={<ScheduleDoctor />} />
+
           </Route>
         </Route>
         <Route path="doctor" element={<PrivateRoute allowedRoles={[2]} />}>

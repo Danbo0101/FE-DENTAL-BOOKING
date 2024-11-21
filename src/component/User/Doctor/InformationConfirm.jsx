@@ -10,7 +10,7 @@ const InformationConfirm = (props) => {
         <input type="radio" name="appointment_type" checked className="mr-2" />
         Gía đặt khám dịch vụ : 100.000 VNĐ
       </div>
-      <div className="flex justify-between">
+      <div className="flex gap-8 justify-between">
         <TextField
           label="Họ và Tên"
           variant="outlined"
@@ -73,7 +73,7 @@ const InformationConfirm = (props) => {
           Nữ
         </div>
       )}
-      <div className="flex justify-between">
+      <div className="flex gap-8 justify-between">
         <TextField
           label="Số điện thoại"
           variant="outlined"

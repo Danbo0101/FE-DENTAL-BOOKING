@@ -6,7 +6,7 @@ const InformationForm = (props) => {
 
   return (
     <div className="px-10 py-16 flex flex-col gap-7 w-3/4 rounded-xl bg-slate-100 drop-shadow">
-      <div className=" flex justify-between">
+      <div className=" flex gap-8 justify-between">
         <TextField
           label="Họ và Tên"
           variant="outlined"
@@ -45,7 +45,7 @@ const InformationForm = (props) => {
             id="female"
             className="mr-2 ml-4"
             onChange={(e) => props.setGender("female")}
-            // disabled
+          // disabled
           />
           Nữ
         </div>
@@ -57,7 +57,7 @@ const InformationForm = (props) => {
             id="male"
             className="mr-2"
             onChange={(e) => props.setGender("male")}
-            // disabled
+          // disabled
           />
           Nam
           <input
@@ -67,12 +67,12 @@ const InformationForm = (props) => {
             className="mr-2 ml-4"
             checked
             onChange={(e) => props.setGender("female")}
-            // disabled
+          // disabled
           />
           Nữ
         </div>
       )}
-      <div className=" flex justify-between">
+      <div className=" flex gap-8 justify-between">
         <TextField
           label="Số điện thoại"
           variant="outlined"

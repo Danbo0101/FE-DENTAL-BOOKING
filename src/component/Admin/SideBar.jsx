@@ -1,5 +1,5 @@
-import logo from "../../assets/images/logo.png"
-import logoSmall from "../../assets/images/logo-1.png"
+import logo from "../../assets/images/D Dental.png"
+import logoSmall from "../../assets/images/D Dental-2.png"
 import React, { createContext, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FirstPageIcon from '@mui/icons-material/FirstPage';
@@ -36,7 +36,7 @@ const Sidebar = ({ children }) => {
             <aside className="h-screen">
                 <nav className="h-full flex flex-col bg-gradient-to-r from-cyan-100 to-blue-200 border-r  shadow-md">
                     <div className={`p-5 pb-2 flex  items-center ${expanded ? "justify-between" : ""}`}>
-                        <img src={logo} className={`overflow-hidden transition-all ${expanded ? "w-48" : "w-0"}`} />
+                        <img src={logo} className={`overflow-hidden transition-all ${expanded ? "w-36 h-16" : "w-0"}`} />
                         <button onClick={() => setExpanded((curr) => !curr)} className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100">
                             {expanded ? <FirstPageIcon /> : <img src={logoSmall} className="w-7" />}
                         </button>
@@ -44,7 +44,7 @@ const Sidebar = ({ children }) => {
 
 
                     <SidebarContext.Provider value={{ expanded }}>
-                        <ul className="flex-1 px-3">{children}</ul>
+                        <ul className="flex-1 px-3 py-3">{children}</ul>
                     </SidebarContext.Provider>
 
                     <div className="border-t-2 flex p-3 items-center justify-center cursor-pointer"

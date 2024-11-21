@@ -13,12 +13,10 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DateTime from "./DateTime";
 import InformationForm from "./InformationForm";
 import InformationConfirm from "./InformationConfirm";
+import { useNavigate } from "react-router-dom";
 
 const DoctorInfo = (props) => {
   const steps = ["Chọn thời gian", "Điền thông tin", "Kiểm tra thông tin"];
-  const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set());
-
   const [listTime, setListTime] = useState([
     {
       id: 1,
@@ -72,6 +70,15 @@ const DoctorInfo = (props) => {
     },
   ]);
 
+  const account = {
+    name: "John Doe",
+    cccd: "1234567890",
+    gender: "male",
+    phone: "0987654321",
+    email: "john.doe@example.com",
+  };
+
+  const [activeStep, setActiveStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedTime, setSelectedTime] = useState("");
 
@@ -81,13 +88,7 @@ const DoctorInfo = (props) => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
-  const account = {
-    name: "John Doe",
-    cccd: "1234567890",
-    gender: "male",
-    phone: "0987654321",
-    email: "john.doe@example.com",
-  };
+  const navigate = useNavigate()
 
   useEffect(() => {
     setName(account.name);
@@ -100,18 +101,18 @@ const DoctorInfo = (props) => {
   // console.log(selectedTime, selectedDate)
 
   const handleNext = () => {
-    let newSkipped = skipped;
+    if (activeStep === 2) {
+      navigate("/booking-success");
+      return;
+    }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+
 
   return (
     <div className="flex flex-col justify-center items-center">

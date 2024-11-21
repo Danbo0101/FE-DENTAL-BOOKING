@@ -18,7 +18,6 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import { useEffect, useState } from 'react';
-// import CreateDoctor from './Modal/CreateDoctor';
 import Pagination from '@mui/material/Pagination';
 import CreateDoctor from './Modal/CreateDoctor';
 import DoctorInfo from './Modal/DoctorInfo';
@@ -26,9 +25,6 @@ import AssignDoctor from './Modal/AssignDoctor';
 import DeleteDoctor from './Modal/DeleteDoctor';
 import UpdateDoctor from './Modal/UpdateDoctor';
 import AttendanceDoctor from './Modal/AttendanceDoctor';
-// import DoctorInfo from './Modal/DoctorInfo';
-// import UpdateDoctor from './Modal/UpdateDoctor';
-// import DeleteDoctor from './Modal/DeleteDoctor';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,7 +51,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Doctor = (props) => {
 
-    const [listDoctor, setListDoctor] = useState([]);
+    const [listDoctor, setListDoctor] = useState([
+        {
+            id: 1,
+            name: 'Doctor',
+            email: 'doctor@gmail.com',
+            userName: "Doctor",
+            password: "123456",
+            gender: 'male',
+            email: 'doctor@gmail.com',
+            dob: "12/12/2017",
+            phone: '1234567890',
+            cccd: '1234567890'
+
+        }
+    ]);
 
     const [openCreate, setOpenCreate] = useState(false);
 
@@ -76,23 +86,23 @@ const Doctor = (props) => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1)
 
-    useEffect(() => {
-        fetchListDoctor();
-    }, [currentPage])
+    // useEffect(() => {
+    //     fetchListDoctor();
+    // }, [currentPage])
 
-    const fetchListDoctor = async () => {
+    // const fetchListDoctor = async () => {
 
-        let data = await getDoctorPagination(currentPage, LIMIT);
-        if (data.ER === 0) {
-            setListDoctor(data);
-            setPageCount(data.totalPage);
-            return;
-        }
-        else {
-            console.log(data.message)
-        }
+    //     let data = await getDoctorPagination(currentPage, LIMIT);
+    //     if (data.ER === 0) {
+    //         setListDoctor(data);
+    //         setPageCount(data.totalPage);
+    //         return;
+    //     }
+    //     else {
+    //         console.log(data.message)
+    //     }
 
-    }
+    // }
 
     const handleViewDoctor = (id) => {
         console.log(id)
@@ -129,13 +139,13 @@ const Doctor = (props) => {
                                 <StyledTableCell align='center'>ID</StyledTableCell>
                                 <StyledTableCell align="center">Tên</StyledTableCell>
                                 <StyledTableCell align="center">Email</StyledTableCell>
-                                <StyledTableCell align="center">Trình độ chuyên môn</StyledTableCell>
+                                <StyledTableCell align="center">SĐT</StyledTableCell>
                                 <StyledTableCell align="center"></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {listDoctor.data && listDoctor.data.length > 0 &&
-                                listDoctor.data.map((doctor, index) => {
+                            {listDoctor && listDoctor.length > 0 &&
+                                listDoctor.map((doctor, index) => {
                                     return (
                                         <StyledTableRow
                                             key={doctor.id}
@@ -146,7 +156,7 @@ const Doctor = (props) => {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">{doctor.name}</StyledTableCell>
                                             <StyledTableCell align="center">{doctor.email}</StyledTableCell>
-                                            <StyledTableCell align="center">{doctor.qualification}</StyledTableCell>
+                                            <StyledTableCell align="center">{doctor.phone}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <IconButton
                                                     aria-label="info"
@@ -179,7 +189,8 @@ const Doctor = (props) => {
                 </TableContainer>
                 <div className=' flex items-center justify-center p-8'>
                     <Pagination
-                        count={pageCount}
+                        // count={pageCount}
+                        count={2}
                         variant="outlined"
                         color="primary"
                         page={currentPage}
@@ -222,12 +233,12 @@ const Doctor = (props) => {
                 setOpen={setOpenCreate}
                 pageCount={pageCount}
                 setCurrentPage={setCurrentPage}
-                fetchListDoctor={fetchListDoctor}
+            // fetchListDoctor={fetchListDoctor}
             />
             <AssignDoctor
                 open={openAssign}
                 setOpen={setOpenAssign}
-                fetchListDoctor={fetchListDoctor}
+            // fetchListDoctor={fetchListDoctor}
             />
             <DoctorInfo
                 open={openView}
@@ -238,7 +249,7 @@ const Doctor = (props) => {
             <UpdateDoctor
                 open={openUpdate}
                 setOpen={setOpenUpdate}
-                fetchListDoctor={fetchListDoctor}
+                // fetchListDoctor={fetchListDoctor}
                 dataUpdate={dataUpdate}
                 setDataUpdate={setDataUpdate}
             />
@@ -247,7 +258,7 @@ const Doctor = (props) => {
                 setOpen={setOpenDelete}
                 dataDelete={dataDelete}
                 setDataDelete={setDataDelete}
-                fetchListDoctor={fetchListDoctor}
+            // fetchListDoctor={fetchListDoctor}
             />
             <AttendanceDoctor
 
