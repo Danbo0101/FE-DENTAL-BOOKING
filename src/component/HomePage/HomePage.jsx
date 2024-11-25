@@ -5,13 +5,13 @@ import HomePage2 from "../../assets/images/Homepage-2.png";
 import HomePage3 from "../../assets/images/Homepage-3.png";
 import HomePage4 from "../../assets/images/Homepage-4.png";
 import video from "../../assets/images/video.mp4";
-
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
-import ImageSlide from "./ImageSlide";
 import DoctorSlide from "./DoctorSlide";
+import { useEffect } from "react";
 
 const HomePage = (props) => {
+
   return (
     <div>
       <div className="flex justify-center items-center px-48 mx-10 mt-10 ">

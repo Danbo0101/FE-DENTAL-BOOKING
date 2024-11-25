@@ -74,5 +74,6 @@ export {
     postSendOTP,
     postVerifyOTP,
     postRegister,
-    postForgotPassword
+    postForgotPassword,
+
 }

@@ -59,7 +59,6 @@ const Doctor = (props) => {
             userName: "Doctor",
             password: "123456",
             gender: 'male',
-            email: 'doctor@gmail.com',
             dob: "12/12/2017",
             phone: '1234567890',
             cccd: '1234567890'
