@@ -16,30 +16,11 @@ const getDoctorInfoDetail = (id) => {
   return axios.get(`/v1/api/doctor-clinic-specialties?doctorId=${id}`);
 };
 
-const postCreateNewDoctor = (
-  fullName,
-  iD_Number,
-  phone,
-  email,
-  gender,
-  DOB,
-  userName,
-  password,
-  image
-) => {
-  const data = new FormData();
-  data.append("fullName", fullName);
-  data.append("iD_Number", iD_Number);
-  data.append("phone", phone);
-  data.append("email", email);
-  data.append("gender", gender);
-  data.append("DOB", DOB);
-  data.append("userName", userName);
-  data.append("password", password);
-  data.append("image_Url", image);
-  role_Id;
+const postCreateNewDoctor = (data) => {
   return axios.post("/api/User/create", data);
 };
+
+
 
 const postAssignDoctor = (doctorId, clinicId, specialtiesId) => {
   const data = new FormData();

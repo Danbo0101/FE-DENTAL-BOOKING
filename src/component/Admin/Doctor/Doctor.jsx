@@ -25,6 +25,8 @@ import AssignDoctor from './Modal/AssignDoctor';
 import DeleteDoctor from './Modal/DeleteDoctor';
 import UpdateDoctor from './Modal/UpdateDoctor';
 import AttendanceDoctor from './Modal/AttendanceDoctor';
+import { getAllUsers, getRole } from '../../../services/userService';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -51,20 +53,58 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Doctor = (props) => {
 
-    const [listDoctor, setListDoctor] = useState([
-        {
-            id: 1,
-            name: 'Doctor',
-            email: 'doctor@gmail.com',
-            userName: "Doctor",
-            password: "123456",
-            gender: 'male',
-            dob: "12/12/2017",
-            phone: '1234567890',
-            cccd: '1234567890'
+    const [doctorIds, setDoctorIds] = useState('');
+    const [listDoctor, setListDoctor] = useState([]);
 
+    useEffect(() => {
+        const fetchDoctorIds = async () => {
+            try {
+                const result = await getRole();
+                if (result.success) {
+                    const ids = result.data
+                        .filter(role => role.name.toLowerCase() === "doctor")
+                        .map(role => role.role_Id);
+
+                    setDoctorIds(ids[0]);
+                } else {
+                    console.log(result.message);
+                }
+            } catch (error) {
+                console.error("Error fetching roles:", error);
+            }
+        };
+        fetchDoctorIds();
+    }, []);
+
+    const fetchDoctorList = async () => {
+        try {
+            const result = await getAllUsers()
+            if (result.success) {
+                const list = result.data.filter(user => user.role_Id === doctorIds);
+                setListDoctor(list);
+            }
+            else {
+                console.log(result.message);
+            }
+
+        } catch (error) {
+            console.error("Error fetching users:", error);
         }
-    ]);
+    }
+
+    useEffect(() => {
+        if (doctorIds) {
+            fetchDoctorList();
+        }
+    }, [doctorIds])
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 2;
+
+    const pageCount = Math.ceil(listDoctor.length / itemsPerPage);
+    const currentData = listDoctor.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
 
     const [openCreate, setOpenCreate] = useState(false);
 
@@ -80,28 +120,6 @@ const Doctor = (props) => {
 
     const [openDelete, setOpenDelete] = useState(false);
     const [dataDelete, setDataDelete] = useState();
-
-    const LIMIT = 5;
-    const [pageCount, setPageCount] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1)
-
-    // useEffect(() => {
-    //     fetchListDoctor();
-    // }, [currentPage])
-
-    // const fetchListDoctor = async () => {
-
-    //     let data = await getDoctorPagination(currentPage, LIMIT);
-    //     if (data.ER === 0) {
-    //         setListDoctor(data);
-    //         setPageCount(data.totalPage);
-    //         return;
-    //     }
-    //     else {
-    //         console.log(data.message)
-    //     }
-
-    // }
 
     const handleViewDoctor = (id) => {
         console.log(id)
@@ -143,17 +161,17 @@ const Doctor = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {listDoctor && listDoctor.length > 0 &&
-                                listDoctor.map((doctor, index) => {
+                            {currentData && currentData.length > 0 &&
+                                currentData.map((doctor, index) => {
                                     return (
                                         <StyledTableRow
                                             key={doctor.id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                {doctor.id}
+                                                {index}
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">{doctor.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{doctor.fullName}</StyledTableCell>
                                             <StyledTableCell align="center">{doctor.email}</StyledTableCell>
                                             <StyledTableCell align="center">{doctor.phone}</StyledTableCell>
                                             <StyledTableCell align="center">
@@ -188,8 +206,7 @@ const Doctor = (props) => {
                 </TableContainer>
                 <div className=' flex items-center justify-center p-8'>
                     <Pagination
-                        // count={pageCount}
-                        count={2}
+                        count={pageCount}
                         variant="outlined"
                         color="primary"
                         page={currentPage}
@@ -232,38 +249,39 @@ const Doctor = (props) => {
                 setOpen={setOpenCreate}
                 pageCount={pageCount}
                 setCurrentPage={setCurrentPage}
-            // fetchListDoctor={fetchListDoctor}
+                doctorIds={doctorIds}
+                fetchDoctorList={fetchDoctorList}
             />
-            <AssignDoctor
+            {/* <AssignDoctor
                 open={openAssign}
                 setOpen={setOpenAssign}
             // fetchListDoctor={fetchListDoctor}
-            />
-            <DoctorInfo
+            /> */}
+            {/* <DoctorInfo
                 open={openView}
                 setOpen={setOpenView}
                 id={dataView}
                 setDataView={setDataView}
-            />
-            <UpdateDoctor
+            /> */}
+            {/* <UpdateDoctor
                 open={openUpdate}
                 setOpen={setOpenUpdate}
                 // fetchListDoctor={fetchListDoctor}
                 dataUpdate={dataUpdate}
                 setDataUpdate={setDataUpdate}
-            />
-            <DeleteDoctor
+            /> */}
+            {/* <DeleteDoctor
                 open={openDelete}
                 setOpen={setOpenDelete}
                 dataDelete={dataDelete}
                 setDataDelete={setDataDelete}
             // fetchListDoctor={fetchListDoctor}
-            />
-            <AttendanceDoctor
+            /> */}
+            {/* <AttendanceDoctor
 
                 open={openAttendance}
                 setOpen={setOpenAttendance}
-            />
+            /> */}
 
         </div>
     )
