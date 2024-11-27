@@ -20,8 +20,6 @@ const postCreateNewDoctor = (data) => {
   return axios.post("/api/User/create", data);
 };
 
-
-
 const postAssignDoctor = (doctorId, clinicId, specialtiesId) => {
   const data = new FormData();
   data.append("doctorId", doctorId);
@@ -34,27 +32,8 @@ const deleteDoctor = (id) => {
   return axios.delete(`/v1/api/doctors?id=${id}`);
 };
 
-const putUpdateDoctor = (
-  id,
-  name,
-  email,
-  address,
-  gender,
-  phone,
-  qualification,
-  price,
-  doctorImage
-) => {
-  const data = new FormData();
-  data.append("name", name);
-  data.append("email", email);
-  data.append("address", address);
-  data.append("gender", gender);
-  data.append("phone", phone);
-  data.append("qualification", qualification);
-  data.append("price", price);
-  data.append("image", doctorImage);
-  return axios.put(`/v1/api/doctors?id=${id}`, data);
+const putUpdateDoctor = (userId, data) => {
+  return axios.put(`api/User/${userId}/update`, data);
 };
 
 const getAssignDoctor = (id) => {

@@ -23,7 +23,6 @@ import DoctorInfo from "./Modal/DoctorInfo";
 import AssignDoctor from "./Modal/AssignDoctor";
 import DeleteDoctor from "./Modal/DeleteDoctor";
 import UpdateDoctor from "./Modal/UpdateDoctor";
-import AttendanceDoctor from "./Modal/AttendanceDoctor";
 import { getAllUsers, getRole } from "../../../services/userService";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -105,8 +104,6 @@ const Doctor = (props) => {
 
   const [openAssign, setOpenAssign] = useState(false);
 
-  const [openAttendance, setOpenAttendance] = useState(false);
-
   const [openView, setOpenView] = useState(false);
   const [dataView, setDataView] = useState();
 
@@ -126,12 +123,9 @@ const Doctor = (props) => {
     setDataUpdate(data);
   };
 
-  const handleDelteDoctor = (id, name) => {
+  const handleDelteDoctor = (data) => {
     setOpenDelete(true);
-    setDataDelete({
-      id,
-      name,
-    });
+    setDataDelete(data);
   };
 
   return (
@@ -195,9 +189,7 @@ const Doctor = (props) => {
                         <IconButton
                           aria-label="delete"
                           color="error"
-                          onClick={() =>
-                            handleDelteDoctor(doctor.id, doctor.name)
-                          }
+                          onClick={() => handleDelteDoctor(doctor)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -263,25 +255,20 @@ const Doctor = (props) => {
         doctor={dataView}
         setDataView={setDataView}
       />
-      {/* <UpdateDoctor
+      <UpdateDoctor
         open={openUpdate}
         setOpen={setOpenUpdate}
         fetchDoctorList={fetchDoctorList}
         dataUpdate={dataUpdate}
         setDataUpdate={setDataUpdate}
-      /> */}
-      {/* <DeleteDoctor
-                open={openDelete}
-                setOpen={setOpenDelete}
-                dataDelete={dataDelete}
-                setDataDelete={setDataDelete}
-            // fetchListDoctor={fetchListDoctor}
-            /> */}
-      {/* <AttendanceDoctor
-
-                open={openAttendance}
-                setOpen={setOpenAttendance}
-            /> */}
+      />
+      <DeleteDoctor
+        open={openDelete}
+        setOpen={setOpenDelete}
+        dataDelete={dataDelete}
+        setDataDelete={setDataDelete}
+        fetchDoctorList={fetchDoctorList}
+      />
     </div>
   );
 };
