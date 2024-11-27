@@ -22,6 +22,7 @@ import ProfileAdmin from "./component/Admin/Profile";
 import ChangePassword from "./component/Admin/ChangePassword";
 import HomeDoctor from "./component/Doctor/Doctor";
 import Appointment from "./component/Doctor/Appointment";
+import Service from "./component/Admin/Service/Service";
 
 const NotFound = () => {
   return (
@@ -55,10 +56,13 @@ const Layout = () => {
             {/* <Route path="clinic" element={<Clinic />} /> */}
             <Route path="doctor" element={<Doctor />} />
             <Route path="specialties" element={<Specialties />} />
+            <Route path="services" element={<Service />} />
 
           </Route>
         </Route>
-        <Route path="doctor" element={<PrivateRoute allowedRoles={[2]} />}>
+        <Route path="doctor"
+        // element={<PrivateRoute allowedRoles={[2]} />}
+        >
           <Route element={<HomeDoctor />}>
             <Route index element={<Appointment />} />
             <Route path="profile-admin" element={<ProfileAdmin />} />

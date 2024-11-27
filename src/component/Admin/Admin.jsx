@@ -17,7 +17,7 @@ const App = () => {
                     <SidebarItem icon={<DashboardOutlinedIcon size={20} />} text="Dashboard" to='/admin' />
                     <SidebarItem icon={<MasksOutlinedIcon size={20} />} text="Quản lý bác sĩ" to='doctor' />
                     <SidebarItem icon={<VaccinesOutlinedIcon size={20} />} text="Quản lý chuyên khoa" to="specialties" />
-                    <SidebarItem icon={<MedicalServicesOutlinedIcon size={20} />} text="Quản lý dịch vụ" to="specialties" />
+                    <SidebarItem icon={<MedicalServicesOutlinedIcon size={20} />} text="Quản lý dịch vụ" to="services" />
                     <hr className="my-3 border-t-2" />
                     <SidebarItem icon={<SettingsOutlinedIcon size={20} />} text="Settings" >
                         <SidebarItem icon={<AccountBoxOutlinedIcon size={16} />} text="Profile" to='profile-admin' />

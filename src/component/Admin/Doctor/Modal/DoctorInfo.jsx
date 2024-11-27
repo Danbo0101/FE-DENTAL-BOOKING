@@ -126,17 +126,15 @@ const DoctorInfo = (props) => {
                   className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
                   type="text"
                   placeholder="Số điện thoại"
-                  //   value={phone}
+                  value={doctor.phone}
                   disabled
-                  // onChange={(e) => setPhone(e.target.value)}
                 />
                 <input
                   className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
                   type="text"
                   placeholder="Giá khám"
-                  //   value={price}
+                  value={doctor.iD_Number}
                   disabled
-                  // onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
               {/* <div className="w-full flex justify-center outline-dotted outline-slate-200">

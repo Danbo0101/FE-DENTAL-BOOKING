@@ -47,37 +47,29 @@ const UpdateDoctor = (props) => {
         setValue(newValue);
     };
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [address, setAddress] = useState("");
-    const [gender, setGender] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [iD_Number, setID_Number] = useState("");
     const [phone, setPhone] = useState("");
-    const [qualification, setQualification] = useState("");
-    const [price, setPrice] = useState("");
-    const [image, setImage] = useState("");
+    const [email, setEmail] = useState("");
+    const [gender, setGender] = useState("");
+    const [birthday, setBirthday] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [image_Url, setImage_Url] = useState("")
     const [nameImage, setNameImage] = useState("")
     const [previewImage, setPreviewImage] = useState("");
 
     const [optionSpecialties, setOptionSpecialties] = useState({});
-    const [optionClinic, setOptionClinic] = useState({});
 
     const [specialties, setSpecialties] = useState("");
-    const [clinic, setClinic] = useState("");
 
-
-    const handleUploadImage = (event) => {
-        if (event.target && event.target.files && event.target.files[0]) {
-            setNameImage(event.target.files[0].name);
-            setPreviewImage(URL.createObjectURL(event.target.files[0]))
-            setImage(event.target.files[0])
-        }
-    }
-
-    const bufferToDataURL = (buffer) => {
-        const blob = new Blob([new Uint8Array(buffer.data)], { type: 'image/jpeg' });
-        const url = URL.createObjectURL(blob);
-        return url;
-    }
+    // const handleUploadImage = (event) => {
+    //     if (event.target && event.target.files && event.target.files[0]) {
+    //         setNameImage(event.target.files[0].name);
+    //         setPreviewImage(URL.createObjectURL(event.target.files[0]))
+    //         setImage(event.target.files[0])
+    //     }
+    // }
 
     const checkPhoneNumber = (phoneNumber) => {
         phoneNumber = phoneNumber.replace(/[^\d]/g, '');
@@ -85,23 +77,20 @@ const UpdateDoctor = (props) => {
         return PhonePattern.test(phoneNumber);
     }
 
-
-
     const resetData = () => {
-        setName("");
-        setEmail("");
-        setAddress("");
-        setGender("");
+        setFullName("");
+        setID_Number("");
         setPhone("");
-        setQualification("");
-        setPrice("");
+        setEmail("");
+        setGender("");
+        setBirthday("");
+        setUsername("");
+        setPassword("");
         setNameImage("");
         setImage("");
         setPreviewImage("");
         setOptionSpecialties({});
-        setOptionClinic({});
         setSpecialties("");
-        setClinic("");
         setValue('1')
         props.setOpen(false);
     }
@@ -110,37 +99,20 @@ const UpdateDoctor = (props) => {
     useEffect(() => {
         async function fetchData() {
             if (dataUpdate) {
-                setName(dataUpdate.name);
-                setEmail(dataUpdate.email);
-                setAddress(dataUpdate.address);
-                setGender(dataUpdate.gender);
-                setPhone(dataUpdate.phone);
-                setQualification(dataUpdate.qualification);
-                setPrice(dataUpdate.price);
-                setImage(dataUpdate.image);
-                const url = await bufferToDataURL(dataUpdate.image);
-                setPreviewImage(url);
+                setFullName(dataUpdate.name);
+                setID_Number(dataUpdate.email);
+                setPhone(dataUpdate.address);
+                setEmail(dataUpdate.gender);
+                setGender(dataUpdate.phone);
+                setBirthday(dataUpdate.qualification);
+                setUsername(dataUpdate.price);
+                setPassword()
             }
         }
         fetchData();
-        fectchAssignDoctor();
         fetchOptionSpecialties();
-        fetchOptionClinic();
 
     }, [dataUpdate])
-
-    const fectchAssignDoctor = async () => {
-
-        let result = await getAssignDoctor(dataUpdate.id);
-        console.log(result)
-        if (result.ER === 0) {
-            setClinic(result.data.clinicId,);
-            setSpecialties(result.data.specialtiesId);
-        }
-        else {
-            console.log(result.message);
-        }
-    }
 
     const fetchOptionSpecialties = async () => {
         let result = await getAllSpecialties();
@@ -155,18 +127,7 @@ const UpdateDoctor = (props) => {
         }
     }
 
-    const fetchOptionClinic = async () => {
-        let result = await getAllClinic();
-        if (result.ER === 0) {
-            let options = result.data.map(item => ({
-                id: item.id,
-                name: item.name
-            }));
-            setOptionClinic(options);
-        } else {
-            console.log(result.message);
-        }
-    }
+
 
 
     const handleSubmitUpdate = async () => {

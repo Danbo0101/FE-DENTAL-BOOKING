@@ -13,7 +13,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
 import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
-import { getDoctorPagination } from "../../../services/doctorService";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
@@ -94,7 +93,7 @@ const Doctor = (props) => {
   }, [doctorIds]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 4;
 
   const pageCount = Math.ceil(listDoctor.length / itemsPerPage);
   const currentData = listDoctor.slice(
@@ -265,12 +264,12 @@ const Doctor = (props) => {
         setDataView={setDataView}
       />
       {/* <UpdateDoctor
-                open={openUpdate}
-                setOpen={setOpenUpdate}
-                // fetchListDoctor={fetchListDoctor}
-                dataUpdate={dataUpdate}
-                setDataUpdate={setDataUpdate}
-            /> */}
+        open={openUpdate}
+        setOpen={setOpenUpdate}
+        fetchDoctorList={fetchDoctorList}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+      /> */}
       {/* <DeleteDoctor
                 open={openDelete}
                 setOpen={setOpenDelete}
