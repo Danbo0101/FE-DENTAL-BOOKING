@@ -1,4 +1,4 @@
-import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
+import LocalHospitalOutlinedIcon from '@mui/icons-material/LocalHospitalOutlined';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,11 +13,12 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import { useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { getSpecialtiesPagination } from '../../../services/specialtiesService';
+import { getServices, getSpecialtiesPagination } from '../../../services/specialtiesService';
 import CreateSpecialties from './Modal/CreateSpecialties';
 import SpecialtiesInfo from './Modal/SpecialtiesInfo';
 import UpdateSpecialties from './Modal/UpdateClinic';
 import DeleteSpecialties from './Modal/DeleteSpecialties';
+import CreatService from './Modal/CreateSpecialties';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -46,8 +47,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Service = (props) => {
 
     const [listService, setListService] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
-    // const [openCreate, setOpenCreate] = useState(false);
+    const [openCreate, setOpenCreate] = useState(false);
 
     // const [openView, setOpenView] = useState(false);
     // const [dataView, setDataView] = useState();
@@ -58,8 +61,23 @@ const Service = (props) => {
     // const [openDelete, setOpenDelete] = useState(false);
     // const [dataDelete, setDataDelete] = useState();
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 4;
+    useEffect(() => {
+        fetchListService();
+    }, [currentPage])
+
+    const fetchListService = async () => {
+
+        let result = await getServices();
+        if (result.success) {
+            setListService(result.data);
+            return;
+        }
+        else {
+            console.log(result.message)
+        }
+
+    }
+
 
     const pageCount = Math.ceil(listService.length / itemsPerPage);
     const currentData = listService.slice(
@@ -67,23 +85,7 @@ const Service = (props) => {
         currentPage * itemsPerPage
     );
 
-    useEffect(() => {
-        fetchListSpecialties();
-    }, [currentPage])
 
-    const fetchListSpecialties = async () => {
-
-        let data = await getSpecialtiesPagination(currentPage, LIMIT);
-        if (data.ER === 0) {
-            setListSpecialties(data);
-            setPageCount(data.totalPage);
-            return;
-        }
-        else {
-            console.log(data.message)
-        }
-
-    }
 
     // const handleViewSpecialties = (id, name, description, image) => {
     //     setOpenView(true);
@@ -117,86 +119,80 @@ const Service = (props) => {
     return (
         <div className="flex flex-col w-full h-full py-10 px-16">
             <div className='flex justify-between items-center text-2xl font-semibold pb-5'>
-                Quản lý Chuyên Khoa
+                Quản lý Dịch Vụ
                 <div onClick={() => setOpenCreate(true)}>
-                    <HealthAndSafetyOutlinedIcon sx={{ fontSize: "30px", color: "limegreen", cursor: "pointer" }} />
+                    <LocalHospitalOutlinedIcon sx={{ fontSize: "30px", color: "limegreen", cursor: "pointer" }} />
                 </div>
             </div>
             <hr className="my-3 border-t" />
-            {
-                listSpecialties
-                    ?
-                    <div className='pt-5'>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align='center'>ID</StyledTableCell>
-                                        <StyledTableCell align="center">Name</StyledTableCell>
-                                        <StyledTableCell align="center">Action</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {listSpecialties.data && listSpecialties.data.length > 0 &&
-                                        listSpecialties.data.map((specialties, index) => {
-                                            return (
-                                                <StyledTableRow
-                                                    key={specialties.id}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+
+            <div className='pt-5'>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell align='center'>ID</StyledTableCell>
+                                <StyledTableCell align="center">Name</StyledTableCell>
+                                <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {currentData && currentData.length > 0 &&
+                                currentData.map((service, index) => {
+                                    return (
+                                        <StyledTableRow
+                                            key={service.service_Id}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <StyledTableCell component="th" scope="row" align='center'>
+                                                {index}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{service.name}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <IconButton aria-label="info" color='info'
+                                                    onClick={() => handleViewSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
                                                 >
-                                                    <StyledTableCell component="th" scope="row" align='center'>
-                                                        {specialties.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">{specialties.name}</StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        <IconButton aria-label="info" color='info'
-                                                            onClick={() => handleViewSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
-                                                        >
-                                                            <InfoOutlinedIcon />
-                                                        </IconButton>
-                                                        <IconButton aria-label="update" color='warning'
-                                                            onClick={() => handleUpdateSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
-                                                        >
-                                                            <UpdateOutlinedIcon />
-                                                        </IconButton>
-                                                        <IconButton aria-label="delete" color='error'
-                                                            onClick={() => handleDelteSpecialties(specialties.id, specialties.name)}
-                                                        >
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            )
-                                        })
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <div className=' flex items-center justify-center p-8'>
-                            <Pagination
-                                count={pageCount}
-                                variant="outlined"
-                                color="primary"
-                                page={currentPage}
-                                onChange={(e, value) => setCurrentPage(value)}
-                            />
-                        </div>
+                                                    <InfoOutlinedIcon />
+                                                </IconButton>
+                                                <IconButton aria-label="update" color='warning'
+                                                // onClick={() => handleUpdateSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
+                                                >
+                                                    <UpdateOutlinedIcon />
+                                                </IconButton>
+                                                <IconButton aria-label="delete" color='error'
+                                                // onClick={() => handleDelteSpecialties(specialties.id, specialties.name)}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    )
+                                })
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <div className=' flex items-center justify-center p-8'>
+                    <Pagination
+                        count={pageCount}
+                        variant="outlined"
+                        color="primary"
+                        page={currentPage}
+                        onChange={(e, value) => setCurrentPage(value)}
+                    />
+                </div>
 
-                    </div>
-                    :
-                    <>
-                    </>
+            </div>
 
-            }
 
-            <CreateSpecialties
+            <CreatService
                 open={openCreate}
                 setOpen={setOpenCreate}
-                fetchListSpecialties={fetchListSpecialties}
+                fetchListService={fetchListService}
                 pageCount={pageCount}
                 setCurrentPage={setCurrentPage}
             />
-            <SpecialtiesInfo
+            {/*  <SpecialtiesInfo
                 open={openView}
                 setOpen={setOpenView}
                 dataView={dataView}
@@ -215,7 +211,7 @@ const Service = (props) => {
                 dataDelete={dataDelete}
                 setDataDelete={setDataDelete}
                 fetchListSpecialties={fetchListSpecialties}
-            />
+            /> */}
 
         </div>
     )

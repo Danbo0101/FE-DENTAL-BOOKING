@@ -1,5 +1,13 @@
 import axios from "../utils/axiosCustomize";
 
+const getServices = () => {
+    return axios.get(`/api/Service/get-all`);
+}
+
+const postCreateService = (data) => {
+    return axios.post(`/api/Service/create`, data);
+}
+
 
 const getSpecialtiesPagination = (page, limit) => {
     return axios.get(`/v1/api/specialties?page=${page}&limit=${limit}`);
@@ -46,6 +54,8 @@ const getBookingOfSpecialties = (specialtiesId) => {
 }
 
 export {
+    getServices,
+    postCreateService,
     getAllSpecialties,
     getSpecialtiesPagination,
     postCreateNewSpecialties,

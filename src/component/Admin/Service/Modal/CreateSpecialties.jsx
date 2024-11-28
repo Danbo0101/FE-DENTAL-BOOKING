@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { postCreateNewSpecialties } from '../../../../services/specialtiesService';
+import { postCreateNewSpecialties, postCreateService } from '../../../../services/specialtiesService';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -19,7 +19,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const CreateSpecialties = (props) => {
+const CreatService = (props) => {
     const { open, pageCount } = props
 
     const handleClose = () => {
@@ -32,6 +32,7 @@ const CreateSpecialties = (props) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [price, setPrice] = useState();
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -45,6 +46,7 @@ const CreateSpecialties = (props) => {
     const resetData = () => {
         setName("");
         setDescription("");
+        setPrice();
         setImage("");
         setPreviewImage("");
         props.setOpen(false);
@@ -59,17 +61,27 @@ const CreateSpecialties = (props) => {
             toast.warn("Vui lòng nhập mô tả của chuyên khoa")
             return;
         }
+        else if (!price) {
+            toast.warn("Vui lòng nhập giá của dịch vụ")
+            return;
+        }
 
-        let result = await postCreateNewSpecialties(name, description, image);
-        if (result.ER === 0) {
-            toast.success("Thêm Chuyên Khoa Thành Công");
-            props.fetchListSpecialties();
-            props.setCurrentPage(pageCount)
+        let data = {
+            name: name,
+            description: description,
+            price: price,
+            image_Url: "string"
+        }
+
+        let result = await postCreateService(data);
+        if (result.success) {
+            toast.success("Thêm Dịch Vụ Thành Công");
+            props.fetchListService();
             resetData();
 
         }
         else {
-            toast.error("Thêm Chuyên Khoa Thất Bại")
+            toast.error("Thêm Dịch Vụ Thất Bại")
         }
     }
 
@@ -83,7 +95,7 @@ const CreateSpecialties = (props) => {
             fullWidth
         >
             <DialogTitle sx={{ m: 0, p: 2, fontSize: "20px", fontWeight: "500" }} id="customized-dialog-title">
-                Tạo mới Chuyên Khoa
+                Tạo mới Dịch Vụ
             </DialogTitle>
             <DialogContent dividers>
                 <div className="mx-10 flex flex-col gap-5">
@@ -123,6 +135,13 @@ const CreateSpecialties = (props) => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+                    <input
+                        className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                        type="text"
+                        placeholder="Giá dịch vụ"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                    />
                 </div>
             </DialogContent>
             <DialogActions>
@@ -146,4 +165,4 @@ const CreateSpecialties = (props) => {
     )
 }
 
-export default CreateSpecialties;
+export default CreatService;
