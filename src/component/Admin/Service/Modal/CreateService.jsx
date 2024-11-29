@@ -136,7 +136,7 @@ const CreatService = (props) => {
           />
           <input
             className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-            type="text"
+            type="number"
             placeholder="Giá dịch vụ"
             value={price}
             onChange={(e) => setPrice(e.target.value)}

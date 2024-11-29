@@ -13,14 +13,12 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
 import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
-import {
-  getServices,
-  getSpecialtiesPagination,
-} from "../../../services/specialtiesService";
-import SpecialtiesInfo from "./Modal/ServiceInfo";
-import UpdateSpecialties from "./Modal/UpdateClinic";
-import DeleteSpecialties from "./Modal/DeleteSpecialties";
+import { getServices } from "../../../services/specialtiesService";
+import { formatCurrencyVND } from "../../../utils/general";
 import CreatService from "./Modal/CreateService";
+import ServiceInfo from "./Modal/ServiceInfo";
+import UpdateService from "./Modal/UpdateService";
+import DeleteService from "./Modal/DeleteService";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -51,14 +49,14 @@ const Service = (props) => {
 
   const [openCreate, setOpenCreate] = useState(false);
 
-  // const [openView, setOpenView] = useState(false);
-  // const [dataView, setDataView] = useState();
+  const [openView, setOpenView] = useState(false);
+  const [dataView, setDataView] = useState();
 
-  // const [openUpdate, setOpenUpdate] = useState(false);
-  // const [dataUpdate, setDataUpdate] = useState();
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState();
 
-  // const [openDelete, setOpenDelete] = useState(false);
-  // const [dataDelete, setDataDelete] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState();
 
   useEffect(() => {
     fetchListService();
@@ -80,34 +78,20 @@ const Service = (props) => {
     currentPage * itemsPerPage
   );
 
-  // const handleViewSpecialties = (id, name, description, image) => {
-  //     setOpenView(true);
-  //     setDataView({
-  //         id,
-  //         name,
-  //         description,
-  //         image
-  //     });
-  // }
+  const handleViewService = (data) => {
+    setOpenView(true);
+    setDataView(data);
+  };
 
-  // const handleUpdateSpecialties = (id, name, description, image) => {
-  //     setOpenUpdate(true);
-  //     setDataUpdate({
-  //         id,
-  //         name,
-  //         description,
-  //         image
-  //     });
-  // }
+  const handleUpdateService = (data) => {
+    setOpenUpdate(true);
+    setDataUpdate(data);
+  };
 
-  // const handleDelteSpecialties = (id, name) => {
-  //     setOpenDelete(true);
-  //     setDataDelete({
-  //         id,
-  //         name,
-
-  //     });
-  // }
+  const handleDeleteService = (data) => {
+    setOpenDelete(true);
+    setDataDelete(data);
+  };
 
   return (
     <div className="flex flex-col w-full h-full py-10 px-16">
@@ -127,7 +111,8 @@ const Service = (props) => {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="center">ID</StyledTableCell>
-                <StyledTableCell align="center">Name</StyledTableCell>
+                <StyledTableCell align="center">Tên Dịch Vụ</StyledTableCell>
+                <StyledTableCell align="center">Gía Dịch Vụ</StyledTableCell>
                 <StyledTableCell align="center">Action</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -151,31 +136,27 @@ const Service = (props) => {
                         {service.name}
                       </StyledTableCell>
                       <StyledTableCell align="center">
+                        {formatCurrencyVND(service.price)}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
                         <IconButton
                           aria-label="info"
                           color="info"
-                          onClick={() =>
-                            handleViewSpecialties(
-                              specialties.id,
-                              specialties.name,
-                              specialties.description,
-                              specialties.image
-                            )
-                          }
+                          onClick={() => handleViewService(service)}
                         >
                           <InfoOutlinedIcon />
                         </IconButton>
                         <IconButton
                           aria-label="update"
                           color="warning"
-                          // onClick={() => handleUpdateSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
+                          onClick={() => handleUpdateService(service)}
                         >
                           <UpdateOutlinedIcon />
                         </IconButton>
                         <IconButton
                           aria-label="delete"
                           color="error"
-                          // onClick={() => handleDelteSpecialties(specialties.id, specialties.name)}
+                          onClick={() => handleDeleteService(service)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -204,26 +185,26 @@ const Service = (props) => {
         pageCount={pageCount}
         setCurrentPage={setCurrentPage}
       />
-      {/*  <SpecialtiesInfo
-                open={openView}
-                setOpen={setOpenView}
-                dataView={dataView}
-                setDataView={setDataView}
-            />
-            <UpdateSpecialties
-                open={openUpdate}
-                setOpen={setOpenUpdate}
-                fetchListSpecialties={fetchListSpecialties}
-                dataUpdate={dataUpdate}
-                setDataUpdate={setDataUpdate}
-            />
-            <DeleteSpecialties
-                open={openDelete}
-                setOpen={setOpenDelete}
-                dataDelete={dataDelete}
-                setDataDelete={setDataDelete}
-                fetchListSpecialties={fetchListSpecialties}
-            /> */}
+      <ServiceInfo
+        open={openView}
+        setOpen={setOpenView}
+        dataView={dataView}
+        setDataView={setDataView}
+      />
+      <UpdateService
+        open={openUpdate}
+        setOpen={setOpenUpdate}
+        fetchListService={fetchListService}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+      />
+      <DeleteService
+        open={openDelete}
+        setOpen={setOpenDelete}
+        dataDelete={dataDelete}
+        setDataDelete={setDataDelete}
+        fetchListService={fetchListService}
+      />
     </div>
   );
 };

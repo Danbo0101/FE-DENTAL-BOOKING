@@ -1,67 +1,73 @@
 import axios from "../utils/axiosCustomize";
 
 const getServices = () => {
-    return axios.get(`/api/Service/get-all`);
-}
+  return axios.get(`/api/Service/get-all`);
+};
 
 const postCreateService = (data) => {
-    return axios.post(`/api/Service/create`, data);
-}
+  return axios.post(`/api/Service/create`, data);
+};
 
+const putUpdateService = (serviceId, data) => {
+  return axios.put(`/api/Service/${serviceId}/update`, data);
+};
 
 const getSpecialtiesPagination = (page, limit) => {
-    return axios.get(`/v1/api/specialties?page=${page}&limit=${limit}`);
-}
+  return axios.get(`/v1/api/specialties?page=${page}&limit=${limit}`);
+};
 
 const getAllSpecialties = () => {
-    return axios.get(`/v1/api/specialties`);
-}
+  return axios.get(`/v1/api/specialties`);
+};
 
 const getSpecialtiesInfo = (id) => {
-    return axios.get(`/v1/api/specialties-info?specialtiesId=${id}`);
-}
+  return axios.get(`/v1/api/specialties-info?specialtiesId=${id}`);
+};
 
 const getDoctorSpecialties = (id) => {
-    return axios.get(`/v1/api/doctors-specialties?specialtiesId=${id}`);
-}
+  return axios.get(`/v1/api/doctors-specialties?specialtiesId=${id}`);
+};
 
 // const getSpecialtiesInfo = (id) => {
 //     return axios.get(`/v1/api/clinic-info?clinicId=${id}`);
 // }
 
 const postCreateNewSpecialties = (name, description, specialtiesImage) => {
-    const data = new FormData();
-    data.append('name', name);
-    data.append('description', description);
-    data.append('image', specialtiesImage);
-    return axios.post('/v1/api/specialties', data);
-}
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("image", specialtiesImage);
+  return axios.post("/v1/api/specialties", data);
+};
 
 const putUpdateSpecialties = (id, name, description, specialtiesImage) => {
-    const data = new FormData();
-    data.append('name', name);
-    data.append('description', description);
-    data.append('image', specialtiesImage);
-    return axios.put(`/v1/api/specialties?id=${id}`, data);
-}
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("image", specialtiesImage);
+  return axios.put(`/v1/api/specialties?id=${id}`, data);
+};
 
 const deleteSpecialties = (id) => {
-    return axios.delete(`/v1/api/specialties?id=${id}`);
-}
+  return axios.delete(`/v1/api/specialties?id=${id}`);
+};
 
 const getBookingOfSpecialties = (specialtiesId) => {
-    return axios.get(`/v1/api/specialties-booking?specialtiesId=${specialtiesId}`)
-}
+  return axios.get(
+    `/v1/api/specialties-booking?specialtiesId=${specialtiesId}`
+  );
+};
 
 export {
-    getServices,
-    postCreateService,
-    getAllSpecialties,
-    getSpecialtiesPagination,
-    postCreateNewSpecialties,
-    putUpdateSpecialties,
-    deleteSpecialties,
-    getSpecialtiesInfo,
-    getDoctorSpecialties,
-    getBookingOfSpecialties
-}
+  getServices,
+  postCreateService,
+  putUpdateService,
+  getAllSpecialties,
+  getSpecialtiesPagination,
+  postCreateNewSpecialties,
+  putUpdateSpecialties,
+  deleteSpecialties,
+  getSpecialtiesInfo,
+  getDoctorSpecialties,
+  getBookingOfSpecialties,
+};

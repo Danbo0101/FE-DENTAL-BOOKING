@@ -5,6 +5,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { useEffect, useState } from "react";
+import { formatCurrencyVND } from "../../../../utils/general";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -23,7 +24,6 @@ const ServiceInfo = (props) => {
       onClose(event, reason);
     }
   };
-
   const resetData = () => {
     props.setDataView("");
     props.setOpen(false);
@@ -51,26 +51,31 @@ const ServiceInfo = (props) => {
                 className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                 type="text"
                 placeholder="Tên"
-                value={name}
-                // onChange={(e) => setName(e.target.value)}
+                value={dataView.name}
                 disabled
               />
               <textarea
                 className="w-full h-20 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
                 type="text"
                 placeholder="Mô tả"
-                value={description}
-                // onChange={(e) => setDescription(e.target.value)}
+                value={dataView.description}
                 disabled
               />
-              <div className="w-full flex justify-center">
+              <input
+                className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                type="text"
+                placeholder="Tên"
+                value={formatCurrencyVND(dataView.price)}
+                disabled
+              />
+              {/* <div className="w-full flex justify-center">
                 {previewImage ? (
                   <img src={previewImage} className="w-72 h-48" />
                 ) : (
                   <></>
                 )}
-                {/* <span>Preview Image</span> */}
-              </div>
+                <span>Preview Image</span>
+              </div> */}
             </div>
           </DialogContent>
           <DialogActions>
