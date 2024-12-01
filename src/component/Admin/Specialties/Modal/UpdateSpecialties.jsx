@@ -32,6 +32,7 @@ const UpdateSpecialties = (props) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [serviceSpecialists, setServiceSpecialists] = useState([]);
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -45,32 +46,26 @@ const UpdateSpecialties = (props) => {
     const resetData = () => {
         setName("");
         setDescription("");
+        setServiceSpecialists([]);
         setImage("");
         setPreviewImage("");
         props.setDataUpdate("");
         props.setOpen(false);
     }
 
-    const bufferToDataURL = (buffer) => {
-        const blob = new Blob([new Uint8Array(buffer.data)], { type: 'image/jpeg' });
-        const url = URL.createObjectURL(blob);
-        return url;
-    }
-
-
     useEffect(() => {
         async function fetchData() {
             if (dataUpdate) {
                 setName(dataUpdate.name);
                 setDescription(dataUpdate.description);
-                setImage(dataUpdate.image);
-                const url = await bufferToDataURL(dataUpdate.image);
-                setPreviewImage(url);
+                setServiceSpecialists(dataUpdate.serviceSpecialists);
+                // setImage(dataUpdate.image);
+                // setPreviewImage(url);
             }
         }
         fetchData();
 
-    }, [dataUpdate])
+    }, [dataUpdate, open])
 
 
     const handleSubmitUpdate = async () => {

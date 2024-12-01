@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react';
 import { getAllDoctor, postAssignDoctor } from '../../../../services/doctorService';
 import { getAllClinic } from '../../../../services/clinicService';
-import { getAllSpecialties } from '../../../../services/specialtiesService';
+import { getSpecialties } from '../../../../services/specialtiesService';
 import { toast } from 'react-toastify';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -62,7 +62,7 @@ const AssignDoctor = (props) => {
     }
 
     const fetchOptionSpecialties = async () => {
-        let result = await getAllSpecialties();
+        let result = await getSpecialties();
         if (result.ER === 0) {
             let options = result.data.map(item => ({
                 id: item.id,

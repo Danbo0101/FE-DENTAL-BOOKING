@@ -12,32 +12,13 @@ const putUpdateService = (serviceId, data) => {
   return axios.put(`/api/Service/${serviceId}/update`, data);
 };
 
-const getSpecialtiesPagination = (page, limit) => {
-  return axios.get(`/v1/api/specialties?page=${page}&limit=${limit}`);
+
+const getSpecialties = () => {
+  return axios.get(`/api/Specialist/get-all`);
 };
 
-const getAllSpecialties = () => {
-  return axios.get(`/v1/api/specialties`);
-};
-
-const getSpecialtiesInfo = (id) => {
-  return axios.get(`/v1/api/specialties-info?specialtiesId=${id}`);
-};
-
-const getDoctorSpecialties = (id) => {
-  return axios.get(`/v1/api/doctors-specialties?specialtiesId=${id}`);
-};
-
-// const getSpecialtiesInfo = (id) => {
-//     return axios.get(`/v1/api/clinic-info?clinicId=${id}`);
-// }
-
-const postCreateNewSpecialties = (name, description, specialtiesImage) => {
-  const data = new FormData();
-  data.append("name", name);
-  data.append("description", description);
-  data.append("image", specialtiesImage);
-  return axios.post("/v1/api/specialties", data);
+const postCreateSpecialties = (data) => {
+  return axios.post("/api/Specialist/create", data);
 };
 
 const putUpdateSpecialties = (id, name, description, specialtiesImage) => {
@@ -62,12 +43,9 @@ export {
   getServices,
   postCreateService,
   putUpdateService,
-  getAllSpecialties,
-  getSpecialtiesPagination,
-  postCreateNewSpecialties,
+  getSpecialties,
+  postCreateSpecialties,
   putUpdateSpecialties,
   deleteSpecialties,
-  getSpecialtiesInfo,
-  getDoctorSpecialties,
   getBookingOfSpecialties,
 };

@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { postCreateNewSpecialties } from '../../../../services/specialtiesService';
+import { postCreateSpecialties } from '../../../../services/specialtiesService';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -32,6 +32,7 @@ const CreateSpecialties = (props) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [serviceSpecialists, setServiceSpecialists] = useState([]);
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -45,7 +46,8 @@ const CreateSpecialties = (props) => {
     const resetData = () => {
         setName("");
         setDescription("");
-        setImage("");
+        setServiceSpecialists([]);
+        setImage("")
         setPreviewImage("");
         props.setOpen(false);
     }
@@ -60,13 +62,18 @@ const CreateSpecialties = (props) => {
             return;
         }
 
-        let result = await postCreateNewSpecialties(name, description, image);
-        if (result.ER === 0) {
+        let data = {
+            name,
+            description,
+            service_specialists: serviceSpecialists
+        }
+
+        let result = await postCreateSpecialties(data);
+        if (result.success) {
             toast.success("Thêm Chuyên Khoa Thành Công");
             props.fetchListSpecialties();
             props.setCurrentPage(pageCount)
             resetData();
-
         }
         else {
             toast.error("Thêm Chuyên Khoa Thất Bại")

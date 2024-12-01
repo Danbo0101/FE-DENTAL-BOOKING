@@ -244,11 +244,11 @@ const Doctor = (props) => {
         doctorIds={doctorIds}
         fetchDoctorList={fetchDoctorList}
       />
-      {/* <AssignDoctor
-                open={openAssign}
-                setOpen={setOpenAssign}
-            // fetchListDoctor={fetchListDoctor}
-            /> */}
+      <AssignDoctor
+        open={openAssign}
+        setOpen={setOpenAssign}
+        fetchDoctorList={fetchDoctorList}
+      />
       <DoctorInfo
         open={openView}
         setOpen={setOpenView}

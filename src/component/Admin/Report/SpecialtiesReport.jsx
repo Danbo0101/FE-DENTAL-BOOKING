@@ -25,7 +25,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
-import { getAllSpecialties } from '../../../services/specialtiesService';
+import { getSpecialties } from '../../../services/specialtiesService';
 import { getSpecialtiesReport } from '../../../services/reportService';
 
 
@@ -55,7 +55,7 @@ const SpecialtiesReport = (props) => {
     const [doctorList, setDoctorList] = useState([]);
 
     const fetchOptionSpecialties = async () => {
-        let result = await getAllSpecialties();
+        let result = await getSpecialties();
         if (result.ER === 0) {
             let options = result.data.map(item => ({
                 id: item.id,

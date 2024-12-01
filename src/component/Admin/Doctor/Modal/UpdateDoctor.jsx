@@ -21,7 +21,7 @@ import {
   putUpdateAssignDoctor,
   putUpdateDoctor,
 } from "../../../../services/doctorService";
-import { getAllSpecialties } from "../../../../services/specialtiesService";
+import { getSpecialties } from "../../../../services/specialtiesService";
 import { getAllClinic } from "../../../../services/clinicService";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

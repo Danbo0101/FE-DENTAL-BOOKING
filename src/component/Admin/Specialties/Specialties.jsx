@@ -13,10 +13,10 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
 import { useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { getSpecialtiesPagination } from '../../../services/specialtiesService';
+import { getSpecialties } from '../../../services/specialtiesService';
 import CreateSpecialties from './Modal/CreateSpecialties';
 import SpecialtiesInfo from './Modal/SpecialtiesInfo';
-import UpdateSpecialties from './Modal/UpdateClinic';
+import UpdateSpecialties from './Modal/UpdateSpecialties';
 import DeleteSpecialties from './Modal/DeleteSpecialties';
 
 
@@ -46,6 +46,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Specialties = (props) => {
 
     const [listSpecialties, setListSpecialties] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
     const [openCreate, setOpenCreate] = useState(false);
 
@@ -58,20 +60,14 @@ const Specialties = (props) => {
     const [openDelete, setOpenDelete] = useState(false);
     const [dataDelete, setDataDelete] = useState();
 
-    const LIMIT = 5;
-    const [pageCount, setPageCount] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1)
-
     useEffect(() => {
         fetchListSpecialties();
     }, [currentPage])
 
     const fetchListSpecialties = async () => {
-
-        let data = await getSpecialtiesPagination(currentPage, LIMIT);
-        if (data.ER === 0) {
-            setListSpecialties(data);
-            setPageCount(data.totalPage);
+        let result = await getSpecialties();
+        if (result.success) {
+            setListSpecialties(result.data.data);
             return;
         }
         else {
@@ -80,33 +76,24 @@ const Specialties = (props) => {
 
     }
 
-    const handleViewSpecialties = (id, name, description, image) => {
+    const pageCount = Math.ceil(listSpecialties.length / itemsPerPage);
+    const currentData = listSpecialties.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+
+
+    const handleViewSpecialties = (data) => {
         setOpenView(true);
-        setDataView({
-            id,
-            name,
-            description,
-            image
-        });
+        setDataView(data);
     }
 
-    const handleUpdateSpecialties = (id, name, description, image) => {
+    const handleUpdateSpecialties = (data) => {
         setOpenUpdate(true);
-        setDataUpdate({
-            id,
-            name,
-            description,
-            image
-        });
+        setDataUpdate(data);
     }
 
-    const handleDelteSpecialties = (id, name) => {
+    const handleDelteSpecialties = (data) => {
         setOpenDelete(true);
-        setDataDelete({
-            id,
-            name,
-
-        });
+        setDataDelete(data);
     }
 
     return (
@@ -132,30 +119,30 @@ const Specialties = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {listSpecialties.data && listSpecialties.data.length > 0 &&
-                                        listSpecialties.data.map((specialties, index) => {
+                                    {currentData && currentData.length > 0 &&
+                                        currentData.map((specialties, index) => {
                                             return (
                                                 <StyledTableRow
                                                     key={specialties.id}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <StyledTableCell component="th" scope="row" align='center'>
-                                                        {specialties.id}
+                                                        {index}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="center">{specialties.name}</StyledTableCell>
                                                     <StyledTableCell align="center">
                                                         <IconButton aria-label="info" color='info'
-                                                            onClick={() => handleViewSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
+                                                            onClick={() => handleViewSpecialties(specialties)}
                                                         >
                                                             <InfoOutlinedIcon />
                                                         </IconButton>
                                                         <IconButton aria-label="update" color='warning'
-                                                            onClick={() => handleUpdateSpecialties(specialties.id, specialties.name, specialties.description, specialties.image)}
+                                                            onClick={() => handleUpdateSpecialties(specialties)}
                                                         >
                                                             <UpdateOutlinedIcon />
                                                         </IconButton>
                                                         <IconButton aria-label="delete" color='error'
-                                                            onClick={() => handleDelteSpecialties(specialties.id, specialties.name)}
+                                                            onClick={() => handleDelteSpecialties(specialties)}
                                                         >
                                                             <DeleteIcon />
                                                         </IconButton>
@@ -183,7 +170,6 @@ const Specialties = (props) => {
                     </>
 
             }
-
             <CreateSpecialties
                 open={openCreate}
                 setOpen={setOpenCreate}

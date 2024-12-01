@@ -30,7 +30,6 @@ const DoctorInfo = (props) => {
     props.setDataView("");
     props.setOpen(false);
   };
-
   return (
     <BootstrapDialog
       onClose={handleClose}

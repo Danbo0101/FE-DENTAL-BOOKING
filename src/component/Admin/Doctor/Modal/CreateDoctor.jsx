@@ -8,6 +8,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { postCreateNewDoctor } from "../../../../services/doctorService";
+import { getSpecialties } from "../../../../services/specialtiesService";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -35,9 +36,23 @@ const CreateDoctor = (props) => {
   const [DOB, setDOB] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [specialistId, setSpecialistId] = useState("");
+  const [specialtiesList, setSpecialtiesList] = useState([]);
   const [image, setImage] = useState("");
   const [nameImage, setNameImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
+
+  useEffect(() => {
+    async function fetchSpecialtiesList() {
+      let result = await getSpecialties();
+      if (result.success) {
+        setSpecialtiesList(result.data.data);
+        return;
+      }
+      else { console.log(result.message); }
+    }
+    fetchSpecialtiesList();
+  }, [open]);
 
   const handleUploadImage = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
@@ -68,6 +83,7 @@ const CreateDoctor = (props) => {
     props.setOpen(false);
   };
 
+
   const handleSubmitCreate = async () => {
     if (!fullName) {
       toast.warn("Vui lòng nhập Tên");
@@ -81,6 +97,9 @@ const CreateDoctor = (props) => {
       return;
     } else if (!password) {
       toast.warn("Vui lòng nhập mật khẩu");
+      return;
+    } else if (!specialistId) {
+      toast.warn("Vui lòng chọn chuyên khoa");
       return;
     } else if (!DOB) {
       toast.warn("Vui lòng chọn ngày sinh");
@@ -112,10 +131,12 @@ const CreateDoctor = (props) => {
       phone,
       iD_Number,
       role_Id: doctorIds,
-      Image_Url: "image",
+      Image_Url: image,
       is_Active: true,
+      specialist_Id: specialistId
     };
 
+    // console.log(data);
     let result = await postCreateNewDoctor(data);
     // console.log(result)
     if (result.success) {
@@ -172,6 +193,29 @@ const CreateDoctor = (props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <select
+            id="specialty"
+            name="specialty"
+            value={specialistId}
+            onChange={(e) => setSpecialistId(e.target.value)}
+            className="block custom-select px-8 py-3 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500 rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="" disabled>
+              Chuyên Khoa
+            </option>
+            {specialtiesList && specialtiesList.length > 0 ? (
+              specialtiesList.map((specialty) => (
+                <option key={specialty.specialist_Id} value={specialty.specialist_Id}>
+                  {specialty.name}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Không có chuyên khoa
+              </option>
+            )}
+          </select>
+
           <div className="flex gap-2">
             <input
               type="date"
