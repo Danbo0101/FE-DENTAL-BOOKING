@@ -24,15 +24,24 @@ const DeleteDoctor = (props) => {
     props.setOpen(false);
   };
 
-  const handleDeleteDoctor = async () => {
-    let data = {
-      ...dataDelete,
-      ...{
-        is_Active: false,
-      },
-    };
+  console.log(dataDelete);
 
-    let reult = await putUpdateDoctor(dataDelete.user_Id, data);
+  const handleDeleteDoctor = async () => {
+    let reult = await putUpdateDoctor(
+      dataDelete.user_Id,
+      dataDelete.fullName,
+      dataDelete.email,
+      dataDelete.userName,
+      dataDelete.password,
+      dataDelete.birthday,
+      dataDelete.gender,
+      dataDelete.phone,
+      dataDelete.iD_Number,
+      dataDelete.role_Id,
+      dataDelete.image,
+      dataDelete.specialist_Id,
+      false
+    );
 
     if (reult.success) {
       toast.success("Xóa Bác Sĩ Thành Công");

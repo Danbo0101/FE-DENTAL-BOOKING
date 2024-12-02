@@ -81,8 +81,9 @@ const UpdateDoctor = (props) => {
       if (result.success) {
         setSpecialtiesList(result.data.data);
         return;
+      } else {
+        console.log(result.message);
       }
-      else { console.log(result.message); }
     }
     fetchSpecialtiesList();
   }, [open]);
@@ -121,60 +122,56 @@ const UpdateDoctor = (props) => {
   }, [dataUpdate, open]);
 
   const handleSubmitUpdate = async () => {
-    switch (value) {
-      case "1":
+    if (!fullName) {
+      toast.warn("Không được bỏ trống Tên");
+      return;
+    } else if (!iD_Number) {
+      toast.warn("Không được bỏ trống CCCD");
+      return;
+    } else if (!phone) {
+      toast.warn("Không được bỏ trống số điện thoại");
+      return;
+    } else if (!email) {
+      toast.warn("Vui lòng chọn giới email");
+      return;
+    } else if (!gender) {
+      toast.warn("Vui lòng chọn giới tính");
+      return;
+    } else if (!checkPhoneNumber(phone)) {
+      toast.warn("Số điện thoại không hợp lệ");
+      return;
+    } else if (!birthday) {
+      toast.warn("Vui lòng chọn ngày sinh");
+      return;
+    } else if (!userName) {
+      toast.warn("Không được bỏ trống tên đăng nhập");
+      return;
+    } else if (!password) {
+      toast.warn("Không được bỏ trống mật khẩu");
+      return;
+    }
 
-        console.log(roleId)
-        if (!fullName) {
-          toast.warn("Không được bỏ trống Tên");
-          return;
-        } else if (!iD_Number) {
-          toast.warn("Không được bỏ trống CCCD");
-          return;
-        } else if (!phone) {
-          toast.warn("Không được bỏ trống số điện thoại");
-          return;
-        } else if (!email) {
-          toast.warn("Vui lòng chọn giới email");
-          return;
-        } else if (!gender) {
-          toast.warn("Vui lòng chọn giới tính");
-          return;
-        } else if (!checkPhoneNumber(phone)) {
-          toast.warn("Số điện thoại không hợp lệ");
-          return;
-        } else if (!birthday) {
-          toast.warn("Vui lòng chọn ngày sinh");
-          return;
-        } else if (!userName) {
-          toast.warn("Không được bỏ trống tên đăng nhập");
-          return;
-        } else if (!password) {
-          toast.warn("Không được bỏ trống mật khẩu");
-          return;
-        }
-
-        let result = await putUpdateDoctor(dataUpdate.user_Id, fullName,
-          email,
-          userName,
-          password,
-          birthday,
-          gender,
-          phone,
-          iD_Number,
-          roleId,
-          image,
-          specialistId, true);
-        if (result.success) {
-          toast.success("Cập nhật thông tin bác sĩ thành công");
-          props.fetchDoctorList();
-          resetData();
-        } else {
-          toast.error(result.message);
-        }
-      case "2":
-      default:
-        break;
+    let result = await putUpdateDoctor(
+      dataUpdate.user_Id,
+      fullName,
+      email,
+      userName,
+      password,
+      birthday,
+      gender,
+      phone,
+      iD_Number,
+      roleId,
+      image,
+      specialistId,
+      true
+    );
+    if (result.success) {
+      toast.success("Cập nhật thông tin bác sĩ thành công");
+      props.fetchDoctorList();
+      resetData();
+    } else {
+      toast.error(result.message);
     }
   };
 
@@ -190,158 +187,127 @@ const UpdateDoctor = (props) => {
         sx={{ m: 0, p: 2, fontSize: "20px", fontWeight: "500" }}
         id="customized-dialog-title"
       >
-        <TabContext value={value}>
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              gap: "20px",
-              borderColor: "divider",
-            }}
-          >
-            <TabList
-              onChange={handleChange}
-              aria-label="lab API tabs example"
-              sx={{ width: "100%", display: "flex", paddingLeft: "60px" }}
-            >
-              <Tab
-                label="Sửa thông tin bác sĩ"
-                value="1"
-                sx={{ width: "50%" }}
-              />
-              <Tab
-                label="Sửa thông tin gán bác sĩ"
-                value="2"
-                sx={{ width: "50%" }}
-              />
-            </TabList>
-          </Box>
-        </TabContext>
+        Chỉnh sửa thông tin bác sĩ {fullName}
       </DialogTitle>
       <DialogContent dividers>
-        <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
-            <TabPanel value="1">
-              <div className="mx-10 flex flex-col gap-5">
-                <input
-                  className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="text"
-                  placeholder="Họ và Tên"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-                <input
-                  className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <select
-                  id="specialty"
-                  name="specialty"
-                  value={specialistId}
-                  onChange={(e) => setSpecialistId(e.target.value)}
-                  className="block custom-select px-8 py-3 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500 rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        <div className="mx-10 flex flex-col gap-5">
+          <input
+            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+            type="text"
+            placeholder="Họ và Tên"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <input
+            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <select
+            id="specialty"
+            name="specialty"
+            value={specialistId}
+            onChange={(e) => setSpecialistId(e.target.value)}
+            className="block custom-select px-8 py-3 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500 rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="" disabled>
+              Chuyên Khoa
+            </option>
+            {specialtiesList && specialtiesList.length > 0 ? (
+              specialtiesList.map((specialty) => (
+                <option
+                  key={specialty.specialist_Id}
+                  value={specialty.specialist_Id}
                 >
-                  <option value="" disabled>
-                    Chuyên Khoa
-                  </option>
-                  {specialtiesList && specialtiesList.length > 0 ? (
-                    specialtiesList.map((specialty) => (
-                      <option key={specialty.specialist_Id} value={specialty.specialist_Id}>
-                        {specialty.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" disabled>
-                      Không có chuyên khoa
-                    </option>
-                  )}
-                </select>
-                <input
-                  className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="text"
-                  placeholder="Tên Đăng Nhập"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-                <input
-                  className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="text"
-                  placeholder="Mật khẩu"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <div className="flex gap-2">
-                  <input
-                    type="date"
-                    value={birthday}
-                    onChange={(e) => setBirthday(e.target.value)}
-                    className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  />
-                  <select
-                    id="gender"
-                    name="gender"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  >
-                    <option value="" disabled>
-                      Giới tính
-                    </option>
-                    <option value={true}>Nam</option>
-                    <option value={false}>Nữ</option>
-                  </select>
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                    type="text"
-                    placeholder="Số điện thoại"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                  <input
-                    className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                    type="text"
-                    placeholder="CCCD"
-                    value={iD_Number}
-                    onChange={(e) => setID_Number(e.target.value)}
-                  />
-
-                </div>
-                <div className="flex item-center text-sm">
-                  <label className='"form-label label-upload' htmlFor="labelUpload">
-                    <AddPhotoAlternateIcon
-                      sx={{
-                        fontSize: "30px",
-                        color: "deepskyblue",
-                        cursor: "pointer",
-                      }}
-                    />
-                    {"Thêm hình ảnh"}
-                  </label>
-                  <input
-                    type="file"
-                    id="labelUpload"
-                    hidden
-                    onChange={(event) => handleUploadImage(event)}
-                  />
-                </div>
-                <div className="w-full flex justify-center outline-dotted outline-slate-200">
-                  {previewImage ? (
-                    <img src={previewImage} className="w-32 h-32 p-2" />
-                  ) : (
-                    <></>
-                  )}
-                  {/* <span>Preview Image</span> */}
-                </div>
-              </div>
-            </TabPanel>
-            <TabPanel value="2" sx={{ paddingLeft: "70px" }}></TabPanel>
-          </TabContext>
-        </Box>
+                  {specialty.name}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                Không có chuyên khoa
+              </option>
+            )}
+          </select>
+          <input
+            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+            type="text"
+            placeholder="Tên Đăng Nhập"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <input
+            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+            type="text"
+            placeholder="Mật khẩu"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="flex gap-2">
+            <input
+              type="date"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+            <select
+              id="gender"
+              name="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="" disabled>
+                Giới tính
+              </option>
+              <option value={true}>Nam</option>
+              <option value={false}>Nữ</option>
+            </select>
+          </div>
+          <div className="flex gap-2">
+            <input
+              className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
+              type="text"
+              placeholder="Số điện thoại"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <input
+              className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
+              type="text"
+              placeholder="CCCD"
+              value={iD_Number}
+              onChange={(e) => setID_Number(e.target.value)}
+            />
+          </div>
+          <div className="flex item-center text-sm">
+            <label className='"form-label label-upload' htmlFor="labelUpload">
+              <AddPhotoAlternateIcon
+                sx={{
+                  fontSize: "30px",
+                  color: "deepskyblue",
+                  cursor: "pointer",
+                }}
+              />
+              {"Thêm hình ảnh"}
+            </label>
+            <input
+              type="file"
+              id="labelUpload"
+              hidden
+              onChange={(event) => handleUploadImage(event)}
+            />
+          </div>
+          <div className="w-full flex justify-center outline-dotted outline-slate-200">
+            {previewImage ? (
+              <img src={previewImage} className="w-32 h-32 p-2" />
+            ) : (
+              <></>
+            )}
+            {/* <span>Preview Image</span> */}
+          </div>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button

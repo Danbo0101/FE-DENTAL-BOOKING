@@ -16,7 +16,8 @@ const getDoctorInfoDetail = (id) => {
   return axios.get(`/v1/api/doctor-clinic-specialties?doctorId=${id}`);
 };
 
-const postCreateNewDoctor = (fullName,
+const postCreateNewDoctor = (
+  fullName,
   email,
   userName,
   password,
@@ -26,7 +27,8 @@ const postCreateNewDoctor = (fullName,
   iD_Number,
   role_Id,
   image,
-  specialist_Id) => {
+  specialist_Id
+) => {
   const data = new FormData();
   data.append("fullName", fullName);
   data.append("email", email);
@@ -42,19 +44,9 @@ const postCreateNewDoctor = (fullName,
   return axios.post("/api/User/create", data);
 };
 
-const postAssignDoctor = (doctorId, clinicId, specialtiesId) => {
-  const data = new FormData();
-  data.append("doctorId", doctorId);
-  data.append("clinicId", clinicId);
-  data.append("specialtiesId", specialtiesId);
-  return axios.post("/v1/api/assign-doctor", data);
-};
-
-const deleteDoctor = (id) => {
-  return axios.delete(`/v1/api/doctors?id=${id}`);
-};
-
-const putUpdateDoctor = (userId, fullName,
+const putUpdateDoctor = (
+  userId,
+  fullName,
   email,
   userName,
   password,
@@ -64,7 +56,9 @@ const putUpdateDoctor = (userId, fullName,
   iD_Number,
   role_Id,
   image,
-  specialist_Id, Is_Active) => {
+  specialist_Id,
+  Is_Active
+) => {
   const data = new FormData();
   data.append("fullName", fullName);
   data.append("email", email);
@@ -79,6 +73,18 @@ const putUpdateDoctor = (userId, fullName,
   data.append("specialist_Id", specialist_Id);
   data.append("Is_Active", Is_Active);
   return axios.put(`api/User/${userId}/update`, data);
+};
+
+const postAssignDoctor = (doctorId, clinicId, specialtiesId) => {
+  const data = new FormData();
+  data.append("doctorId", doctorId);
+  data.append("clinicId", clinicId);
+  data.append("specialtiesId", specialtiesId);
+  return axios.post("/v1/api/assign-doctor", data);
+};
+
+const deleteDoctor = (id) => {
+  return axios.delete(`/v1/api/doctors?id=${id}`);
 };
 
 const getAssignDoctor = (id) => {
