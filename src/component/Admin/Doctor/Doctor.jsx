@@ -51,25 +51,26 @@ const Doctor = (props) => {
   const [doctorIds, setDoctorIds] = useState("");
   const [listDoctor, setListDoctor] = useState([]);
 
-  useEffect(() => {
-    const fetchDoctorIds = async () => {
-      try {
-        const result = await getRole();
-        if (result.success) {
-          const ids = result.data
-            .filter((role) => role.name.toLowerCase() === "doctor")
-            .map((role) => role.role_Id);
+  const fetchDoctorIds = async () => {
+    try {
+      const result = await getRole();
+      if (result.success) {
+        const ids = result.data
+          .filter((role) => role.name.toLowerCase() === "doctor")
+          .map((role) => role.role_Id);
 
-          setDoctorIds(ids[0]);
-        } else {
-          console.log(result.message);
-        }
-      } catch (error) {
-        console.error("Error fetching roles:", error);
+        setDoctorIds(ids[0]);
+      } else {
+        console.log(result.message);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchDoctorIds();
-  }, []);
+  }, [listDoctor]);
 
   const fetchDoctorList = async () => {
     try {
@@ -127,6 +128,9 @@ const Doctor = (props) => {
     setOpenDelete(true);
     setDataDelete(data);
   };
+
+  console.log(doctorIds)
+  console.log(listDoctor)
 
   return (
     <div className="flex flex-col w-full h-full py-10 px-16">

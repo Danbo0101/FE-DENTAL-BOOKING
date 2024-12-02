@@ -61,14 +61,7 @@ const CreatService = (props) => {
       return;
     }
 
-    let data = {
-      name: name,
-      description: description,
-      price: price,
-      image_Url: "string",
-    };
-
-    let result = await postCreateService(data);
+    let result = await postCreateService(name, description, price, image);
     if (result.success) {
       toast.success("Thêm Dịch Vụ Thành Công");
       props.fetchListService();
@@ -121,7 +114,7 @@ const CreatService = (props) => {
           </div>
           <div className="w-full flex justify-center">
             {previewImage ? (
-              <img src={previewImage} className="w-72 h-48" />
+              <img src={previewImage} className="w-52 h-48" />
             ) : (
               <></>
             )}

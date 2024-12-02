@@ -1,14 +1,25 @@
 import axios from "../utils/axiosCustomize";
 
 const getServices = () => {
-  return axios.get(`/api/Service/get-all`);
+  return axios.get(`api/Service/get-all`);
 };
 
-const postCreateService = (data) => {
+const postCreateService = (name, description, price, image) => {
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("price", price);
+  data.append("image", image);
   return axios.post(`/api/Service/create`, data);
 };
 
-const putUpdateService = (serviceId, data) => {
+const putUpdateService = (serviceId, name, description, price, image, is_Deleted) => {
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("price", price);
+  data.append("image", image);
+  data.append("is_Deleted", is_Deleted);
   return axios.put(`/api/Service/${serviceId}/update`, data);
 };
 

@@ -33,22 +33,23 @@ const UpdateService = (props) => {
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
-  //   const handleUploadImage = (event) => {
-  //     if (event.target && event.target.files && event.target.files[0]) {
-  //       setPreviewImage(URL.createObjectURL(event.target.files[0]));
-  //       setImage(event.target.files[0]);
-  //     }
-  //   };
+  const handleUploadImage = (event) => {
+    if (event.target && event.target.files && event.target.files[0]) {
+      setPreviewImage(URL.createObjectURL(event.target.files[0]));
+      setImage(event.target.files[0]);
+    }
+  };
 
   const resetData = () => {
     setName("");
     setDescription("");
     setPrice("");
-    // setImage("");
-    // setPreviewImage("");
+    setImage("");
+    setPreviewImage("");
     props.setDataUpdate("");
     props.setOpen(false);
   };
+
 
   useEffect(() => {
     async function fetchData() {
@@ -56,9 +57,8 @@ const UpdateService = (props) => {
         setName(dataUpdate.name);
         setDescription(dataUpdate.description);
         setPrice(dataUpdate.price);
-        setImage(dataUpdate.image);
-        // const url = await bufferToDataURL(dataUpdate.image);
-        // setPreviewImage(url);
+        setImage("");
+        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
       }
     }
     fetchData();
@@ -75,19 +75,7 @@ const UpdateService = (props) => {
       toast.warn("Vui lòng nhập giá của dịch vụ");
     }
 
-    let data = {
-      ...dataUpdate,
-      ...{
-        name,
-        description,
-        price,
-      },
-    };
-
-    delete data.service_Id;
-    console.log(data);
-
-    let result = await putUpdateService(dataUpdate.service_Id, data);
+    let result = await putUpdateService(dataUpdate.service_Id, name, description, price, image, false);
     if (result.success) {
       toast.success("Sửa thông tin dịch vụ Thành Công");
       props.fetchListService();
@@ -112,7 +100,7 @@ const UpdateService = (props) => {
             sx={{ m: 0, p: 2, fontSize: "20px", fontWeight: "500" }}
             id="customized-dialog-title"
           >
-            Cập nhật thông tin chuyên khoa {dataUpdate.name}
+            Cập nhật thông tin Dịch vụ {dataUpdate.name}
           </DialogTitle>
           <DialogContent dividers>
             <div className="mx-10 flex flex-col gap-5">
@@ -143,14 +131,9 @@ const UpdateService = (props) => {
                   onChange={(event) => handleUploadImage(event)}
                 />
               </div>
-              {/* <div className="w-full flex justify-center">
-                {previewImage ? (
-                  <img src={previewImage} className="w-72 h-48" />
-                ) : (
-                  <></>
-                )}
-                <span>Preview Image</span>
-              </div> */}
+              <div className="w-full flex justify-center">
+                <img src={previewImage} className="w-52 h-48" />
+              </div>
               <textarea
                 className="w-full h-20 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
                 type="text"

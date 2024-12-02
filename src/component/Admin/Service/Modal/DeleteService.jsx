@@ -25,17 +25,10 @@ const DeleteService = (props) => {
   };
 
   const handleDeleteService = async () => {
-    let data = {
-      ...dataDelete,
-      ...{
-        is_Deleted: true,
-      },
-    };
-
-    delete data.service_Id;
-
-    let result = await putUpdateService(dataDelete.service_Id, data);
+    console.log(dataDelete.service_Id, dataDelete.name, dataDelete.description, dataDelete.price, dataDelete.image)
+    let result = await putUpdateService(dataDelete.service_Id, dataDelete.name, dataDelete.description, dataDelete.price, dataDelete.image, true);
     if (result.success) {
+      console.log(result.data)
       toast.success("Xóa dịch vụ thành công");
       props.fetchListService();
       resetData();

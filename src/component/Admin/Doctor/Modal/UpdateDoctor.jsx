@@ -54,14 +54,38 @@ const UpdateDoctor = (props) => {
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [username, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [roleId, setRoleId] = useState("");
+  const [specialistId, setSpecialistId] = useState("");
+  const [image, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [specialtiesList, setSpecialtiesList] = useState([]);
+
+  const handleUploadImage = (event) => {
+    if (event.target && event.target.files && event.target.files[0]) {
+      setPreviewImage(URL.createObjectURL(event.target.files[0]));
+      setImage(event.target.files[0]);
+    }
+  };
 
   const checkPhoneNumber = (phoneNumber) => {
     phoneNumber = phoneNumber.replace(/[^\d]/g, "");
     let PhonePattern = /^(0|(\+84))9\d{8}$/;
     return PhonePattern.test(phoneNumber);
   };
+
+  useEffect(() => {
+    async function fetchSpecialtiesList() {
+      let result = await getSpecialties();
+      if (result.success) {
+        setSpecialtiesList(result.data.data);
+        return;
+      }
+      else { console.log(result.message); }
+    }
+    fetchSpecialtiesList();
+  }, [open]);
 
   const resetData = () => {
     setFullName("");
@@ -72,9 +96,8 @@ const UpdateDoctor = (props) => {
     setBirthday("");
     setUserName("");
     setPassword("");
-    // setNameImage("");
-    // setImage("");
-    // setPreviewImage("");
+    setImage("");
+    setPreviewImage("");
     props.setOpen(false);
   };
 
@@ -89,6 +112,9 @@ const UpdateDoctor = (props) => {
         setBirthday(dataUpdate.birthday);
         setUserName(dataUpdate.username);
         setPassword(dataUpdate.password);
+        setRoleId(dataUpdate.role_Id);
+        setSpecialistId(dataUpdate.specialist_Id);
+        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
       }
     }
     fetchData();
@@ -97,6 +123,8 @@ const UpdateDoctor = (props) => {
   const handleSubmitUpdate = async () => {
     switch (value) {
       case "1":
+
+        console.log(roleId)
         if (!fullName) {
           toast.warn("Không được bỏ trống Tên");
           return;
@@ -118,7 +146,7 @@ const UpdateDoctor = (props) => {
         } else if (!birthday) {
           toast.warn("Vui lòng chọn ngày sinh");
           return;
-        } else if (!username) {
+        } else if (!userName) {
           toast.warn("Không được bỏ trống tên đăng nhập");
           return;
         } else if (!password) {
@@ -126,23 +154,17 @@ const UpdateDoctor = (props) => {
           return;
         }
 
-        const data = {
-          ...dataUpdate,
-          ...{
-            fullName,
-            email,
-            username,
-            password,
-            iD_Number,
-            phone,
-            gender,
-            birthday,
-          },
-        };
-
-        delete data.user_Id;
-
-        let result = await putUpdateDoctor(dataUpdate.user_Id, data);
+        let result = await putUpdateDoctor(dataUpdate.user_Id, fullName,
+          email,
+          userName,
+          password,
+          birthday,
+          gender,
+          phone,
+          iD_Number,
+          roleId,
+          image,
+          specialistId, true);
         if (result.success) {
           toast.success("Cập nhật thông tin bác sĩ thành công");
           props.fetchDoctorList();
@@ -206,7 +228,7 @@ const UpdateDoctor = (props) => {
                   type="text"
                   placeholder="Họ và Tên"
                   value={fullName}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
                 <input
                   className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -215,11 +237,33 @@ const UpdateDoctor = (props) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                <select
+                  id="specialty"
+                  name="specialty"
+                  value={specialistId}
+                  onChange={(e) => setSpecialistId(e.target.value)}
+                  className="block custom-select px-8 py-3 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500 rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                  <option value="" disabled>
+                    Chuyên Khoa
+                  </option>
+                  {specialtiesList && specialtiesList.length > 0 ? (
+                    specialtiesList.map((specialty) => (
+                      <option key={specialty.specialist_Id} value={specialty.specialist_Id}>
+                        {specialty.name}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>
+                      Không có chuyên khoa
+                    </option>
+                  )}
+                </select>
                 <input
                   className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="text"
                   placeholder="Tên Đăng Nhập"
-                  value={username}
+                  value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                 />
                 <input
@@ -265,6 +309,33 @@ const UpdateDoctor = (props) => {
                     value={iD_Number}
                     onChange={(e) => setID_Number(e.target.value)}
                   />
+
+                </div>
+                <div className="flex item-center text-sm">
+                  <label className='"form-label label-upload' htmlFor="labelUpload">
+                    <AddPhotoAlternateIcon
+                      sx={{
+                        fontSize: "30px",
+                        color: "deepskyblue",
+                        cursor: "pointer",
+                      }}
+                    />
+                    {"Thêm hình ảnh"}
+                  </label>
+                  <input
+                    type="file"
+                    id="labelUpload"
+                    hidden
+                    onChange={(event) => handleUploadImage(event)}
+                  />
+                </div>
+                <div className="w-full flex justify-center outline-dotted outline-slate-200">
+                  {previewImage ? (
+                    <img src={previewImage} className="w-32 h-32 p-2" />
+                  ) : (
+                    <></>
+                  )}
+                  {/* <span>Preview Image</span> */}
                 </div>
               </div>
             </TabPanel>

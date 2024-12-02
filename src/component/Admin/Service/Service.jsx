@@ -65,6 +65,7 @@ const Service = (props) => {
   const fetchListService = async () => {
     let result = await getServices();
     if (result.success) {
+      console.log(result.data)
       setListService(result.data);
       return;
     } else {

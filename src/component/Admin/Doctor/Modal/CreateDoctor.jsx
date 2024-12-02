@@ -121,24 +121,7 @@ const CreateDoctor = (props) => {
       return;
     }
 
-    const data = {
-      fullName,
-      email,
-      userName,
-      password,
-      birthday: DOB,
-      gender: gender === "true" ? true : false,
-      phone,
-      iD_Number,
-      role_Id: doctorIds,
-      Image_Url: image,
-      is_Active: true,
-      specialist_Id: specialistId
-    };
-
-    // console.log(data);
-    let result = await postCreateNewDoctor(data);
-    // console.log(result)
+    let result = await postCreateNewDoctor(fullName, email, userName, password, DOB, gender, phone, iD_Number, doctorIds, image, specialistId);
     if (result.success) {
       toast.success("Thêm Bác Sĩ Thành Công");
       props.fetchDoctorList();

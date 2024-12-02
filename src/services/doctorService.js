@@ -16,7 +16,29 @@ const getDoctorInfoDetail = (id) => {
   return axios.get(`/v1/api/doctor-clinic-specialties?doctorId=${id}`);
 };
 
-const postCreateNewDoctor = (data) => {
+const postCreateNewDoctor = (fullName,
+  email,
+  userName,
+  password,
+  birthday,
+  gender,
+  phone,
+  iD_Number,
+  role_Id,
+  image,
+  specialist_Id) => {
+  const data = new FormData();
+  data.append("fullName", fullName);
+  data.append("email", email);
+  data.append("username", userName);
+  data.append("password", password);
+  data.append("birthday", birthday);
+  data.append("gender", gender);
+  data.append("phone", phone);
+  data.append("iD_Number", iD_Number);
+  data.append("role_Id", role_Id);
+  data.append("image", image);
+  data.append("specialist_Id", specialist_Id);
   return axios.post("/api/User/create", data);
 };
 
@@ -32,7 +54,30 @@ const deleteDoctor = (id) => {
   return axios.delete(`/v1/api/doctors?id=${id}`);
 };
 
-const putUpdateDoctor = (userId, data) => {
+const putUpdateDoctor = (userId, fullName,
+  email,
+  userName,
+  password,
+  birthday,
+  gender,
+  phone,
+  iD_Number,
+  role_Id,
+  image,
+  specialist_Id, Is_Active) => {
+  const data = new FormData();
+  data.append("fullName", fullName);
+  data.append("email", email);
+  data.append("username", userName);
+  data.append("password", password);
+  data.append("birthday", birthday);
+  data.append("gender", gender);
+  data.append("phone", phone);
+  data.append("iD_Number", iD_Number);
+  data.append("role_Id", role_Id);
+  data.append("image", image);
+  data.append("specialist_Id", specialist_Id);
+  data.append("Is_Active", Is_Active);
   return axios.put(`api/User/${userId}/update`, data);
 };
 

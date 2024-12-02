@@ -4,7 +4,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import { useEffect, useState } from "react";
 import { formatCurrencyVND } from "../../../../utils/general";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -68,14 +67,9 @@ const ServiceInfo = (props) => {
                 value={formatCurrencyVND(dataView.price)}
                 disabled
               />
-              {/* <div className="w-full flex justify-center">
-                {previewImage ? (
-                  <img src={previewImage} className="w-72 h-48" />
-                ) : (
-                  <></>
-                )}
-                <span>Preview Image</span>
-              </div> */}
+              <div className="w-full flex justify-center">
+                <img src={`data:image/jpeg;base64,${dataView.image}`} className="w-52 h-48" />
+              </div>
             </div>
           </DialogContent>
           <DialogActions>

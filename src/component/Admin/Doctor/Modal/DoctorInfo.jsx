@@ -18,8 +18,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const DoctorInfo = (props) => {
   const { open, doctor } = props;
 
-  console.log(doctor);
-
   const handleClose = () => {
     if (reason !== "backdropClick") {
       onClose(event, reason);
@@ -78,7 +76,7 @@ const DoctorInfo = (props) => {
                   className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="email"
                   placeholder="Email"
-                  value={doctor.specialist_Id}
+                  value={doctor.specialist_Name}
                   disabled
                 />
               ) : (
@@ -136,14 +134,9 @@ const DoctorInfo = (props) => {
                   disabled
                 />
               </div>
-              {/* <div className="w-full flex justify-center outline-dotted outline-slate-200">
-            {previewImage ? (
-              <img src={previewImage} className="w-32 h-32 p-2" />
-            ) : (
-              <></>
-            )}
-            <span>Preview Image</span>
-          </div> */}
+              <div className="w-full flex justify-center outline-dotted outline-slate-200">
+                <img src={`data:image/jpeg;base64,${doctor.image}`} className="w-32 h-32 p-2" />
+              </div>
             </div>
           </DialogContent>
           <DialogActions>
