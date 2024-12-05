@@ -32,7 +32,6 @@ const CreateSpecialties = (props) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [serviceSpecialists, setServiceSpecialists] = useState([]);
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -46,7 +45,6 @@ const CreateSpecialties = (props) => {
     const resetData = () => {
         setName("");
         setDescription("");
-        setServiceSpecialists([]);
         setImage("")
         setPreviewImage("");
         props.setOpen(false);
@@ -61,14 +59,12 @@ const CreateSpecialties = (props) => {
             toast.warn("Vui lòng nhập mô tả của chuyên khoa")
             return;
         }
+        // else if (!image) {
+        //     toast.warn("Vui lòng chọn ảnh cho chuyên khoa")
+        //     return;
+        // }
 
-        let data = {
-            name,
-            description,
-            service_specialists: serviceSpecialists
-        }
-
-        let result = await postCreateSpecialties(data);
+        let result = await postCreateSpecialties(name, description, image);
         if (result.success) {
             toast.success("Thêm Chuyên Khoa Thành Công");
             props.fetchListSpecialties();

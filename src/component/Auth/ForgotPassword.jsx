@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/images/logo-1.png"
+import logo from "../../assets/images/D Dental.png"
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { postForgotPassword, postRegister, postSendOTP, postVerifyOTP } from "../../services/authService";
@@ -88,7 +88,7 @@ const ForgotPassword = () => {
                                 Quên Mật Khẩu
                             </h1>
                             <div className="flex items-center justify-center text-sm font-mono font-light pb-8 text-blue-500">
-                                <hr className="flex-grow mx-5" /> Booking Care <hr className="flex-grow mx-5" />
+                                <hr className="flex-grow mx-5" /> P Dental <hr className="flex-grow mx-5" />
                             </div>
 
                             <div className="mx-auto max-w-x flex flex-col gap-5">
@@ -175,7 +175,7 @@ const ForgotPassword = () => {
                                     </button>
                                 }
 
-                                <div className="text-center text-lg">
+                                <div className="text-center text-base">
                                     Bạn đã có tài khoản ?
                                     <span className="text-blue-600 cursor-pointer ml-1" onClick={() => navigate('/login')} >
                                         Đăng nhập

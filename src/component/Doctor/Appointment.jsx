@@ -16,9 +16,14 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Pagination from '@mui/material/Pagination';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import { useSelector } from 'react-redux';
-import { getDoctorSchedule } from '../../services/scheduleService';
 import DoctorScheduleInfo from '../Admin/Doctor/Modal/DoctorScheduleInfo';
+import { getListDoctorSchedule } from '../../services/scheduleService';
+import CreateDoctorSchedule from './Modal/CreateDoctorSchedule';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -47,7 +52,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Appointment = (props) => {
 
-    const account = useSelector(state => state.user.account);
+    // const account = useSelector(state => state.user.account);
+
+    const doctorId = "1";
 
     const [dateSelected, setDateSelected] = useState(dayjs());
 
@@ -56,10 +63,10 @@ const Appointment = (props) => {
     const fetchDoctorSchedule = async () => {
 
         let formattedDate = dateSelected.format('YYYY-MM-DD');
-        let result = await getDoctorSchedule(formattedDate, account.id);
-        if (result.ER === 0) {
+        let result = await getListDoctorSchedule(doctorId, formattedDate);
+        if (result.success) {
             setListSchedule(result.data);
-            console.log(result.message);
+            return
         }
         else {
             console.log(result.message);
@@ -71,25 +78,31 @@ const Appointment = (props) => {
     }, [dateSelected])
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 4;
 
-    const pageCount = Math.ceil(listSchedule.length / itemsPerPage);
-    const currentData = listSchedule.length > 0
-        ? listSchedule.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    const pageCount = Math.ceil((listSchedule?.length || 0) / itemsPerPage);
+
+    const currentData = listSchedule
+        ? listSchedule.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+        )
         : [];
 
-    const handleViewDoctorSchedule = (data) => {
-        setOpenView(true);
-        setDataView(data);
-    }
+    const [openCreate, setOpenCreate] = useState(false);
 
-    const [openView, setOpenView] = useState(false);
-    const [dataView, setDataView] = useState();
+    // const handleViewDoctorSchedule = (data) => {
+    //     setOpenView(true);
+    //     setDataView(data);
+    // }
+
+    // const [openView, setOpenView] = useState(false);
+    // const [dataView, setDataView] = useState();
 
     return (
         <div className="flex flex-col w-full h-full py-10 px-16">
             <div className='flex justify-between items-center text-2xl font-semibold pb-5'>
-                Lịch đặt của bác sĩ {account.name}
+                Lịch đặt của bác sĩ
                 <Tooltip title="Chọn thời gian">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
@@ -110,9 +123,7 @@ const Appointment = (props) => {
                             <TableRow>
                                 <StyledTableCell align='center'>ID</StyledTableCell>
                                 <StyledTableCell align="center">Ca làm</StyledTableCell>
-                                <StyledTableCell align="center">Số lượng đã đặt</StyledTableCell>
                                 <StyledTableCell align="center">Số lượng tối đa</StyledTableCell>
-                                <StyledTableCell align="center">Trạng thái</StyledTableCell>
                                 <StyledTableCell align="center"></StyledTableCell>
                             </TableRow>
                         </TableHead>
@@ -125,27 +136,10 @@ const Appointment = (props) => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <StyledTableCell component="th" scope="row" align='center'>
-                                                {schedule.id}
+                                                {index}
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">{schedule.timeTypeName}</StyledTableCell>
-                                            <StyledTableCell align="center">{schedule.currentNumber}</StyledTableCell>
-                                            <StyledTableCell align="center">{schedule.maxNumber}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {(() => {
-                                                    switch (schedule.statusId) {
-                                                        case 1:
-                                                            return "Còn Lịch";
-                                                        case 2:
-                                                            return "Hết Lịch";
-                                                        case 5:
-                                                            return "Lịch bị hủy";
-                                                        case 6:
-                                                            return "Quá Hạn";
-                                                        default:
-                                                            return "Trạng thái không xác định";
-                                                    }
-                                                })()}
-                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{schedule.time_Booking}</StyledTableCell>
+                                            <StyledTableCell align="center">{schedule.max_Customer}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <IconButton
                                                     aria-label="info"
@@ -181,12 +175,30 @@ const Appointment = (props) => {
                 }
 
             </div>
-            <DoctorScheduleInfo
+
+            <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: "absolute", bottom: 16, right: 50 }}
+                icon={<SpeedDialIcon />}
+            >
+                <SpeedDialAction
+                    key="add-schedule"
+                    icon={<EditCalendarOutlinedIcon />}
+                    tooltipTitle="Đăng kí lịch làm"
+                    onClick={() => setOpenCreate(true)}
+                ></SpeedDialAction>
+            </SpeedDial>
+            <CreateDoctorSchedule
+                open={openCreate}
+                setOpen={setOpenCreate}
+                doctorId={doctorId}
+            />
+            {/* <DoctorScheduleInfo
                 open={openView}
                 setOpen={setOpenView}
                 dataView={dataView}
                 setDataView={setDataView}
-            />
+            /> */}
         </div>
     )
 }

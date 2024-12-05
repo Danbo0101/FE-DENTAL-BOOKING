@@ -23,6 +23,7 @@ import ChangePassword from "./component/Admin/ChangePassword";
 import HomeDoctor from "./component/Doctor/Doctor";
 import Appointment from "./component/Doctor/Appointment";
 import Service from "./component/Admin/Service/Service";
+import Regimen from "./component/Admin/Regimen/Regimen";
 
 const NotFound = () => {
   return (
@@ -42,7 +43,7 @@ const Layout = () => {
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
           <Route path="specialties" element={<ListSpecialties />} />
-          <Route path="doctors" element={<ListDoctor />} />
+          <Route path="doctor-list/:id" element={<ListDoctor />} />
           <Route path="doctor-info/:id" element={<DoctorInfo />} />
           <Route path="booking-success" element={<BookingSuccess />} />
         </Route>
@@ -54,9 +55,10 @@ const Layout = () => {
             <Route path="profile-admin" element={<ProfileAdmin />} />
             <Route path="change-password" element={<ChangePassword />} />
             {/* <Route path="clinic" element={<Clinic />} /> */}
-            <Route path="doctor" element={<Doctor />} />
+            <Route path="doctors" element={<Doctor />} />
             <Route path="specialties" element={<Specialties />} />
             <Route path="services" element={<Service />} />
+            <Route path="regimens" element={<Regimen />} />
 
           </Route>
         </Route>

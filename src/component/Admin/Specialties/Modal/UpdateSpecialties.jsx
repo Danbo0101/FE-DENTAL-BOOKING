@@ -32,7 +32,6 @@ const UpdateSpecialties = (props) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [serviceSpecialists, setServiceSpecialists] = useState([]);
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
 
@@ -46,7 +45,6 @@ const UpdateSpecialties = (props) => {
     const resetData = () => {
         setName("");
         setDescription("");
-        setServiceSpecialists([]);
         setImage("");
         setPreviewImage("");
         props.setDataUpdate("");
@@ -58,9 +56,8 @@ const UpdateSpecialties = (props) => {
             if (dataUpdate) {
                 setName(dataUpdate.name);
                 setDescription(dataUpdate.description);
-                setServiceSpecialists(dataUpdate.serviceSpecialists);
-                // setImage(dataUpdate.image);
-                // setPreviewImage(url);
+                setImage("");
+                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
             }
         }
         fetchData();
@@ -77,12 +74,10 @@ const UpdateSpecialties = (props) => {
             toast.warn("Mô tả của chuyên khoa không hợp lệ")
             return;
         }
+        console.log(dataUpdate.specialist_Id, name, description, image)
 
-
-
-
-        let result = await putUpdateSpecialties(dataUpdate.id, name, description, image);
-        if (result.ER === 0) {
+        let result = await putUpdateSpecialties(dataUpdate.specialist_Id, name, description, image, true);
+        if (result.success) {
             toast.success("Sửa thông tin Chuyên Khoa Thành Công");
             props.fetchListSpecialties()
             resetData();

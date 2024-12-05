@@ -116,10 +116,13 @@ const CreateDoctor = (props) => {
     } else if (!iD_Number) {
       toast.warn("Vui lòng nhập CCCD");
       return;
-    } else if (!image) {
-      toast.warn("Vui lòng upload ảnh");
-      return;
     }
+    // else if (!image) {
+    //   toast.warn("Vui lòng upload ảnh");
+    //   return;
+    // }
+
+    // console.log(doctorIds)
 
     let result = await postCreateNewDoctor(fullName, email, userName, password, DOB, gender, phone, iD_Number, doctorIds, image, specialistId);
     if (result.success) {

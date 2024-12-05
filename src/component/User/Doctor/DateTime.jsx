@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import { convertTo12HourFormat } from '../../../utils/general';
 
 const Item = styled(Paper)(({ theme, active, selected }) => ({
     display: 'flex',
@@ -35,8 +36,8 @@ const Item = styled(Paper)(({ theme, active, selected }) => ({
 
 const DateTime = (props) => {
 
-    const { listTime } = props;
-    const [selectedId, setSelectedId] = useState(null);
+    const { listTime, selectedId } = props;
+
 
     return (
         <div className="my-10 flex gap-14 items-center">
@@ -113,24 +114,29 @@ const DateTime = (props) => {
                         ?
                         listTime.map((item, index) => {
                             return (
-                                <Grid size={6} key={item.id}>
+                                <Grid size={6} key={item.time_Id}>
                                     <Item
-                                        active={item.status === "active"}
-                                        selected={selectedId === item.id} // So sánh với ID được chọn
+                                        active={item.available === true}
+                                        selected={selectedId === item.time_Id}
                                         onClick={() => {
-                                            if (item.status === "active") {
-                                                setSelectedId(item.id); // Cập nhật ID khi nhấp
-                                                props.setSelectedTime(item.time);
+                                            if (item.available === true) {
+                                                props.setSelectedId(item.time_Id);
+                                                props.setSelectedTime(convertTo12HourFormat(item.time_Book));
                                             }
                                         }}
                                     >
-                                        {item.time}
+                                        {convertTo12HourFormat(item.time_Book)}
+
                                     </Item>
                                 </Grid>
                             )
                         })
                         :
-                        <></>
+                        <>
+                            <div className='ml-48 bg-slate-400 text-lg font-semibold font-serif px-10 py-5 rounded-lg shadow-sm '>
+                                Bác sĩ không có lịch
+                            </div>
+                        </>
                     }
                 </Grid>
             </Box>

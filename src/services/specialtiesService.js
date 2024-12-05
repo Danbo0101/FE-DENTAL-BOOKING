@@ -4,6 +4,10 @@ const getServices = () => {
   return axios.get(`api/Service/get-all`);
 };
 
+const getServiceById = (serviceId) => {
+  return axios.get(`/api/Service/get/${serviceId}`);
+};
+
 const postCreateService = (name, description, price, image) => {
   const data = new FormData();
   data.append("name", name);
@@ -28,27 +32,42 @@ const getSpecialties = () => {
   return axios.get(`/api/Specialist/get-all`);
 };
 
-const postCreateSpecialties = (data) => {
-  return axios.post("/api/Specialist/create", data);
-};
+const getSpecialtyById = (specialist_Id) => {
+  return axios.get(`/api/Specialist/get/${specialist_Id}`);
+}
 
-const putUpdateSpecialties = (id, name, description, specialtiesImage) => {
+const postCreateSpecialties = (name, description, image) => {
   const data = new FormData();
   data.append("name", name);
   data.append("description", description);
-  data.append("image", specialtiesImage);
-  return axios.put(`/v1/api/specialties?id=${id}`, data);
+  data.append("image", image);
+  data.append("service_Specialists", null);
+  return axios.post("/api/Specialist/create", data);
 };
 
-const deleteSpecialties = (id) => {
-  return axios.delete(`/v1/api/specialties?id=${id}`);
+const putUpdateSpecialties = (specialist_Id, name, description, image, is_Active) => {
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("image", image);
+  data.append("is_Active", is_Active);
+  return axios.put(`/api/Specialist/${specialist_Id}/update`, data);
 };
 
-const getBookingOfSpecialties = (specialtiesId) => {
-  return axios.get(
-    `/v1/api/specialties-booking?specialtiesId=${specialtiesId}`
-  );
-};
+const AssignServices = (specialist_Id, data) => {
+  return axios.post(`/api/Specialist/update-services-specialist/${specialist_Id}`, data);
+}
+
+const postUpdateAssignServices = (specialistId, serviceID) => {
+  const data = new FormData();
+  data.append("serviceID", serviceID);
+  data.append("specialistId", specialistId);
+  data.append("isDelete", true);
+  return axios.post(`/api/ServiceSpecialist/update-status-service-specialist`, data);
+}
+
+
+
 
 export {
   getServices,
@@ -57,6 +76,8 @@ export {
   getSpecialties,
   postCreateSpecialties,
   putUpdateSpecialties,
-  deleteSpecialties,
-  getBookingOfSpecialties,
+  AssignServices,
+  getSpecialtyById,
+  postUpdateAssignServices,
+  getServiceById
 };

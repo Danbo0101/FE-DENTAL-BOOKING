@@ -4,6 +4,14 @@ import Button from "@mui/material/Button";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -47,13 +55,33 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
 const Header = (props) => {
+
+  const navigate = useNavigate();
+
+  const auth = true;
+
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <div
       className="flex px-6 mx-10 mt-4 rounded-md drop-shadow bg-sky-300 
             justify-between items-center"
     >
-      <div div className="p-5">
+      <div
+        className="p-5 cursor-pointer"
+        onClick={() => navigate('/')}
+
+      >
         <img src={logo} className="w-36 h-16" />
       </div>
       <div className="flex gap-32 mr-10">
@@ -66,41 +94,77 @@ const Header = (props) => {
             inputProps={{ "aria-label": "search" }}
           />
         </Search>
-        <div className="flex gap-3">
-          <Button
-            variant="text"
-            href="#outlined-buttons"
-            sx={{
-              fontSize: "14px",
-              fontFamily: "Roboto Slab, serif",
-              fontWeight: "600",
-              color: "black",
-              borderRadius: "10px",
-              "&:hover": {
-                color: "white",
-                background: "#2576d0",
-              },
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            variant="outlined"
-            href="#outlined-buttons"
-            sx={{
-              color: "white",
-              fontSize: "14px",
-              fontFamily: "Roboto Slab, serif",
-              fontWeight: "600",
-              borderRadius: "10px",
-              "&:hover": {
+        {auth ?
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem key="History Booking">
+                <Typography sx={{ textAlign: 'center', fontSize: "14px", fontFamily: "sans-serif" }}>Lịch sử đặt hẹn</Typography>
+              </MenuItem>
+              <MenuItem key="Profile">
+                <Typography sx={{ textAlign: 'center', fontSize: "14px", fontFamily: "sans-serif" }}>Thông tin cá nhân</Typography>
+              </MenuItem>
+              <MenuItem key="Logout">
+                <Typography sx={{ textAlign: 'center', fontSize: "14px", fontFamily: "sans-serif" }}>Đăng xuất</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+          :
+          <div className="flex gap-3">
+            <Button
+              variant="text"
+              href="#outlined-buttons"
+              sx={{
+                fontSize: "14px",
+                fontFamily: "Roboto Slab, serif",
+                fontWeight: "600",
                 color: "black",
-              },
-            }}
-          >
-            Sign Up
-          </Button>
-        </div>
+                borderRadius: "10px",
+                "&:hover": {
+                  color: "white",
+                  background: "#2576d0",
+                },
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="outlined"
+              href="#outlined-buttons"
+              sx={{
+                color: "white",
+                fontSize: "14px",
+                fontFamily: "Roboto Slab, serif",
+                fontWeight: "600",
+                borderRadius: "10px",
+                "&:hover": {
+                  color: "black",
+                },
+              }}
+            >
+              Sign Up
+            </Button>
+          </div>
+        }
       </div>
     </div>
   );

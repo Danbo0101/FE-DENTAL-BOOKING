@@ -13,62 +13,24 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DateTime from "./DateTime";
 import InformationForm from "./InformationForm";
 import InformationConfirm from "./InformationConfirm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getListDoctorSchedule, getTimeDoctorSchedule } from "../../../services/scheduleService";
+import { getUserById } from "../../../services/userService";
+import { getServiceById } from "../../../services/specialtiesService";
 
 const DoctorInfo = (props) => {
-  const steps = ["Chọn thời gian", "Điền thông tin", "Kiểm tra thông tin"];
-  const [listTime, setListTime] = useState([
-    {
-      id: 1,
-      time: "7:00 AM",
-      status: "active",
-    },
-    {
-      id: 2,
-      time: "8:00 AM",
-      status: "inactive",
-    },
-    {
-      id: 3,
-      time: "9:00 AM",
-      status: "inactive",
-    },
-    {
-      id: 4,
-      time: "10:00 AM",
-      status: "active",
-    },
-    {
-      id: 5,
-      time: "11:00 AM",
-      status: "active",
-    },
-    {
-      id: 6,
-      time: "13:00 PM",
-      status: "active",
-    },
-    {
-      id: 7,
-      time: "14:00 PM",
-      status: "active",
-    },
-    {
-      id: 8,
-      time: "15:00 PM",
-      status: "active",
-    },
-    {
-      id: 9,
-      time: "16:00 PM",
-      status: "active",
-    },
-    {
-      id: 10,
-      time: "17:00 PM",
-      status: "active",
-    },
-  ]);
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const userId = "2";
+  const serviceId = "1";
+
+  const steps = ["Chọn thời gian", "Kiểm tra thông tin"];
+
+
+  const [listTime, setListTime] = useState([]);
+
 
   const account = {
     name: "John Doe",
@@ -81,21 +43,89 @@ const DoctorInfo = (props) => {
   const [activeStep, setActiveStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [calendarId, setCalendarId] = useState("");
 
   const [name, setName] = useState("");
   const [cccd, setCCCD] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [nameService, setNameService] = useState("");
+  const [priceService, setPriceService] = useState(0);
 
-  const navigate = useNavigate()
+
+  const fetchServiceInfo = async () => {
+    let result = await getServiceById(serviceId);
+    if (result.success) {
+      setNameService(result.data.name);
+      setPriceService(result.data.price);
+    }
+    else {
+      console.log(result.message);
+    }
+  }
+
+
+
+
+  const fetchScheduleDoctor = async () => {
+    let formattedDate = selectedDate.format('YYYY-MM-DD');
+    let result = await getTimeDoctorSchedule(id, formattedDate);
+    if (result.success && result.data) {
+      let schedule = result.data.timeBookings.sort((a, b) => {
+        return parseInt(a.time_Id) - parseInt(b.time_Id);
+      });
+      setListTime(schedule);
+    } else {
+      setListTime([])
+      console.log(result.message);
+    }
+  }
+
+  const fetchCalendarId = async () => {
+    let formattedDate = selectedDate.format('YYYY-MM-DD');
+    let result = await getListDoctorSchedule(id, formattedDate);
+    if (result.success) {
+      let schedule = result.data;
+      let findCalendarId = schedule.find((item) => item.time_Id === selectedId);
+      setCalendarId(findCalendarId.calendar_Id);
+    }
+    else {
+      console.log(result.message);
+    }
+  }
 
   useEffect(() => {
-    setName(account.name);
-    setCCCD(account.cccd);
-    setGender(account.gender);
-    setPhone(account.phone);
-    setEmail(account.email);
+    fetchServiceInfo();
+    fetchScheduleDoctor();
+    if (selectedId) {
+      fetchCalendarId();
+    }
+  }, [selectedDate, selectedId]);
+
+
+  const fetchInfoCustomer = async () => {
+    let result = await getUserById(userId);
+    if (result.success) {
+      setName(result.data.fullName);
+      setCCCD(result.data.iD_Number);
+      setGender(result.data.gender);
+      setPhone(result.data.phone);
+      setEmail(result.data.email);
+    }
+    else {
+      console.log(result.message);
+    }
+  }
+
+  useEffect(() => {
+    // setName(account.name);
+    // setCCCD(account.cccd);
+    // setGender(account.gender);
+    // setPhone(account.phone);
+    // setEmail(account.email);
+    fetchInfoCustomer();
   }, [activeStep]);
 
   // console.log(selectedTime, selectedDate)
@@ -137,7 +167,7 @@ const DoctorInfo = (props) => {
         </div>
       </div>
       <div className="text-2xl font-serif font-semibold my-16">
-        Dịch vụ .....
+        {nameService}
       </div>
       <Box
         sx={{
@@ -165,24 +195,11 @@ const DoctorInfo = (props) => {
                   selectedDate={selectedDate}
                   setSelectedDate={setSelectedDate}
                   setSelectedTime={setSelectedTime}
+                  selectedId={selectedId}
+                  setSelectedId={setSelectedId}
                 />
               </div>
             ) : activeStep === 1 ? (
-              <div className="flex justify-center items-center">
-                <InformationForm
-                  name={name}
-                  setName={setName}
-                  phone={phone}
-                  setPhone={setPhone}
-                  cccd={cccd}
-                  setCCCD={setCCCD}
-                  email={email}
-                  setEmail={setEmail}
-                  gender={gender}
-                  setGender={setGender}
-                />
-              </div>
-            ) : activeStep === 2 ? (
               <div className="flex justify-center">
                 <InformationConfirm
                   name={name}
@@ -195,6 +212,7 @@ const DoctorInfo = (props) => {
                   setEmail={setEmail}
                   gender={gender}
                   setGender={setGender}
+                  priceService={priceService}
                 />
               </div>
             ) : null}

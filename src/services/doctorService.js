@@ -1,8 +1,5 @@
 import axios from "../utils/axiosCustomize";
 
-const getDoctorPagination = (page, limit) => {
-  return axios.get(`/v1/api/doctors?page=${page}&limit=${limit}`);
-};
 
 const getAllDoctor = () => {
   return axios.get(`/v1/api/doctors`);
@@ -29,6 +26,17 @@ const postCreateNewDoctor = (
   image,
   specialist_Id
 ) => {
+  console.log(fullName,
+    email,
+    userName,
+    password,
+    birthday,
+    gender,
+    phone,
+    iD_Number,
+    role_Id,
+    image,
+    specialist_Id)
   const data = new FormData();
   data.append("fullName", fullName);
   data.append("email", email);
@@ -83,6 +91,16 @@ const postAssignDoctor = (doctorId, clinicId, specialtiesId) => {
   return axios.post("/v1/api/assign-doctor", data);
 };
 
+const getSpecialtiesDoctor = (specialistId, roleId) => {
+  return axios.get(`/api/User/get-users-by-specialist-and-role?specialistId=${specialistId}&roleId=${roleId}`);
+}
+
+const getListDoctorSerrvice = (serviceId) => {
+  return axios.get(`/api/User/get-by-serviceId?serviceId=${serviceId}`);
+}
+
+
+
 const deleteDoctor = (id) => {
   return axios.delete(`/v1/api/doctors?id=${id}`);
 };
@@ -100,7 +118,6 @@ const putUpdateAssignDoctor = (id, clinicId, specialtiesId) => {
 
 export {
   getAllDoctor,
-  getDoctorPagination,
   postCreateNewDoctor,
   getDoctorInfoDetail,
   postAssignDoctor,
@@ -109,4 +126,7 @@ export {
   getAssignDoctor,
   putUpdateAssignDoctor,
   getAllDoctorNotMarkToday,
+  getSpecialtiesDoctor,
+  getListDoctorSerrvice,
+
 };

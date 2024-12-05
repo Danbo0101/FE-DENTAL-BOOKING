@@ -1,13 +1,23 @@
 import axios from "../utils/axiosCustomize";
 
 
-const getDoctorSchedule = (date, doctorId) => {
-    return axios.get(`/v1/api/schedules?date=${date}&doctorId=${doctorId}`);
+const getListDoctorSchedule = (doctorId, date) => {
+    return axios.get(`/api/Calendar/get-calendar-by-doctor/${doctorId}?date=${date}`);
+}
+
+const getTimeDoctorSchedule = (doctorId, date) => {
+    return axios.get(`/api/Calendar/get-time-list-by-doctor/${doctorId}?date=${date}`);
+}
+
+const postCreateListDoctorSchedule = (doctorId, data) => {
+    return axios.post(`/api/Calendar/create-list-calendar-by-doctor-id/${doctorId}`, data);
 }
 
 const getDoctorScheduleBooking = (date, doctorId) => {
     return axios.get(`/v1/api/schedules-booking?date=${date}&doctorId=${doctorId}`);
 }
+
+
 
 const putUpdateDoctorSchedule = (id, statusId, maxNumber) => {
     const data = new FormData();
@@ -21,11 +31,11 @@ const getDoctorScheduleDetail = (id) => {
 }
 
 const getTimeType = () => {
-    return axios.get(`/v1/api/time-type`);
+    return axios.get(`/api/Calendar/get-all-defaul-time`);
 }
 
 const postCreateDoctorSchedule = (doctoId, timeTypeId, date, maxNumber, bookedNumber) => {
-    return axios.post(`/v1/api/schedules?doctorId=${doctoId}`, {
+    return axios.post(`/ v1 / api / schedules ? doctorId = ${doctoId}`, {
         timeTypeId,
         date,
         maxNumber,
@@ -35,10 +45,12 @@ const postCreateDoctorSchedule = (doctoId, timeTypeId, date, maxNumber, bookedNu
 
 
 export {
-    getDoctorSchedule,
+    getListDoctorSchedule,
     putUpdateDoctorSchedule,
     getDoctorScheduleDetail,
     getTimeType,
     postCreateDoctorSchedule,
-    getDoctorScheduleBooking
+    getDoctorScheduleBooking,
+    postCreateListDoctorSchedule,
+    getTimeDoctorSchedule
 }

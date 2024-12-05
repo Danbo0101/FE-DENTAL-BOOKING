@@ -8,9 +8,28 @@ import video from "../../assets/images/video.mp4";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 import DoctorSlide from "./DoctorSlide";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getSpecialties } from "../../services/specialtiesService";
 
 const HomePage = (props) => {
+
+  const [specialtiesList, setSpecialtiesList] = useState([])
+
+  const fetchSpecialList = async () => {
+    let result = await getSpecialties();
+    if (result.success) {
+      setSpecialtiesList(result.data.data.slice(0, 3));
+    } else {
+      console.log(result.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchSpecialList()
+  }, [])
+
+  console.log(specialtiesList)
 
   return (
     <div>
@@ -27,7 +46,7 @@ const HomePage = (props) => {
           <div className="mt-5 flex gap-16">
             <Button
               variant="outlined"
-              href="#outlined-buttons"
+              href="/specialties"
               sx={{
                 color: "white",
                 backgroundColor: "#4C99FF",
@@ -72,42 +91,65 @@ const HomePage = (props) => {
       </div>
       <div className="flex justify-center items-center px-24 mx-10 mt-5">
         <div className="flex justify-center items-center w-full gap-12 px-12 rounded-md bg-sky-200 drop-shadow-md">
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
-              <img src={teethImg} className="w-8 h-8" />
-            </div>
-            <div className="font-serif font-semibold text-xl mt-4">
-              Nha khoa tổng quát
-            </div>
-            <div className="text-center font-extralight text-sm mt-2">
-              Khám, chẩn đoán và điều trị các vấn đề răng miệng cơ bản, đồng
-              thời tư vấn về cách chăm sóc răng miệng
-            </div>
-          </div>
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
-              <img src={teethImg} className="w-8 h-8" />
-            </div>
-            <div className="font-serif font-semibold text-xl mt-4">
-              Nha khoa trẻ em
-            </div>
-            <div className="text-center font-extralight text-sm mt-2">
-              Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
-              trẻ em và phụ huynh về cách chăm sóc răng miệng
-            </div>
-          </div>
-          <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
-            <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
-              <img src={teethImg} className="w-8 h-8" />
-            </div>
-            <div className="font-serif font-semibold text-xl mt-4">
-              Nha khoa thẩm mỹ
-            </div>
-            <div className="text-center font-extralight text-sm mt-2">
-              Cung cấp các dịch vụ như tẩy trắng răng, bọc răng sứ và veneer để
-              tạo ra nụ cười hoàn hảo
-            </div>
-          </div>
+          {specialtiesList && specialtiesList.length > 2 ?
+            specialtiesList.map((specialties, index) => {
+              return (
+                <div
+                  className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md"
+                >
+                  <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
+                    <img src={teethImg} className="w-8 h-8" />
+                  </div>
+                  <div className="font-serif font-semibold text-xl mt-4">
+                    {specialties.name}
+                  </div>
+                  <div className="text-center font-extralight text-sm mt-2">
+                    {specialties.description}
+                  </div>
+                </div>
+              )
+            })
+            :
+            <>
+              <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+                <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
+                  <img src={teethImg} className="w-8 h-8" />
+                </div>
+                <div className="font-serif font-semibold text-xl mt-4">
+                  Nha khoa tổng quát
+                </div>
+                <div className="text-center font-extralight text-sm mt-2">
+                  Khám, chẩn đoán và điều trị các vấn đề răng miệng cơ bản, đồng
+                  thời tư vấn về cách chăm sóc răng miệng
+                </div>
+              </div>
+              <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+                <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
+                  <img src={teethImg} className="w-8 h-8" />
+                </div>
+                <div className="font-serif font-semibold text-xl mt-4">
+                  Nha khoa trẻ em
+                </div>
+                <div className="text-center font-extralight text-sm mt-2">
+                  Khám, điều trị và tư vấn về răng miệng cho trẻ, đồng thời giáo dục
+                  trẻ em và phụ huynh về cách chăm sóc răng miệng
+                </div>
+              </div>
+              <div className="flex w-1/3 h-72 flex-col justify-center items-center pt-4 pb-12 px-8 rounded-2xl my-10 bg-white drop-shadow-md">
+                <div className="flex justify-center items-center w-14 h-14 rounded-full bg-sky-300 drop-shadow">
+                  <img src={teethImg} className="w-8 h-8" />
+                </div>
+                <div className="font-serif font-semibold text-xl mt-4">
+                  Nha khoa thẩm mỹ
+                </div>
+                <div className="text-center font-extralight text-sm mt-2">
+                  Cung cấp các dịch vụ như tẩy trắng răng, bọc răng sứ và veneer để
+                  tạo ra nụ cười hoàn hảo
+                </div>
+              </div>
+            </>
+          }
+
         </div>
       </div>
       <div className="flex gap-5 items-center justify-center px-48 py-10 mx-10 mt-5">
@@ -125,7 +167,7 @@ const HomePage = (props) => {
           <div>
             <Button
               variant="outlined"
-              href="#outlined-buttons"
+              href="/specialties"
               sx={{
                 color: "white",
                 backgroundColor: "#4C99FF",
@@ -207,7 +249,7 @@ const HomePage = (props) => {
             <div className="mb-10">
               <Button
                 variant="outlined"
-                href="#outlined-buttons"
+                href="/specialties"
                 sx={{
                   color: "white",
                   backgroundColor: "#4C99FF",
@@ -242,7 +284,7 @@ const HomePage = (props) => {
           <div>
             <Button
               variant="outlined"
-              href="#outlined-buttons"
+              href="/specialties"
               sx={{
                 color: "white",
                 backgroundColor: "#4C99FF",

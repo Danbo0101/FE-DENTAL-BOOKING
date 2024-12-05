@@ -1,14 +1,14 @@
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
+import { formatCurrencyVND } from "../../../utils/general";
 
 const InformationConfirm = (props) => {
-  const { name, cccd, gender, phone, email } = props;
-
+  const { name, cccd, gender, phone, email, priceService } = props;
   return (
     <div className="px-10 py-16 flex flex-col gap-7 w-3/4 rounded-xl bg-zinc-100 drop-shadow">
       <div className="font-semibold">
         <input type="radio" name="appointment_type" checked className="mr-2" />
-        Gía đặt khám dịch vụ : 100.000 VNĐ
+        Gía đặt khám dịch vụ : {formatCurrencyVND(priceService)}
       </div>
       <div className="flex gap-8 justify-between">
         <TextField
@@ -32,47 +32,48 @@ const InformationConfirm = (props) => {
           disabled
         />
       </div>
-      {gender === "male" ? (
-        <div className="">
-          <input
-            type="radio"
-            name="gender"
-            id="male"
-            className="mr-2"
-            checked
-            disabled
-          />
-          Nam
-          <input
-            type="radio"
-            name="gender"
-            id="female"
-            className="mr-2 ml-4"
-            disabled
-          />
-          Nữ
-        </div>
-      ) : (
-        <div className="">
-          <input
-            type="radio"
-            name="gender"
-            id="male"
-            className="mr-2"
-            disabled
-          />
-          Nam
-          <input
-            type="radio"
-            name="gender"
-            id="female"
-            className="mr-2 ml-4"
-            checked
-            disabled
-          />
-          Nữ
-        </div>
-      )}
+      {gender === true
+        ? (
+          <div className="">
+            <input
+              type="radio"
+              name="gender"
+              id="male"
+              className="mr-2"
+              checked
+              disabled
+            />
+            Nam
+            <input
+              type="radio"
+              name="gender"
+              id="female"
+              className="mr-2 ml-4"
+              disabled
+            />
+            Nữ
+          </div>
+        ) : (
+          <div className="">
+            <input
+              type="radio"
+              name="gender"
+              id="male"
+              className="mr-2"
+              disabled
+            />
+            Nam
+            <input
+              type="radio"
+              name="gender"
+              id="female"
+              className="mr-2 ml-4"
+              checked
+              disabled
+            />
+            Nữ
+          </div>
+        )}
       <div className="flex gap-8 justify-between">
         <TextField
           label="Số điện thoại"
@@ -110,7 +111,7 @@ const InformationConfirm = (props) => {
       <div className="">
         <div className="flex justify-between py-2">
           <span>Giá khám</span>
-          <span>100.000 VNĐ</span>
+          <span>{formatCurrencyVND(priceService)}</span>
         </div>
         <div className="flex justify-between py-2">
           <span>Phí đặt lịch</span>
@@ -118,7 +119,7 @@ const InformationConfirm = (props) => {
         </div>
         <div className="flex justify-between py-2 font-bold">
           <span>Tổng cộng</span>
-          <span>100.000 VNĐ</span>
+          <span>{formatCurrencyVND(priceService)}</span>
         </div>
       </div>
       <div className="mb-4 bg-blue-100 p-4 rounded-lg">

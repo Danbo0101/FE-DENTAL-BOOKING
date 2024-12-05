@@ -4,6 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     display: 'flex',
@@ -26,6 +27,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const SpecialtiesDoctor = (props) => {
 
+    const navigate = useNavigate()
+
     const { listDoctor } = props;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -33,6 +36,8 @@ const SpecialtiesDoctor = (props) => {
 
     const pageCount = Math.ceil(listDoctor.length / itemsPerPage);
     const currentData = listDoctor.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    // console.log(currentData)
 
     return (
         <>
@@ -48,22 +53,26 @@ const SpecialtiesDoctor = (props) => {
                             currentData.map((doctor, index) => {
                                 return (
                                     <Grid size={6}>
-                                        <Item>
+                                        <Item onClick={() => navigate(`/doctor-info/${doctor.user_Id}`)}>
                                             <img
-                                                src={doctor.image}
+                                                src={`data:image/jpeg;base64,${doctor.image}`}
                                                 className="w-24 h-24 rounded-full mx-5"
                                             />
                                             <div className=''>
                                                 <div className='font-bold text-xl'>Bác sĩ {doctor.name}</div>
-                                                <div className='text-sm font-light'>Chuyên khoa {doctor.specialty}</div>
-                                                <div className='text-sm font-light'>Lịch khám : {doctor.schedule}</div>
+                                                <div className='text-sm font-light'>Chuyên khoa : {doctor.specialist_Name}</div>
                                             </div>
                                         </Item>
                                     </Grid>
                                 )
                             })
                             :
-                            <></>
+                            <div className="flex w-full justify-center">
+                                <div className="border px-10 py-5 rounded-lg shadow-sm bg-white font-semibold">
+                                    Không có bác sĩ thuộc chuyên khoa
+                                </div>
+
+                            </div>
                         }
                     </Grid>
                 </Box>

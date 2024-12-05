@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { useEffect, useState } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { getSpecialties } from '../../../services/specialtiesService';
@@ -18,6 +19,7 @@ import CreateSpecialties from './Modal/CreateSpecialties';
 import SpecialtiesInfo from './Modal/SpecialtiesInfo';
 import UpdateSpecialties from './Modal/UpdateSpecialties';
 import DeleteSpecialties from './Modal/DeleteSpecialties';
+import AssignService from './Modal/AssignService';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -54,6 +56,9 @@ const Specialties = (props) => {
     const [openView, setOpenView] = useState(false);
     const [dataView, setDataView] = useState();
 
+    const [openAssign, setOpenAssign] = useState(false);
+    const [dataAssign, setDataAssign] = useState();
+
     const [openUpdate, setOpenUpdate] = useState(false);
     const [dataUpdate, setDataUpdate] = useState();
 
@@ -84,6 +89,11 @@ const Specialties = (props) => {
     const handleViewSpecialties = (data) => {
         setOpenView(true);
         setDataView(data);
+    }
+
+    const handleAssignSpecialties = (specialistId, name) => {
+        setOpenAssign(true);
+        setDataAssign({ specialistId, name });
     }
 
     const handleUpdateSpecialties = (data) => {
@@ -136,6 +146,11 @@ const Specialties = (props) => {
                                                         >
                                                             <InfoOutlinedIcon />
                                                         </IconButton>
+                                                        <IconButton aria-label="info" color='info'
+                                                            onClick={() => handleAssignSpecialties(specialties.specialist_Id, specialties.name)}
+                                                        >
+                                                            <AssignmentOutlinedIcon />
+                                                        </IconButton>
                                                         <IconButton aria-label="update" color='warning'
                                                             onClick={() => handleUpdateSpecialties(specialties)}
                                                         >
@@ -182,6 +197,14 @@ const Specialties = (props) => {
                 setOpen={setOpenView}
                 dataView={dataView}
                 setDataView={setDataView}
+                fetchListSpecialties={fetchListSpecialties}
+            />
+            <AssignService
+                open={openAssign}
+                setOpen={setOpenAssign}
+                dataAssign={dataAssign}
+                setDataAssign={setDataAssign}
+                fetchListSpecialties={fetchListSpecialties}
             />
             <UpdateSpecialties
                 open={openUpdate}

@@ -1,5 +1,4 @@
 import PersonAddAlt1OutlinedIcon from "@mui/icons-material/PersonAddAlt1Outlined";
-import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
-import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
@@ -71,6 +69,8 @@ const Doctor = (props) => {
   useEffect(() => {
     fetchDoctorIds();
   }, [listDoctor]);
+
+  console.log(doctorIds)
 
   const fetchDoctorList = async () => {
     try {
@@ -225,18 +225,6 @@ const Doctor = (props) => {
           icon={<PersonAddAlt1OutlinedIcon />}
           tooltipTitle="Thêm Bác sĩ"
           onClick={() => setOpenCreate(true)}
-        ></SpeedDialAction>
-        <SpeedDialAction
-          key="assign-doctor"
-          icon={<AssignmentIndOutlinedIcon />}
-          tooltipTitle="Gán Bác sĩ "
-          onClick={() => setOpenAssign(true)}
-        ></SpeedDialAction>
-        <SpeedDialAction
-          key="assign-doctor"
-          icon={<WatchLaterOutlinedIcon />}
-          tooltipTitle="Bác sĩ chưa điểm danh hôm nay"
-          onClick={() => setOpenAttendance(true)}
         ></SpeedDialAction>
       </SpeedDial>
 
