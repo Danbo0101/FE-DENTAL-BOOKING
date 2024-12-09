@@ -21,9 +21,9 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import { useSelector } from 'react-redux';
-import DoctorScheduleInfo from '../Admin/Doctor/Modal/DoctorScheduleInfo';
-import { getListDoctorSchedule } from '../../services/scheduleService';
+import { getListDoctorSchedule } from '../../../services/scheduleService';
 import CreateDoctorSchedule from './Modal/CreateDoctorSchedule';
+import ViewDoctorSchedule from './Modal/ViewDoctorSchedule';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -52,9 +52,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Appointment = (props) => {
 
-    // const account = useSelector(state => state.user.account);
-
-    const doctorId = "1";
+    const doctorId = useSelector((state) => state.user.account.id);
 
     const [dateSelected, setDateSelected] = useState(dayjs());
 
@@ -69,6 +67,7 @@ const Appointment = (props) => {
             return
         }
         else {
+            setListSchedule([]);
             console.log(result.message);
         }
     }
@@ -91,13 +90,13 @@ const Appointment = (props) => {
 
     const [openCreate, setOpenCreate] = useState(false);
 
-    // const handleViewDoctorSchedule = (data) => {
-    //     setOpenView(true);
-    //     setDataView(data);
-    // }
+    const handleViewDoctorSchedule = (data) => {
+        setOpenView(true);
+        setDataView(data);
+    }
 
-    // const [openView, setOpenView] = useState(false);
-    // const [dataView, setDataView] = useState();
+    const [openView, setOpenView] = useState(false);
+    const [dataView, setDataView] = useState();
 
     return (
         <div className="flex flex-col w-full h-full py-10 px-16">
@@ -193,12 +192,12 @@ const Appointment = (props) => {
                 setOpen={setOpenCreate}
                 doctorId={doctorId}
             />
-            {/* <DoctorScheduleInfo
+            <ViewDoctorSchedule
                 open={openView}
                 setOpen={setOpenView}
                 dataView={dataView}
                 setDataView={setDataView}
-            /> */}
+            />
         </div>
     )
 }

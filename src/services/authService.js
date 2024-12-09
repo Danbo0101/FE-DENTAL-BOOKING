@@ -3,11 +3,11 @@ import axios from "../utils/axiosCustomize"
 
 
 
-const postLogin = (email, password) => {
-    return axios.post(`v1/api/login`, {
-        email,
-        password,
-    });
+const postLogin = (userName, password) => {
+    const data = new FormData();
+    data.append('userName', userName);
+    data.append('password', password);
+    return axios.post(`/api/Auth/login`, data);
 }
 
 const postSendOTP = (email, type) => {

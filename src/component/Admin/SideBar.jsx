@@ -19,14 +19,14 @@ const Sidebar = ({ children }) => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        let result = await postLogout();
-        if (result.ER === 0) {
-            dispatch(doLogout());
-            navigate("/");
-        }
-        else {
-            console.log(result.message);
-        }
+        // let result = await postLogout();
+        // if (result.ER === 0) {
+        dispatch(doLogout());
+        navigate("/");
+        // }
+        // else {
+        //     console.log(result.message);
+        // }
 
     }
 

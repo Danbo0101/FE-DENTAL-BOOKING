@@ -5,35 +5,43 @@ import { toast } from "react-toastify";
 import { postLogin } from "../../services/authService";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
+import { jwtDecode } from "jwt-decode";
+import { getRole } from "../../services/userService";
 
 
 const Login = () => {
 
-    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
-        if (!email) {
-            toast('Vui lòng nhập email');
+        if (!userName) {
+            toast('Vui lòng nhập userName');
             return;
         }
         if (!password) {
             toast('Vui lòng nhập mật khẩu');
             return;
         }
-        let result = await postLogin(email, password);
-        if (result.ER === 0) {
-            dispatch(doLogin(result.data));
-            toast.success("Đăng nhập thành công");
-            if (result.data.roleId === 1) {
-                navigate('/admin');
-            } else if (result.data.roleId === 3) {
+
+        console.log(userName, password)
+
+        let resultLogin = await postLogin(userName, password);
+        if (resultLogin.success) {
+            let jwtTolen = resultLogin.data.result;
+            let decoded = jwtDecode(jwtTolen);
+            let resultRole = await getRole();
+            const role = resultRole.data.find(role => role.role_Id === decoded.Role_Id);
+            dispatch(doLogin(decoded));
+            if (role.name === "doctor") {
+                navigate('/doctor');
+            } else if (role.name === "admin") {
+                navigate('/admin')
+            } else if (role.name === "user") {
                 navigate('/')
-            } else if (result.data.roleId === 2) {
-                navigate('/doctor')
             }
         }
         else {
@@ -68,10 +76,10 @@ const Login = () => {
                             <div className="mx-auto max-w-x flex flex-col gap-5">
                                 <input
                                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                    type="email"
+                                    type="userName"
                                     placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={userName}
+                                    onChange={(e) => setUserName(e.target.value)}
                                     onKeyDown={(event) => handleKeyDown(event)}
 
                                 />

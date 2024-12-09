@@ -12,6 +12,7 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { useSelector } from "react-redux";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,7 +61,7 @@ const Header = (props) => {
 
   const navigate = useNavigate();
 
-  const auth = true;
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -94,7 +95,7 @@ const Header = (props) => {
             inputProps={{ "aria-label": "search" }}
           />
         </Search>
-        {auth ?
+        {isAuthenticated ?
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -132,7 +133,7 @@ const Header = (props) => {
           <div className="flex gap-3">
             <Button
               variant="text"
-              href="#outlined-buttons"
+              href="/login"
               sx={{
                 fontSize: "14px",
                 fontFamily: "Roboto Slab, serif",

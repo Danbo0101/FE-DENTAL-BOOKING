@@ -21,9 +21,9 @@ import ForgotPassword from "./component/Auth/ForgotPassword";
 import ProfileAdmin from "./component/Admin/Profile";
 import ChangePassword from "./component/Admin/ChangePassword";
 import HomeDoctor from "./component/Doctor/Doctor";
-import Appointment from "./component/Doctor/Appointment";
+import Appointment from "./component/Doctor/Appointment/Appointment";
 import Service from "./component/Admin/Service/Service";
-import Regimen from "./component/Admin/Regimen/Regimen";
+import Patient from "./component/Doctor/Patient/Patient";
 
 const NotFound = () => {
   return (
@@ -58,7 +58,7 @@ const Layout = () => {
             <Route path="doctors" element={<Doctor />} />
             <Route path="specialties" element={<Specialties />} />
             <Route path="services" element={<Service />} />
-            <Route path="regimens" element={<Regimen />} />
+
 
           </Route>
         </Route>
@@ -67,6 +67,7 @@ const Layout = () => {
         >
           <Route element={<HomeDoctor />}>
             <Route index element={<Appointment />} />
+            <Route path="patients" element={<Patient />} />
             <Route path="profile-admin" element={<ProfileAdmin />} />
             <Route path="change-password" element={<ChangePassword />} />
           </Route>

@@ -1,4 +1,12 @@
-import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getRole, getUserByRole } from '../../../services/userService';
+import Pagination from "@mui/material/Pagination";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,15 +15,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
-import { useEffect, useState } from "react";
-import Pagination from "@mui/material/Pagination";
-import { getRegimen } from "../../../services/regimen";
-import RegimenInfo from "./Modal/RegimenInfo";
-
+import { getRegimenByUserId } from "../../../services/regimen";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import UpdateOutlinedIcon from '@mui/icons-material/UpdateOutlined';
+import RegimenInfo from './Modal/RegimenInfo';
+import UpdateRegimen from './Modal/UpdateRegimen';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,35 +45,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-const Regimen = (props) => {
+const Patient = () => {
+
+    const location = useLocation();
+    const { userId } = location.state || {};
+
+    // console.log(userId);
+
+    const [patientOptions, setPatientOptions] = useState([]);
+    const [selectedUser, setSelectedUser] = useState('');
     const [listRegimen, setListRegimen] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 4;
 
-    // const [openCreate, setOpenCreate] = useState(false);
-
     const [openView, setOpenView] = useState(false);
     const [dataView, setDataView] = useState();
 
-    // const [openUpdate, setOpenUpdate] = useState(false);
-    // const [dataUpdate, setDataUpdate] = useState();
-
-    // const [openDelete, setOpenDelete] = useState(false);
-    // const [dataDelete, setDataDelete] = useState();
-
-    useEffect(() => {
-        fetchListRegimen();
-    }, [currentPage]);
-
-    const fetchListRegimen = async () => {
-        let result = await getRegimen();
-        if (result.success) {
-            setListRegimen(result.data);
-            return;
-        } else {
-            console.log(result.message);
-        }
-    };
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState();
 
     const pageCount = Math.ceil(listRegimen.length / itemsPerPage);
     const currentData = listRegimen.slice(
@@ -75,35 +70,89 @@ const Regimen = (props) => {
         currentPage * itemsPerPage
     );
 
+    const fetchPatientOptions = async () => {
+        let resultRole = await getRole();
+        if (resultRole.success) {
+            let roles = resultRole.data;
+            let userRoleId = roles.find(role => role.name === "user")?.role_Id;
+            let reusultPatient = await getUserByRole(userRoleId);
+            if (reusultPatient.success) {
+                let listPatient = reusultPatient.data.map(user => ({
+                    id: user.user_Id,
+                    fullName: user.fullName
+                }));
+
+                setPatientOptions(listPatient);
+            }
+            else {
+                console.log(reusultPatient.message);
+            }
+        }
+        else {
+            console.log(resultRole.message);
+        }
+    }
+
+    useEffect(() => {
+        fetchPatientOptions();
+        if (userId) {
+            setSelectedUser(userId);
+        }
+    }, [])
+
+    const fetchRegimenByUser = async () => {
+        let result = await getRegimenByUserId(selectedUser);
+        if (result.success) {
+            setListRegimen(result.data);
+            return;
+        }
+        else {
+            console.log(result.message);
+        }
+    }
+
+    useEffect(() => {
+        if (selectedUser) {
+            fetchRegimenByUser();
+        }
+    }, [selectedUser]);
+
     const handleViewRegimen = (data) => {
-        setOpenView(true);
         setDataView(data);
-    };
+        setOpenView(true);
+    }
 
-    // const handleUpdateService = (data) => {
-    //     setOpenUpdate(true);
-    //     setDataUpdate(data);
-    // };
-
-    // const handleDeleteService = (data) => {
-    //     setOpenDelete(true);
-    //     setDataDelete(data);
-    // };
+    const handleUpdateRegimen = (data) => {
+        setDataUpdate(data);
+        setOpenUpdate(true);
+    }
 
     return (
         <div className="flex flex-col w-full h-full py-10 px-16">
-            <div className="flex justify-between items-center text-2xl font-semibold pb-5">
-                Quản lý Liệu Trình
-                <div
-                // onClick={() => setOpenCreate(true)}
-                >
-                    <LocalHospitalOutlinedIcon
-                        sx={{ fontSize: "30px", color: "limegreen", cursor: "pointer" }}
-                    />
-                </div>
+            <div className='flex justify-between items-center text-2xl font-semibold pb-5'>
+                Thông tin bệnh nhân
+                <FormControl sx={{ m: 1, minWidth: 300 }}>
+                    <InputLabel id="demo-simple-select-label">Chọn bệnh nhân</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select-helper"
+                        value={selectedUser}
+                        onChange={(event) => setSelectedUser(event.target.value)}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        {patientOptions.map(user => (
+                            <MenuItem key={user.id} value={user.id}>
+                                {user.fullName}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+
             </div>
             <hr className="my-3 border-t" />
-
             <div className="pt-5">
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -111,7 +160,7 @@ const Regimen = (props) => {
                             <TableRow>
                                 <StyledTableCell align="center">ID</StyledTableCell>
                                 <StyledTableCell align="center">Tên Liệu Trình</StyledTableCell>
-                                <StyledTableCell align="center">Action</StyledTableCell>
+                                <StyledTableCell align="center"></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -144,16 +193,9 @@ const Regimen = (props) => {
                                                 <IconButton
                                                     aria-label="update"
                                                     color="warning"
-                                                // onClick={() => handleUpdateService(service)}
+                                                    onClick={() => handleUpdateRegimen(regimen)}
                                                 >
                                                     <UpdateOutlinedIcon />
-                                                </IconButton>
-                                                <IconButton
-                                                    aria-label="delete"
-                                                    color="error"
-                                                // onClick={() => handleDeleteService(service)}
-                                                >
-                                                    <DeleteIcon />
                                                 </IconButton>
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -172,43 +214,21 @@ const Regimen = (props) => {
                     />
                 </div>
             </div>
-
             <RegimenInfo
                 open={openView}
                 setOpen={setOpenView}
                 dataView={dataView}
                 setDataView={setDataView}
             />
-
-            {/* <CreatService
-                open={openCreate}
-                setOpen={setOpenCreate}
-                fetchListService={fetchListService}
-                pageCount={pageCount}
-                setCurrentPage={setCurrentPage}
-            />
-            <ServiceInfo
-                open={openView}
-                setOpen={setOpenView}
-                dataView={dataView}
-                setDataView={setDataView}
-            />
-            <UpdateService
+            <UpdateRegimen
                 open={openUpdate}
                 setOpen={setOpenUpdate}
-                fetchListService={fetchListService}
                 dataUpdate={dataUpdate}
                 setDataUpdate={setDataUpdate}
+                fetchRegimenByUser={fetchRegimenByUser}
             />
-            <DeleteService
-                open={openDelete}
-                setOpen={setOpenDelete}
-                dataDelete={dataDelete}
-                setDataDelete={setDataDelete}
-                fetchListService={fetchListService}
-            /> */}
         </div>
-    );
-};
+    )
+}
 
-export default Regimen;
+export default Patient;

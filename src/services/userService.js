@@ -12,8 +12,13 @@ const getUserById = (id) => {
     return axios.get(`/api/User/get/${id}`);
 }
 
+const getUserByRole = (roleId) => {
+    return axios.get(`/api/User/get-users-by-role?roleId=${roleId}`);
+}
+
 export {
     getRole,
     getAllUsers,
-    getUserById
+    getUserById,
+    getUserByRole
 }

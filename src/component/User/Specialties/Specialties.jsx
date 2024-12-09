@@ -55,6 +55,8 @@ const ListSpecialties = (props) => {
     fetchDoctorIds();
   }, [])
 
+
+
   const specialtyItems = specialtiesOption.map((specialty, index) => (
     <div
       key={index}
@@ -101,7 +103,6 @@ const ListSpecialties = (props) => {
     }
   }, [specialtyId])
 
-  const [isActive, setIsActive] = useState(true);
 
   return (
     <div className="flex flex-col">
@@ -135,18 +136,19 @@ const ListSpecialties = (props) => {
             fontWeight: "600",
             borderRadius: "10px",
             marginTop: "30px",
-            backgroundColor: isActive ? "#FFFFFF" : "#4C99FF",
-            color: isActive ? "black" : "white",
-            transform: isActive ? "scale(0.98)" : "none",
-            cursor: isActive ? "default" : "pointer",
+            backgroundColor: "#FFFFFF",
+            color: "black",
+            transform: "scale(0.98)",
+            cursor: "default",
           }}
-          onClick={(e) => !isActive && setIsActive(true)}
         >
           Danh sách bác sĩ
         </Button>
 
       </div>
-      <SpecialtiesDoctor listDoctor={specialtiesDoctor} />
+      <SpecialtiesDoctor
+        listDoctor={specialtiesDoctor}
+      />
     </div>
   );
 };

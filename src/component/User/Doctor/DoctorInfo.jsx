@@ -13,22 +13,24 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DateTime from "./DateTime";
 import InformationForm from "./InformationForm";
 import InformationConfirm from "./InformationConfirm";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getListDoctorSchedule, getTimeDoctorSchedule } from "../../../services/scheduleService";
 import { getUserById } from "../../../services/userService";
 import { getServiceById } from "../../../services/specialtiesService";
+import { postCreateBooking } from "../../../services/bookingService";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const DoctorInfo = (props) => {
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const userId = "2";
+  const userId = useSelector((state) => state.user.account.id);
+  // const userId = "2";
   const serviceId = "1";
 
   const steps = ["Chọn thời gian", "Kiểm tra thông tin"];
-
-
   const [listTime, setListTime] = useState([]);
 
 
@@ -54,6 +56,9 @@ const DoctorInfo = (props) => {
   const [nameService, setNameService] = useState("");
   const [priceService, setPriceService] = useState(0);
 
+  const [doctorName, setDoctorName] = useState("");
+  const [specialtyName, setSpecialtyName] = useState("");
+
 
   const fetchServiceInfo = async () => {
     let result = await getServiceById(serviceId);
@@ -65,9 +70,6 @@ const DoctorInfo = (props) => {
       console.log(result.message);
     }
   }
-
-
-
 
   const fetchScheduleDoctor = async () => {
     let formattedDate = selectedDate.format('YYYY-MM-DD');
@@ -96,9 +98,21 @@ const DoctorInfo = (props) => {
     }
   }
 
+  const fetchDoctorInfo = async () => {
+    let result = await getUserById(id);
+    if (result.success) {
+      setDoctorName(result.data.fullName);
+      setSpecialtyName(result.data.specialist_Name);
+    }
+    else {
+      console.log(result.message);
+    }
+  }
+
   useEffect(() => {
     fetchServiceInfo();
     fetchScheduleDoctor();
+    fetchDoctorInfo();
     if (selectedId) {
       fetchCalendarId();
     }
@@ -130,10 +144,18 @@ const DoctorInfo = (props) => {
 
   // console.log(selectedTime, selectedDate)
 
-  const handleNext = () => {
-    if (activeStep === 2) {
-      navigate("/booking-success");
-      return;
+  const handleNext = async () => {
+    if (activeStep === 1) {
+      let result = await postCreateBooking(calendarId, userId, "Đặt khám tổng quát chuyên khoa");
+      if (result.success) {
+        toast.success("Đặt khám thành công");
+        navigate("/booking-success");
+        return;
+      }
+      else {
+        toast.error(result.message);
+      }
+
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -150,11 +172,11 @@ const DoctorInfo = (props) => {
         <img src={imgtest} className="w-32 h-32 rounded-full" />
         <div className="flex flex-col gap-3 ">
           <div className="text-3xl font-serif font-semibold">
-            Bác sĩ : tên bác sĩ
+            Bác sĩ : {doctorName ? doctorName : "Không tìm thấy bác sĩ"}
           </div>
           <div className="flex items-center gap-2 text-sm font-light">
             <LocalPharmacyIcon />
-            Chuyên khoa : tên chuyên khoa
+            Chuyên khoa : {specialtyName ? specialtyName : "Không tìm thấy bác sĩ"}
           </div>
           {activeStep === 1 || activeStep === 2 ? (
             <div className="flex items-center gap-2 text-sm font-light">

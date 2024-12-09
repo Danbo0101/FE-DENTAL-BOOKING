@@ -26,7 +26,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 // import { getDoctorSchedule, getTimeType, postCreateDoctorSchedule } from '../../../../services/scheduleService';
 import { toast } from 'react-toastify';
-import { getListDoctorSchedule, getTimeType, postCreateListDoctorSchedule } from '../../../services/scheduleService';
+import { getListDoctorSchedule, getTimeType, postCreateListDoctorSchedule } from '../../../../services/scheduleService';
 import { select } from '@material-tailwind/react';
 
 

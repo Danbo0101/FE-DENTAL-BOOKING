@@ -12,9 +12,6 @@ const Register = () => {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
-    const [OTP, setOTP] = useState("");
-    const [verifyOTP, setVerifyOTP] = useState(false);
-    const [inputOTP, setInputOTP] = useState(false);
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [address, setAddress] = useState("");
@@ -36,28 +33,6 @@ const Register = () => {
         return PhonePattern.test(phoneNumber);
     }
 
-    const handleSendOtp = async () => {
-        let result = await postSendOTP(email, "Register");
-        if (result.ER === 0) {
-            setInputOTP(true);
-        }
-        else {
-            toast.warn(result.message);
-        }
-    }
-    console.log(inputOTP)
-
-    const handleVerifyOTP = async () => {
-        let result = await postVerifyOTP(email, OTP);
-        if (result.ER === 0) {
-            toast.success(result.message);
-            setInputOTP(false);
-            setVerifyOTP(true);
-        }
-        else {
-            toast.warn(result.message);
-        }
-    }
 
     const handleRegister = async () => {
         if (!name) {
@@ -124,148 +99,100 @@ const Register = () => {
                             </div>
 
                             <div className="mx-auto max-w-x flex flex-col gap-5">
-                                {verifyOTP ?
-                                    <input
-                                        className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                        type="email"
-                                        placeholder="Email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        disabled
-                                    />
-                                    :
-                                    <div className="flex gap-2">
-                                        <input
-                                            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                            type="email"
-                                            placeholder="Email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            sx={{
-                                                fontWeight: 600,
-                                                '&:hover': {
-                                                    backgroundColor: 'red',
-                                                    color: "white"
-                                                },
-                                            }}
-                                            onClick={() => handleSendOtp()}
-                                        >
-                                            Gửi mã OTP
-                                        </Button>
-                                    </div>
-                                }
 
-                                {inputOTP ?
+                                <input
+                                    className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+
+
+                                <input
+                                    className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
+                                    type="password"
+                                    placeholder="Mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <div className="flex items-center gap-1">
                                     <input
-                                        className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                        className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
                                         type="text"
-                                        placeholder="Nhập OTP"
-                                        value={OTP}
-                                        onChange={(e) => setOTP(e.target.value)}
+                                        placeholder="Tên"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+
                                     />
-                                    :
-                                    <>
-                                    </>
-                                }
-                                {verifyOTP ?
-                                    <>
-                                        <input
-                                            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                                            type="password"
-                                            placeholder="Mật khẩu"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                    <label className='"form-label label-upload' htmlFor='labelUpload'>
+                                        <AddPhotoAlternateIcon
+                                            sx={{ fontSize: "30px", color: "deepskyblue", cursor: "pointer" }}
                                         />
-                                        <div className="flex items-center gap-1">
-                                            <input
-                                                className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                                                type="text"
-                                                placeholder="Tên"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
+                                    </label>
+                                    <input
+                                        type='file'
+                                        id='labelUpload'
+                                        hidden
+                                        onChange={(event) => handleUploadImage(event)}
+                                    />
+                                </div>
+                                <div className='w-full flex justify-center'>
+                                    {previewImage ?
+                                        <img src={previewImage} className="w-2/3 h-32" />
+                                        :
+                                        <></>
+                                    }
+                                    {/* <span>Preview Image</span> */}
 
-                                            />
-                                            <label className='"form-label label-upload' htmlFor='labelUpload'>
-                                                <AddPhotoAlternateIcon
-                                                    sx={{ fontSize: "30px", color: "deepskyblue", cursor: "pointer" }}
-                                                />
-                                            </label>
-                                            <input
-                                                type='file'
-                                                id='labelUpload'
-                                                hidden
-                                                onChange={(event) => handleUploadImage(event)}
-                                            />
-                                        </div>
-                                        <div className='w-full flex justify-center'>
-                                            {previewImage ?
-                                                <img src={previewImage} className="w-2/3 h-32" />
-                                                :
-                                                <></>
-                                            }
-                                            {/* <span>Preview Image</span> */}
+                                </div>
 
-                                        </div>
+                                <input
+                                    className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
+                                    type="text"
+                                    placeholder="Địa chỉ"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
 
-                                        <input
-                                            className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                                            type="text"
-                                            placeholder="Địa chỉ"
-                                            value={address}
-                                            onChange={(e) => setAddress(e.target.value)}
-                                        />
-
-                                        <div className="flex gap-2">
-                                            <input
-                                                className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                                                type="text"
-                                                placeholder="Số điện thoại"
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                            />
-                                            <select
-                                                id="gender"
-                                                name="gender"
-                                                value={gender}
-                                                onChange={(e) => setGender(e.target.value)}
-                                                className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            >
-                                                <option value="" disabled>Giới tính</option>
-                                                <option value="2">Nam</option>
-                                                <option value="1">Nữ</option>
-                                            </select>
-                                        </div>
-                                        <p className="mt-3 text-xs text-gray-600 text-center">
-                                            I agree to abide by Booking Care <span
-                                                className="text-blue-500"
-                                            >
-                                                Terms of Service and its  Privacy Policy
-                                            </span>
-
-                                        </p>
-                                        <button
-                                            className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-cyan-500 text-white-500 w-full py-4 rounded-lg hover:bg-blue-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                                            onClick={() => handleRegister()}
-                                        >
-                                            <span className="ml-">
-                                                Đăng ký
-                                            </span>
-                                        </button>
-                                    </>
-                                    :
-                                    <button
-                                        className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-cyan-500 text-white-500 w-full py-4 rounded-lg hover:bg-blue-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                                        onClick={() => handleVerifyOTP()}
+                                <div className="flex gap-2">
+                                    <input
+                                        className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
+                                        type="text"
+                                        placeholder="Số điện thoại"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                    <select
+                                        id="gender"
+                                        name="gender"
+                                        value={gender}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        className="block custom-select px-8 py-3 w-1/2 mt-1 bg-gray-100 border border-gray-100 font-medium text-sm text-gray-500  rounded-lg shadow-sm focus:border-gray-400 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     >
-                                        <span className="ml-">
-                                            Xác nhận OTP
-                                        </span>
-                                    </button>
-                                }
+                                        <option value="" disabled>Giới tính</option>
+                                        <option value="2">Nam</option>
+                                        <option value="1">Nữ</option>
+                                    </select>
+                                </div>
+                                <p className="mt-3 text-xs text-gray-600 text-center">
+                                    I agree to abide by Booking Care <span
+                                        className="text-blue-500"
+                                    >
+                                        Terms of Service and its  Privacy Policy
+                                    </span>
+
+                                </p>
+                                <button
+                                    className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-cyan-500 text-white-500 w-full py-4 rounded-lg hover:bg-blue-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                    onClick={() => handleRegister()}
+                                >
+                                    <span className="ml-">
+                                        Đăng ký
+                                    </span>
+                                </button>
+
+
 
 
                                 <div className="text-center text-base">

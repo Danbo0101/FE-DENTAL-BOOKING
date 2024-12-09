@@ -1,19 +1,15 @@
 import axios from "../utils/axiosCustomize";
 
-const getRegimen = () => {
-    return axios.get(`/api/Regimen/get-all`)
+const getRegimenByUserId = (userId) => {
+    return axios.get(`/api/Regimen/get-regimen-by-userId?userId=${userId}`)
 }
 
-const postCreateRegimen = () => {
-    return axios.post()
-}
 
-const putUpdateRegimen = () => {
-    return axios.put()
+const postUpdateRegimen = (regimenId, data) => {
+    return axios.post(`/api/Regimen/update-range-regimen-service?regimenId=${regimenId}`, data)
 }
 
 export {
-    getRegimen,
-    postCreateRegimen,
-    putUpdateRegimen
+    getRegimenByUserId,
+    postUpdateRegimen
 }
