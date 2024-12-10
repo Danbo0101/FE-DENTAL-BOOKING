@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { postCreateNewDoctor } from "../../../../services/doctorService";
 import { getSpecialties } from "../../../../services/specialtiesService";
+import bcrypt from "bcryptjs";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -48,8 +49,9 @@ const CreateDoctor = (props) => {
       if (result.success) {
         setSpecialtiesList(result.data.data);
         return;
+      } else {
+        console.log(result.message);
       }
-      else { console.log(result.message); }
     }
     fetchSpecialtiesList();
   }, [open]);
@@ -68,6 +70,16 @@ const CreateDoctor = (props) => {
     return PhonePattern.test(phoneNumber);
   };
 
+  const handlePasswordHashing = async (password) => {
+    try {
+      const saltRounds = 12;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      return hashedPassword;
+    } catch (error) {
+      console.error("Error hashing password:", error);
+    }
+  };
+
   const resetData = () => {
     setFullName("");
     setID_Number("");
@@ -83,7 +95,6 @@ const CreateDoctor = (props) => {
     props.setOpen(false);
   };
 
-
   const handleSubmitCreate = async () => {
     if (!fullName) {
       toast.warn("Vui lòng nhập Tên");
@@ -97,9 +108,6 @@ const CreateDoctor = (props) => {
       return;
     } else if (!password) {
       toast.warn("Vui lòng nhập mật khẩu");
-      return;
-    } else if (!specialistId) {
-      toast.warn("Vui lòng chọn chuyên khoa");
       return;
     } else if (!DOB) {
       toast.warn("Vui lòng chọn ngày sinh");
@@ -117,14 +125,23 @@ const CreateDoctor = (props) => {
       toast.warn("Vui lòng nhập CCCD");
       return;
     }
-    // else if (!image) {
-    //   toast.warn("Vui lòng upload ảnh");
-    //   return;
-    // }
 
-    // console.log(doctorIds)
+    let hashPassword = await handlePasswordHashing(password);
+    console.log(hashPassword);
 
-    let result = await postCreateNewDoctor(fullName, email, userName, password, DOB, gender, phone, iD_Number, doctorIds, image, specialistId);
+    let result = await postCreateNewDoctor(
+      fullName,
+      email,
+      userName,
+      hashPassword,
+      DOB,
+      gender,
+      phone,
+      iD_Number,
+      doctorIds,
+      image,
+      specialistId
+    );
     if (result.success) {
       toast.success("Thêm Bác Sĩ Thành Công");
       props.fetchDoctorList();
@@ -191,7 +208,10 @@ const CreateDoctor = (props) => {
             </option>
             {specialtiesList && specialtiesList.length > 0 ? (
               specialtiesList.map((specialty) => (
-                <option key={specialty.specialist_Id} value={specialty.specialist_Id}>
+                <option
+                  key={specialty.specialist_Id}
+                  value={specialty.specialist_Id}
+                >
                   {specialty.name}
                 </option>
               ))

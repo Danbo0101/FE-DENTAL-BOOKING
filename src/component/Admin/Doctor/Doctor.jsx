@@ -18,10 +18,9 @@ import { useEffect, useState } from "react";
 import Pagination from "@mui/material/Pagination";
 import CreateDoctor from "./Modal/CreateDoctor";
 import DoctorInfo from "./Modal/DoctorInfo";
-import AssignDoctor from "./Modal/AssignDoctor";
 import DeleteDoctor from "./Modal/DeleteDoctor";
 import UpdateDoctor from "./Modal/UpdateDoctor";
-import { getAllUsers, getRole } from "../../../services/userService";
+import { getAllUsers, getRole, getUserByRole } from "../../../services/userService";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -70,20 +69,16 @@ const Doctor = (props) => {
     fetchDoctorIds();
   }, [listDoctor]);
 
-  console.log(doctorIds)
+  // console.log(doctorIds)
 
   const fetchDoctorList = async () => {
-    try {
-      const result = await getAllUsers();
+      let result = await getUserByRole(doctorIds);
       if (result.success) {
-        const list = result.data.filter((user) => user.role_Id === doctorIds);
-        setListDoctor(list);
+        setListDoctor(result.data);
       } else {
         console.log(result.message);
       }
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
+   
   };
 
   useEffect(() => {
@@ -102,8 +97,6 @@ const Doctor = (props) => {
   );
 
   const [openCreate, setOpenCreate] = useState(false);
-
-  const [openAssign, setOpenAssign] = useState(false);
 
   const [openView, setOpenView] = useState(false);
   const [dataView, setDataView] = useState();
@@ -236,11 +229,7 @@ const Doctor = (props) => {
         doctorIds={doctorIds}
         fetchDoctorList={fetchDoctorList}
       />
-      <AssignDoctor
-        open={openAssign}
-        setOpen={setOpenAssign}
-        fetchDoctorList={fetchDoctorList}
-      />
+
       <DoctorInfo
         open={openView}
         setOpen={setOpenView}

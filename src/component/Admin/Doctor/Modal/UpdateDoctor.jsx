@@ -7,22 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import {
-  getAssignDoctor,
-  putUpdateAssignDoctor,
   putUpdateDoctor,
 } from "../../../../services/doctorService";
 import { getSpecialties } from "../../../../services/specialtiesService";
-import { getAllClinic } from "../../../../services/clinicService";
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {

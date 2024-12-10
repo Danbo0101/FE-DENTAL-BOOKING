@@ -12,12 +12,10 @@ import BookingSuccess from "./component/User/Booking/BookingSuccess";
 import Login from "./component/Auth/Login";
 import Register from "./component/Auth/Register";
 import Admin from "./component/Admin/Admin";
-import Dashboard from "./component/Admin/Dashboard";
 import Doctor from "./component/Admin/Doctor/Doctor";
 import Specialties from "./component/Admin/Specialties/Specialties";
 import PrivateRoute from "./routes/PrivateRoute";
 import { useSelector } from "react-redux";
-import ForgotPassword from "./component/Auth/ForgotPassword";
 import ProfileAdmin from "./component/Admin/Profile";
 import ChangePassword from "./component/Admin/ChangePassword";
 import HomeDoctor from "./component/Doctor/Doctor";
@@ -39,7 +37,6 @@ const Layout = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
           <Route path="specialties" element={<ListSpecialties />} />
@@ -47,23 +44,21 @@ const Layout = () => {
           <Route path="doctor-info/:id" element={<DoctorInfo />} />
           <Route path="booking-success" element={<BookingSuccess />} />
         </Route>
-        <Route path="admin"
-        // element={<PrivateRoute allowedRoles={[1]} />}
+        <Route
+          path="admin"
+          // element={<PrivateRoute allowedRoles={[1]} />}
         >
           <Route element={<Admin />}>
-            <Route index element={<Dashboard />} />
             <Route path="profile-admin" element={<ProfileAdmin />} />
             <Route path="change-password" element={<ChangePassword />} />
-            {/* <Route path="clinic" element={<Clinic />} /> */}
-            <Route path="doctors" element={<Doctor />} />
+            <Route index element={<Doctor />} />
             <Route path="specialties" element={<Specialties />} />
             <Route path="services" element={<Service />} />
-
-
           </Route>
         </Route>
-        <Route path="doctor"
-        // element={<PrivateRoute allowedRoles={[2]} />}
+        <Route
+          path="doctor"
+          // element={<PrivateRoute allowedRoles={[2]} />}
         >
           <Route element={<HomeDoctor />}>
             <Route index element={<Appointment />} />

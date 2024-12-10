@@ -3,11 +3,7 @@ import logo from "../../assets/images/D Dental.png";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import {
-  postRegister,
-  postSendOTP,
-  postVerifyOTP,
-} from "../../services/authService";
+import { postRegister } from "../../services/authService";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -56,6 +52,9 @@ const Register = () => {
     } else if (!phone) {
       toast.warn("Vui lòng nhập số điện thoại");
       return;
+    } else if (!cccd) {
+      toast.warn("Vui lòng nhập số Căn Cước");
+      return;
     } else if (!checkPhoneNumber(phone)) {
       toast.warn("Số điện thoại không h��p lệ");
       return;
@@ -66,14 +65,16 @@ const Register = () => {
 
     let result = await postRegister(
       name,
-      email,
-      password,
-      address,
-      gender,
+      cccd,
       phone,
-      image
+      email,
+      gender,
+      DOB,
+      image ? image : null,
+      userName,
+      password
     );
-    if (result.ER === 0) {
+    if (result.success) {
       toast.success("Đăng ký thành công");
       navigate("/login");
     } else {
@@ -165,14 +166,14 @@ const Register = () => {
                 <div className="flex gap-2">
                   <input
                     className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                    type="number"
+                    type="text"
                     placeholder="Căn Cước Công Dân"
                     value={cccd}
                     onChange={(e) => setCCCD(e.target.value)}
                   />
                   <input
                     className="w-1/2 px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-1"
-                    type="number"
+                    type="text"
                     placeholder="Số điện thoại"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
@@ -195,8 +196,8 @@ const Register = () => {
                     <option value="" disabled>
                       Giới tính
                     </option>
-                    <option value="2">Nam</option>
-                    <option value="1">Nữ</option>
+                    <option value={true}>Nam</option>
+                    <option value={false}>Nữ</option>
                   </select>
                 </div>
                 <p className="mt-3 text-xs text-gray-600 text-center">
